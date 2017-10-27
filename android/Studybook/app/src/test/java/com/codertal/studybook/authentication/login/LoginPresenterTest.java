@@ -43,4 +43,11 @@ public class LoginPresenterTest {
     }
 
 
+    @Test
+    public void loadSkipLogin_ShouldShowDashboardUi() {
+        loginPresenter.loadSkipLogin();
+
+        verify(loginView).showDashboardUi();
+    }
+
 }

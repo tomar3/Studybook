@@ -30,9 +30,18 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     }
 
+    @Override
+    public void showDashboardUi() {
+
+    }
 
     @OnClick(R.id.btn_login)
-    public void onLoginClick(){
+    public void onLoginClick() {
         mPresenter.loadLogin();
+    }
+
+    @OnClick(R.id.btn_skip_login)
+    public void onSkipLoginClick() {
+        mPresenter.loadSkipLogin();
     }
 }

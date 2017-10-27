@@ -13,11 +13,15 @@ public interface LoginContract {
 
         void showLoginUi();
 
+        void showDashboardUi();
+
     }
 
     interface Presenter{
 
         void loadLogin();
+
+        void loadSkipLogin();
 
     }
 }

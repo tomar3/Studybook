@@ -41,7 +41,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/btn_continue"
+        android:id="@+id/btn_skip_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -65,8 +65,8 @@
         android:text="@string/login_sign_in"
         android:backgroundTint="@color/colorAccent"
         android:textColor="@android:color/white"
-        app:layout_constraintEnd_toEndOf="@+id/btn_continue"
-        app:layout_constraintStart_toStartOf="@+id/btn_continue"
+        app:layout_constraintEnd_toEndOf="@+id/btn_skip_login"
+        app:layout_constraintStart_toStartOf="@+id/btn_skip_login"
         app:layout_constraintTop_toBottomOf="@+id/tv_app_name" />
 
 
