@@ -12,13 +12,27 @@ import android.os.Bundle;
 
 import com.codertal.studybook.R;
 
-public class LoginActivity extends AppCompatActivity {
+import butterknife.OnClick;
+
+public class LoginActivity extends AppCompatActivity implements LoginContract.View {
+    private LoginContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        mPresenter = new LoginPresenter(this);
+    }
 
+    @Override
+    public void showLoginUi() {
+
+    }
+
+
+    @OnClick(R.id.btn_login)
+    public void onLoginClick(){
+        mPresenter.loadLogin();
     }
 }
