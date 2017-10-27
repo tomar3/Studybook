@@ -1,3 +1,10 @@
+/*
+ * Created by Talab Omar on 10/26/17 1:39 PM
+ * Copyright (c) 2017. All rights reserved.
+ *
+ * Last modified 10/26/17 1:18 PM
+ */
+
 package com.codertal.studybook.app;
 
 import android.app.Application;
