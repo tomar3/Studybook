@@ -10,13 +10,20 @@ package com.codertal.studybook.features.authentication.login;
 
 import android.support.annotation.NonNull;
 
+import com.codertal.studybook.data.users.User;
+import com.codertal.studybook.data.users.source.UsersRepository;
+
 public class LoginPresenter implements LoginContract.Presenter {
 
     @NonNull
     private LoginContract.View mLoginView;
 
-    public LoginPresenter(@NonNull LoginContract.View loginView) {
+    @NonNull
+    private UsersRepository mUsersRepository;
+
+    public LoginPresenter(@NonNull LoginContract.View loginView, @NonNull UsersRepository usersRepository) {
         mLoginView = loginView;
+        mUsersRepository = usersRepository;
     }
 
     @Override
@@ -27,5 +34,14 @@ public class LoginPresenter implements LoginContract.Presenter {
     @Override
     public void loadSkipLogin() {
         mLoginView.showDashboardUi();
+    }
+
+    @Override
+    public void loadCurrentUser() {
+        User currentUser = mUsersRepository.getCurrentUser();
+
+        if(currentUser != null){
+            mLoginView.showDashboardUi();
+        }
     }
 }

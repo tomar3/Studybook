@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Studybook</string>
 
+    <!--facebook login start-->
+    <string name="facebook_application_id" translatable="false">151567328911795</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb151567328911795</string>
+    <!--facebook login end-->
+
     <!--login screen start-->
     <string name="login_sign_in">Log in or Register</string>
     <string name="login_continue_without_account">Continue without an account</string>

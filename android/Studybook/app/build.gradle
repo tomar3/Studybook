@@ -6,6 +6,7 @@ android {
         applicationId "com.codertal.studybook"
         minSdkVersion 19
         targetSdkVersion 26
+        resConfigs "auto"
         versionCode 1
         versionName "0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -23,6 +24,7 @@ project.ext {
     daggerVersion = "2.12"
     leakcanaryVersion= "1.5.4"
     supportLibraryVersion = "26.1.0"
+    firebaseVersion= "11.4.2"
 }
 
 dependencies {
@@ -47,6 +49,12 @@ dependencies {
 
     annotationProcessor "com.google.dagger:dagger-android-processor:$project.daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$project.daggerVersion"
+
+    implementation "com.google.firebase:firebase-auth:$project.firebaseVersion"
+    implementation 'com.firebaseui:firebase-ui-auth:3.1.0'
+
+    // Required only if Facebook login support is required
+    implementation 'com.facebook.android:facebook-login:4.27.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -23,5 +23,6 @@ public interface LoginContract {
 
         void loadSkipLogin();
 
+        void loadCurrentUser();
     }
 }
