@@ -23,9 +23,12 @@ import com.firebase.ui.auth.IdpResponse;
 
 import java.util.Arrays;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dagger.android.AndroidInjection;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
     @BindView(R.id.cl_login)
@@ -37,6 +40,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @BindView(R.id.btn_skip_login)
     Button mSkipLoginButton;
 
+    @Inject
+    UsersRepository mUsersRepository;
+
     private static final int RC_SIGN_IN = 11;
 
     private LoginContract.Presenter mPresenter;
@@ -44,12 +50,13 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         ButterKnife.bind(this);
 
-        mPresenter = new LoginPresenter(this, new UsersRepository());
+        mPresenter = new LoginPresenter(this, mUsersRepository);
 
         mPresenter.loadCurrentUser();
     }

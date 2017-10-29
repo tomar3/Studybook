@@ -7,6 +7,9 @@
 
 package com.codertal.studybook.di;
 
+import com.codertal.studybook.features.authentication.login.LoginActivity;
+import com.codertal.studybook.features.authentication.login.LoginModule;
+
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 
@@ -16,7 +19,7 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class BuildersModule {
 
-//    @ContributesAndroidInjector(modules = LoginActivityModule.class)
-//    abstract LoginActivity bindLoginActivity();
+    @ContributesAndroidInjector(modules = LoginModule.class)
+    abstract LoginActivity bindLoginActivity();
 
 }
