@@ -7,6 +7,9 @@
 
 package com.codertal.studybook.features.authentication.login;
 
+import com.codertal.studybook.features.authentication.login.domain.LoginResponse;
+import com.firebase.ui.auth.IdpResponse;
+
 public interface LoginContract {
 
     interface View{
@@ -16,6 +19,8 @@ public interface LoginContract {
         void showDashboardUi();
 
         void enableButtons(boolean enabled);
+
+        void showMessage(String message);
     }
 
     interface Presenter{
@@ -25,5 +30,7 @@ public interface LoginContract {
         void loadSkipLogin();
 
         void loadCurrentUser();
+
+        void processLoginResult(LoginResponse loginResponse);
     }
 }

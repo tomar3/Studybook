@@ -12,6 +12,11 @@ import android.support.annotation.NonNull;
 
 import com.codertal.studybook.data.users.User;
 import com.codertal.studybook.data.users.source.UsersRepository;
+import com.codertal.studybook.features.authentication.login.domain.LoginResponse;
+
+import static com.codertal.studybook.features.authentication.login.domain.LoginResponse.ResponseCodes.LOGIN_CANCELLED;
+import static com.codertal.studybook.features.authentication.login.domain.LoginResponse.ResponseCodes.LOGIN_SUCCESS;
+import static com.codertal.studybook.features.authentication.login.domain.LoginResponse.ResponseCodes.NETWORK_ERROR;
 
 public class LoginPresenter implements LoginContract.Presenter {
 
@@ -44,6 +49,27 @@ public class LoginPresenter implements LoginContract.Presenter {
 
         if(currentUser != null){
             mLoginView.showDashboardUi();
+        }
+    }
+
+    @Override
+    public void processLoginResult(LoginResponse loginResponse) {
+
+        // Successfully logged in
+        if (loginResponse.getLoginResult() == LOGIN_SUCCESS) {
+            mLoginView.showDashboardUi();
+        } else {
+            // Log in failed
+
+            mLoginView.enableButtons(true);
+
+            if (loginResponse.getLoginResult() == LOGIN_CANCELLED) {
+                mLoginView.showMessage("Login cancelled");
+            }else if (loginResponse.getLoginResult() == NETWORK_ERROR) {
+                mLoginView.showMessage("Network error");
+            }else {
+                mLoginView.showMessage("Unable to login, please try again");
+            }
         }
     }
 }

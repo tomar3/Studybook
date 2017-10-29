@@ -17,6 +17,7 @@ import android.widget.Button;
 import com.codertal.studybook.BuildConfig;
 import com.codertal.studybook.R;
 import com.codertal.studybook.data.users.source.UsersRepository;
+import com.codertal.studybook.features.authentication.login.domain.LoginResponseAdapter;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
@@ -29,6 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
+import timber.log.Timber;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
     @BindView(R.id.cl_login)
@@ -65,31 +67,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-
-            // Successfully signed in
-            if (resultCode == RESULT_OK) {
-
-            } else {
-                // Sign in failed
-                if (response == null) {
-                    // User pressed back button
-                    //showSnackbar(R.string.sign_in_cancelled);
-                    return;
-                }
-
-                if (response.getErrorCode() == ErrorCodes.NO_NETWORK) {
-                    //showSnackbar(R.string.no_internet_connection);
-                    return;
-                }
-
-                if (response.getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
-                    //showSnackbar(R.string.unknown_error);
-                    return;
-                }
-            }
-
-           // showSnackbar(R.string.unknown_sign_in_response);
+            mPresenter.processLoginResult(
+                    LoginResponseAdapter.activityResultToLoginResponse(resultCode,
+                    IdpResponse.fromResultIntent(data)));
         }
     }
 
@@ -109,13 +89,18 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @Override
     public void showDashboardUi() {
-
+        Timber.d("SHOW DASH UI");
     }
 
     @Override
     public void enableButtons(boolean enable) {
         mSkipLoginButton.setEnabled(enable);
         mLoginButton.setEnabled(enable);
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Snackbar.make(mLoginLayout, message, Snackbar.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.btn_login)
@@ -128,7 +113,5 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         mPresenter.loadSkipLogin();
     }
 
-    private void showMessage(String message) {
-        Snackbar.make(mLoginLayout, message, Snackbar.LENGTH_LONG).show();
-    }
+
 }

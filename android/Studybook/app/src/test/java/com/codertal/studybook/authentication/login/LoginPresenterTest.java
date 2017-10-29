@@ -11,6 +11,7 @@ import com.codertal.studybook.data.users.User;
 import com.codertal.studybook.data.users.source.UsersRepository;
 import com.codertal.studybook.features.authentication.login.LoginContract;
 import com.codertal.studybook.features.authentication.login.LoginPresenter;
+import com.codertal.studybook.features.authentication.login.domain.LoginResponse;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -82,6 +83,48 @@ public class LoginPresenterTest {
         when(usersRepository.getCurrentUser()).thenReturn(REAL_USER);
 
         loginPresenter.loadCurrentUser();
+
+        verify(loginView).showDashboardUi();
+    }
+
+    @Test
+    public void processLoginResult_WhenLoginCancelled_ShouldOnlyShowCancelMessage(){
+        LoginResponse LOGIN_CANCELLED = new LoginResponse(LoginResponse.ResponseCodes.LOGIN_CANCELLED);
+
+        loginPresenter.processLoginResult(LOGIN_CANCELLED);
+
+        verify(loginView, times(1)).enableButtons(true);
+        verify(loginView, times(1)).showMessage(anyString());
+        verifyNoMoreInteractions(loginView);
+    }
+
+    @Test
+    public void processLoginResult_WhenNetworkError_ShouldOnlyShowNetworkErrorMessage(){
+        LoginResponse NETWORK_ERROR = new LoginResponse(LoginResponse.ResponseCodes.NETWORK_ERROR);
+
+        loginPresenter.processLoginResult(NETWORK_ERROR);
+
+        verify(loginView, times(1)).enableButtons(true);
+        verify(loginView, times(1)).showMessage(anyString());
+        verifyNoMoreInteractions(loginView);
+    }
+
+    @Test
+    public void processLoginResult_WhenUnknownError_ShouldOnlyShowUnknownErrorMessage(){
+        LoginResponse UNKNOWN_ERROR = new LoginResponse(LoginResponse.ResponseCodes.UNKNOWN_ERROR);
+
+        loginPresenter.processLoginResult(UNKNOWN_ERROR);
+
+        verify(loginView, times(1)).enableButtons(true);
+        verify(loginView, times(1)).showMessage(anyString());
+        verifyNoMoreInteractions(loginView);
+    }
+
+    @Test
+    public void processLoginResult_WhenLoginSuccess_ShouldShowDashboardUi(){
+        LoginResponse LOGIN_SUCCESS = new LoginResponse(LoginResponse.ResponseCodes.LOGIN_SUCCESS);
+
+        loginPresenter.processLoginResult(LOGIN_SUCCESS);
 
         verify(loginView).showDashboardUi();
     }
