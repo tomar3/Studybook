@@ -18,6 +18,7 @@ import com.codertal.studybook.BuildConfig;
 import com.codertal.studybook.R;
 import com.codertal.studybook.data.users.source.UsersRepository;
 import com.codertal.studybook.features.authentication.login.domain.LoginResponseAdapter;
+import com.codertal.studybook.mvp.BaseRxPresenter;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
@@ -59,8 +60,18 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         ButterKnife.bind(this);
 
         mPresenter = new LoginPresenter(this, mUsersRepository);
+    }
 
-        mPresenter.loadCurrentUser();
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mPresenter.subscribe();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mPresenter.unsubscribe();
     }
 
     @Override

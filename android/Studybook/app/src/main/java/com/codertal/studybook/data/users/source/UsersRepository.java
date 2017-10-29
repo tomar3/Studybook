@@ -11,6 +11,8 @@ import com.codertal.studybook.data.users.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import io.reactivex.Single;
+
 public class UsersRepository {
     private FirebaseAuth mFirebaseAuth;
 

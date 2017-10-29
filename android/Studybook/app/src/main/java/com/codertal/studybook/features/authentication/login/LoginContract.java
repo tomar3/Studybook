@@ -8,11 +8,11 @@
 package com.codertal.studybook.features.authentication.login;
 
 import com.codertal.studybook.features.authentication.login.domain.LoginResponse;
-import com.firebase.ui.auth.IdpResponse;
+import com.codertal.studybook.mvp.BaseRxPresenter;
 
 public interface LoginContract {
 
-    interface View{
+    interface View {
 
         void showLoginUi();
 
@@ -23,14 +23,12 @@ public interface LoginContract {
         void showMessage(String message);
     }
 
-    interface Presenter{
+    abstract class Presenter extends BaseRxPresenter {
 
-        void loadLogin();
+        abstract void loadLogin();
 
-        void loadSkipLogin();
+        abstract void loadSkipLogin();
 
-        void loadCurrentUser();
-
-        void processLoginResult(LoginResponse loginResponse);
+        abstract void processLoginResult(LoginResponse loginResponse);
     }
 }

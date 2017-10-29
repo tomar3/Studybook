@@ -13,12 +13,13 @@ import android.support.annotation.NonNull;
 import com.codertal.studybook.data.users.User;
 import com.codertal.studybook.data.users.source.UsersRepository;
 import com.codertal.studybook.features.authentication.login.domain.LoginResponse;
+import com.codertal.studybook.mvp.BaseRxPresenter;
 
 import static com.codertal.studybook.features.authentication.login.domain.LoginResponse.ResponseCodes.LOGIN_CANCELLED;
 import static com.codertal.studybook.features.authentication.login.domain.LoginResponse.ResponseCodes.LOGIN_SUCCESS;
 import static com.codertal.studybook.features.authentication.login.domain.LoginResponse.ResponseCodes.NETWORK_ERROR;
 
-public class LoginPresenter implements LoginContract.Presenter {
+public class LoginPresenter extends LoginContract.Presenter {
 
     @NonNull
     private LoginContract.View mLoginView;
@@ -29,6 +30,11 @@ public class LoginPresenter implements LoginContract.Presenter {
     public LoginPresenter(@NonNull LoginContract.View loginView, @NonNull UsersRepository usersRepository) {
         mLoginView = loginView;
         mUsersRepository = usersRepository;
+    }
+
+    @Override
+    public void subscribe() {
+        loadCurrentUser();
     }
 
     @Override
@@ -43,7 +49,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         mLoginView.showDashboardUi();
     }
 
-    @Override
+
     public void loadCurrentUser() {
         User currentUser = mUsersRepository.getCurrentUser();
 
