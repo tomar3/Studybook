@@ -8,11 +8,11 @@
 package com.codertal.studybook.features.authentication.login;
 
 import android.content.Intent;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import com.codertal.studybook.BuildConfig;
 import com.codertal.studybook.R;
@@ -31,9 +31,16 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @BindView(R.id.cl_login)
     View mLoginLayout;
 
+    @BindView(R.id.btn_login)
+    Button mLoginButton;
+
+    @BindView(R.id.btn_skip_login)
+    Button mSkipLoginButton;
+
     private static final int RC_SIGN_IN = 11;
 
     private LoginContract.Presenter mPresenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +103,12 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void showDashboardUi() {
 
+    }
+
+    @Override
+    public void enableButtons(boolean enable) {
+        mSkipLoginButton.setEnabled(enable);
+        mLoginButton.setEnabled(enable);
     }
 
     @OnClick(R.id.btn_login)

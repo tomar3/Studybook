@@ -28,11 +28,13 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void loadLogin() {
+        mLoginView.enableButtons(false);
         mLoginView.showLoginUi();
     }
 
     @Override
     public void loadSkipLogin() {
+        mLoginView.enableButtons(false);
         mLoginView.showDashboardUi();
     }
 

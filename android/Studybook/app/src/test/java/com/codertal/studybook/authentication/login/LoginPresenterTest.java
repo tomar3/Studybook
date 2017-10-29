@@ -55,6 +55,20 @@ public class LoginPresenterTest {
     }
 
     @Test
+    public void loadLogin_ShouldDisableButtons() {
+        loginPresenter.loadLogin();
+
+        verify(loginView).enableButtons(false);
+    }
+
+    @Test
+    public void loadSkipLogin_ShouldDisableButtons() {
+        loginPresenter.loadSkipLogin();
+
+        verify(loginView).enableButtons(false);
+    }
+
+    @Test
     public void loadCurrentUser_WhenNoCurrentUser_ShouldDoNothing(){
         when(usersRepository.getCurrentUser()).thenReturn(null);
 

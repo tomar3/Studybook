@@ -15,6 +15,7 @@ public interface LoginContract {
 
         void showDashboardUi();
 
+        void enableButtons(boolean enabled);
     }
 
     interface Presenter{
