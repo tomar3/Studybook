@@ -23,6 +23,7 @@ import com.codertal.studybook.R;
 import com.codertal.studybook.data.users.source.UsersRepository;
 import com.codertal.studybook.features.authentication.login.domain.LoginResponseAdapter;
 import com.codertal.studybook.features.splash.SplashActivity;
+import com.codertal.studybook.util.ClickManager;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,6 +55,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Inject
     UsersRepository mUsersRepository;
 
+    @Inject
+    ClickManager mClickManager;
+
     private static final int RC_SIGN_IN = 11;
 
     private LoginContract.Presenter mPresenter;
@@ -72,7 +76,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         //TODO: remove once done with login screen
         FirebaseAuth.getInstance().signOut();
 
-        mPresenter = new LoginPresenter(this, mUsersRepository, AndroidSchedulers.mainThread());
+        mPresenter = new LoginPresenter(this, mUsersRepository, AndroidSchedulers.mainThread(),
+                mClickManager);
     }
 
     @Override
@@ -116,10 +121,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @Override
     public void showSplashScreen() {
-        Timber.d("SHOW DASH UI");
-
         Intent splashIntent = new Intent(this, SplashActivity.class);
 
+        //Shared element transition
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptionsCompat options = ActivityOptionsCompat.
                     makeSceneTransitionAnimation(this,
@@ -129,12 +133,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         } else {
             startActivity(splashIntent);
         }
-    }
-
-    @Override
-    public void enableButtons(boolean enable) {
-        mSkipLoginButton.setEnabled(enable);
-        mLoginButton.setEnabled(enable);
     }
 
     @Override
@@ -155,14 +153,12 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     //VIEW HANDLES
 
     @OnClick(R.id.btn_login)
-    public void onLoginClick() {
-        mPresenter.loadLogin();
+    public void onLoginClick(View view) {
+        mPresenter.loadLogin(view.getId());
     }
 
     @OnClick(R.id.btn_skip_login)
-    public void onSkipLoginClick() {
-        mPresenter.loadSkipLogin();
+    public void onSkipLoginClick(View view) {
+        mPresenter.loadSkipLogin(view.getId());
     }
-
-
 }

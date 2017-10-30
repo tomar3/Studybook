@@ -13,10 +13,12 @@ import android.support.annotation.NonNull;
 import com.codertal.studybook.data.users.User;
 import com.codertal.studybook.data.users.source.UsersRepository;
 import com.codertal.studybook.features.authentication.login.domain.LoginResponse;
+import com.codertal.studybook.util.ClickManager;
 
 import io.reactivex.Scheduler;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 import static com.codertal.studybook.features.authentication.login.domain.LoginResponse.ResponseCodes.LOGIN_CANCELLED;
 import static com.codertal.studybook.features.authentication.login.domain.LoginResponse.ResponseCodes.LOGIN_SUCCESS;
@@ -31,11 +33,14 @@ public class LoginPresenter extends LoginContract.Presenter {
 
     private final Scheduler mMainScheduler;
 
+    private final ClickManager mClickManager;
+
     public LoginPresenter(@NonNull LoginContract.View loginView, @NonNull UsersRepository usersRepository,
-                          @NonNull Scheduler mainScheduler) {
+                          @NonNull Scheduler mainScheduler, @NonNull ClickManager clickManager) {
         mLoginView = loginView;
         mUsersRepository = usersRepository;
         mMainScheduler = mainScheduler;
+        mClickManager = clickManager;
     }
 
     @Override
@@ -44,15 +49,17 @@ public class LoginPresenter extends LoginContract.Presenter {
     }
 
     @Override
-    public void loadLogin() {
-        mLoginView.enableButtons(false);
-        mLoginView.showLoginUi();
+    public void loadLogin(int viewId) {
+        if (mClickManager.isClickable(viewId)) {
+            mLoginView.showLoginUi();
+        }
     }
 
     @Override
-    public void loadSkipLogin() {
-        mLoginView.enableButtons(false);
-        mLoginView.showSplashScreen();
+    public void loadSkipLogin(int viewId) {
+        if (mClickManager.isClickable(viewId)) {
+            mLoginView.showSplashScreen();
+        }
     }
 
 
@@ -61,18 +68,13 @@ public class LoginPresenter extends LoginContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(mMainScheduler)
                 .subscribeWith(new DisposableSingleObserver<User>(){
-
                     @Override
                     public void onSuccess(User currentUser) {
-                        System.out.println("OnSuccess, thread: " + Thread.currentThread().getId());
-
                         mLoginView.showSplashScreen();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        System.out.println("OnError, thread: " + Thread.currentThread().getId());
-
                         /* No need to update ui if there is no current user or an error retrieving it
                         *  The user can simply login again
                         */
@@ -88,8 +90,6 @@ public class LoginPresenter extends LoginContract.Presenter {
             mLoginView.showSplashScreen();
         } else {
             // Log in failed
-
-            mLoginView.enableButtons(true);
 
             //Determine which error message to show
             if (loginResponse.getLoginResult() == LOGIN_CANCELLED) {

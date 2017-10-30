@@ -19,7 +19,7 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class BuildersModule {
 
-    @ContributesAndroidInjector(modules = LoginModule.class)
+    @ContributesAndroidInjector(modules = {LoginModule.class, UtilityModule.class})
     abstract LoginActivity bindLoginActivity();
 
 }

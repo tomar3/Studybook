@@ -12,6 +12,7 @@ import com.codertal.studybook.data.users.source.UsersRepository;
 import com.codertal.studybook.features.authentication.login.LoginContract;
 import com.codertal.studybook.features.authentication.login.LoginPresenter;
 import com.codertal.studybook.features.authentication.login.domain.LoginResponse;
+import com.codertal.studybook.util.ClickManager;
 
 import org.junit.After;
 import org.junit.Before;
@@ -38,12 +39,16 @@ public class LoginPresenterTest {
     @Mock
     private UsersRepository usersRepository;
 
+    @Mock
+    private ClickManager clickManager;
+
     private LoginPresenter loginPresenter;
     private final User REAL_USER = new User("name", "email", "userId");
+    private final int DUMMY_ID = 1;
 
     @Before
     public void setUp() {
-        loginPresenter = new LoginPresenter(loginView, usersRepository, Schedulers.trampoline());
+        loginPresenter = new LoginPresenter(loginView, usersRepository, Schedulers.trampoline(), clickManager);
         RxJavaPlugins.setIoSchedulerHandler(scheduler -> Schedulers.trampoline());
     }
 
@@ -54,30 +59,20 @@ public class LoginPresenterTest {
 
     @Test
     public void loadLogin_ShouldShowLoginUi() {
-        loginPresenter.loadLogin();
+        when(clickManager.isClickable(DUMMY_ID)).thenReturn(true);
+
+        loginPresenter.loadLogin(DUMMY_ID);
 
         verify(loginView).showLoginUi();
     }
 
     @Test
     public void loadSkipLogin_ShouldShowSplashScreen() {
-        loginPresenter.loadSkipLogin();
+        when(clickManager.isClickable(DUMMY_ID)).thenReturn(true);
+
+        loginPresenter.loadSkipLogin(DUMMY_ID);
 
         verify(loginView).showSplashScreen();
-    }
-
-    @Test
-    public void loadLogin_ShouldDisableButtons() {
-        loginPresenter.loadLogin();
-
-        verify(loginView).enableButtons(false);
-    }
-
-    @Test
-    public void loadSkipLogin_ShouldDisableButtons() {
-        loginPresenter.loadSkipLogin();
-
-        verify(loginView).enableButtons(false);
     }
 
     @Test
@@ -104,7 +99,7 @@ public class LoginPresenterTest {
 
         loginPresenter.processLoginResult(LOGIN_CANCELLED);
 
-        verify(loginView, times(1)).enableButtons(true);
+       // verify(loginView, times(1)).enableButtons(true);
         verify(loginView, times(1)).showCancelledMessage();
         verifyNoMoreInteractions(loginView);
     }
@@ -115,7 +110,7 @@ public class LoginPresenterTest {
 
         loginPresenter.processLoginResult(NETWORK_ERROR);
 
-        verify(loginView, times(1)).enableButtons(true);
+       // verify(loginView, times(1)).enableButtons(true);
         verify(loginView, times(1)).showNetworkErrorMessage();
         verifyNoMoreInteractions(loginView);
     }
@@ -126,7 +121,7 @@ public class LoginPresenterTest {
 
         loginPresenter.processLoginResult(UNKNOWN_ERROR);
 
-        verify(loginView, times(1)).enableButtons(true);
+        //verify(loginView, times(1)).enableButtons(true);
         verify(loginView, times(1)).showUnknownErrorMessage();
         verifyNoMoreInteractions(loginView);
     }

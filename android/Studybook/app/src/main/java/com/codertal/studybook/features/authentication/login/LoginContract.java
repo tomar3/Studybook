@@ -18,8 +18,6 @@ public interface LoginContract {
 
         void showSplashScreen();
 
-        void enableButtons(boolean enabled);
-
         void showNetworkErrorMessage();
 
         void showUnknownErrorMessage();
@@ -29,9 +27,9 @@ public interface LoginContract {
 
     abstract class Presenter extends BaseRxPresenter {
 
-        abstract void loadLogin();
+        abstract void loadLogin(int viewId);
 
-        abstract void loadSkipLogin();
+        abstract void loadSkipLogin(int viewId);
 
         abstract void processLoginResult(LoginResponse loginResponse);
     }
