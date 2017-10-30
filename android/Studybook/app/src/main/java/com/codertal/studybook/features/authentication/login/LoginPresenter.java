@@ -52,7 +52,7 @@ public class LoginPresenter extends LoginContract.Presenter {
     @Override
     public void loadSkipLogin() {
         mLoginView.enableButtons(false);
-        mLoginView.showDashboardUi();
+        mLoginView.showSplashScreen();
     }
 
 
@@ -66,7 +66,7 @@ public class LoginPresenter extends LoginContract.Presenter {
                     public void onSuccess(User currentUser) {
                         System.out.println("OnSuccess, thread: " + Thread.currentThread().getId());
 
-                        mLoginView.showDashboardUi();
+                        mLoginView.showSplashScreen();
                     }
 
                     @Override
@@ -85,16 +85,19 @@ public class LoginPresenter extends LoginContract.Presenter {
 
         // Successfully logged in
         if (loginResponse.getLoginResult() == LOGIN_SUCCESS) {
-            mLoginView.showDashboardUi();
+            mLoginView.showSplashScreen();
         } else {
             // Log in failed
 
             mLoginView.enableButtons(true);
 
+            //Determine which error message to show
             if (loginResponse.getLoginResult() == LOGIN_CANCELLED) {
                 mLoginView.showCancelledMessage();
+
             }else if (loginResponse.getLoginResult() == NETWORK_ERROR) {
                 mLoginView.showNetworkErrorMessage();
+
             }else {
                 mLoginView.showUnknownErrorMessage();
             }

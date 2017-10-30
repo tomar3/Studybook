@@ -8,19 +8,22 @@
 package com.codertal.studybook.features.authentication.login;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.codertal.studybook.BuildConfig;
 import com.codertal.studybook.R;
 import com.codertal.studybook.data.users.source.UsersRepository;
 import com.codertal.studybook.features.authentication.login.domain.LoginResponseAdapter;
-import com.codertal.studybook.mvp.BaseRxPresenter;
+import com.codertal.studybook.features.splash.SplashActivity;
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -44,6 +47,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @BindView(R.id.btn_skip_login)
     Button mSkipLoginButton;
+
+    @BindView(R.id.iv_app_logo)
+    ImageView mAppLogo;
 
     @Inject
     UsersRepository mUsersRepository;
@@ -109,8 +115,20 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
     @Override
-    public void showDashboardUi() {
+    public void showSplashScreen() {
         Timber.d("SHOW DASH UI");
+
+        Intent splashIntent = new Intent(this, SplashActivity.class);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptionsCompat options = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation(this,
+                            mAppLogo,
+                            ViewCompat.getTransitionName(mAppLogo));
+            startActivity(splashIntent, options.toBundle());
+        } else {
+            startActivity(splashIntent);
+        }
     }
 
     @Override

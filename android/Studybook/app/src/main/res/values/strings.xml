@@ -12,6 +12,7 @@
     <string name="login_cancelled">Login cancelled</string>
     <string name="login_network_error">Network unavailable, please try again</string>
     <string name="login_unknown_error">Unable to login, please try again</string>
+    <string name="login_app_logo_transition">app_logo_transition</string>
     <!--login screen end-->
 
 </resources>

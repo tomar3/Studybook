@@ -16,7 +16,7 @@ public interface LoginContract {
 
         void showLoginUi();
 
-        void showDashboardUi();
+        void showSplashScreen();
 
         void enableButtons(boolean enabled);
 

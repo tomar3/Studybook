@@ -60,10 +60,10 @@ public class LoginPresenterTest {
     }
 
     @Test
-    public void loadSkipLogin_ShouldShowDashboardUi() {
+    public void loadSkipLogin_ShouldShowSplashScreen() {
         loginPresenter.loadSkipLogin();
 
-        verify(loginView).showDashboardUi();
+        verify(loginView).showSplashScreen();
     }
 
     @Test
@@ -90,12 +90,12 @@ public class LoginPresenterTest {
     }
 
     @Test
-    public void loadCurrentUser_WhenRealUser_ShouldShowDashboardUi(){
+    public void loadCurrentUser_WhenRealUser_ShouldShowSplashScreen(){
         when(usersRepository.getCurrentUser()).thenReturn(Single.just(REAL_USER));
 
         loginPresenter.loadCurrentUser();
 
-        verify(loginView).showDashboardUi();
+        verify(loginView).showSplashScreen();
     }
 
     @Test
@@ -132,12 +132,12 @@ public class LoginPresenterTest {
     }
 
     @Test
-    public void processLoginResult_WhenLoginSuccess_ShouldShowDashboardUi(){
+    public void processLoginResult_WhenLoginSuccess_ShouldShowSplashScreen(){
         LoginResponse LOGIN_SUCCESS = new LoginResponse(LoginResponse.ResponseCodes.LOGIN_SUCCESS);
 
         loginPresenter.processLoginResult(LOGIN_SUCCESS);
 
-        verify(loginView).showDashboardUi();
+        verify(loginView).showSplashScreen();
     }
 
 }
