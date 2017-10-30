@@ -13,12 +13,17 @@ import com.codertal.studybook.features.authentication.login.LoginContract;
 import com.codertal.studybook.features.authentication.login.LoginPresenter;
 import com.codertal.studybook.features.authentication.login.domain.LoginResponse;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+
+import io.reactivex.Single;
+import io.reactivex.plugins.RxJavaPlugins;
+import io.reactivex.schedulers.Schedulers;
 
 import static org.mockito.Mockito.*;
 
@@ -38,7 +43,13 @@ public class LoginPresenterTest {
 
     @Before
     public void setUp() {
-        loginPresenter = new LoginPresenter(loginView, usersRepository);
+        loginPresenter = new LoginPresenter(loginView, usersRepository, Schedulers.trampoline());
+        RxJavaPlugins.setIoSchedulerHandler(scheduler -> Schedulers.trampoline());
+    }
+
+    @After
+    public void cleanUp() {
+        RxJavaPlugins.reset();
     }
 
     @Test
@@ -70,8 +81,8 @@ public class LoginPresenterTest {
     }
 
     @Test
-    public void loadCurrentUser_WhenNoCurrentUser_ShouldDoNothing(){
-        when(usersRepository.getCurrentUser()).thenReturn(null);
+    public void loadCurrentUser_WhenNoCurrentUserOrError_ShouldDoNothing(){
+        when(usersRepository.getCurrentUser()).thenReturn(Single.error(new Throwable("null or error")));
 
         loginPresenter.loadCurrentUser();
 
@@ -80,7 +91,7 @@ public class LoginPresenterTest {
 
     @Test
     public void loadCurrentUser_WhenRealUser_ShouldShowDashboardUi(){
-        when(usersRepository.getCurrentUser()).thenReturn(REAL_USER);
+        when(usersRepository.getCurrentUser()).thenReturn(Single.just(REAL_USER));
 
         loginPresenter.loadCurrentUser();
 

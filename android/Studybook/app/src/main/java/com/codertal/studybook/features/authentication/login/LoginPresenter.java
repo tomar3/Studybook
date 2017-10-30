@@ -13,7 +13,10 @@ import android.support.annotation.NonNull;
 import com.codertal.studybook.data.users.User;
 import com.codertal.studybook.data.users.source.UsersRepository;
 import com.codertal.studybook.features.authentication.login.domain.LoginResponse;
-import com.codertal.studybook.mvp.BaseRxPresenter;
+
+import io.reactivex.Scheduler;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.codertal.studybook.features.authentication.login.domain.LoginResponse.ResponseCodes.LOGIN_CANCELLED;
 import static com.codertal.studybook.features.authentication.login.domain.LoginResponse.ResponseCodes.LOGIN_SUCCESS;
@@ -24,12 +27,15 @@ public class LoginPresenter extends LoginContract.Presenter {
     @NonNull
     private LoginContract.View mLoginView;
 
-    @NonNull
     private UsersRepository mUsersRepository;
 
-    public LoginPresenter(@NonNull LoginContract.View loginView, @NonNull UsersRepository usersRepository) {
+    private final Scheduler mMainScheduler;
+
+    public LoginPresenter(@NonNull LoginContract.View loginView, @NonNull UsersRepository usersRepository,
+                          @NonNull Scheduler mainScheduler) {
         mLoginView = loginView;
         mUsersRepository = usersRepository;
+        mMainScheduler = mainScheduler;
     }
 
     @Override
@@ -51,11 +57,27 @@ public class LoginPresenter extends LoginContract.Presenter {
 
 
     public void loadCurrentUser() {
-        User currentUser = mUsersRepository.getCurrentUser();
+        mCompositeDisposable.add(mUsersRepository.getCurrentUser()
+                .subscribeOn(Schedulers.io())
+                .observeOn(mMainScheduler)
+                .subscribeWith(new DisposableSingleObserver<User>(){
 
-        if(currentUser != null){
-            mLoginView.showDashboardUi();
-        }
+                    @Override
+                    public void onSuccess(User currentUser) {
+                        System.out.println("OnSuccess, thread: " + Thread.currentThread().getId());
+
+                        mLoginView.showDashboardUi();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        System.out.println("OnError, thread: " + Thread.currentThread().getId());
+
+                        /* No need to update ui if there is no current user or an error retrieving it
+                        *  The user can simply login again
+                        */
+                    }
+                }));
     }
 
     @Override

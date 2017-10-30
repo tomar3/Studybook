@@ -20,13 +20,17 @@ public class UsersRepository {
         mFirebaseAuth = FirebaseAuth.getInstance();
     }
 
-    public User getCurrentUser(){
-        FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
 
-        if(firebaseUser != null){
-            return new User(firebaseUser.getDisplayName(), firebaseUser.getEmail(), firebaseUser.getUid());
-        }else {
-            return null;
-        }
+    public Single<User> getCurrentUser() {
+        return Single.fromCallable(() -> {
+            System.out.println("DB thread: " + Thread.currentThread().getId());
+            FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
+
+            if(firebaseUser != null){
+                return new User(firebaseUser.getDisplayName(), firebaseUser.getEmail(), firebaseUser.getUid());
+            }else {
+                return null;
+            }
+        });
     }
 }

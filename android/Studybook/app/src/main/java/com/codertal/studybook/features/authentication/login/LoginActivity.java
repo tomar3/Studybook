@@ -22,6 +22,7 @@ import com.codertal.studybook.mvp.BaseRxPresenter;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Arrays;
 
@@ -31,6 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
@@ -59,7 +61,10 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
         ButterKnife.bind(this);
 
-        mPresenter = new LoginPresenter(this, mUsersRepository);
+        //TODO: remove once done with login screen
+        FirebaseAuth.getInstance().signOut();
+
+        mPresenter = new LoginPresenter(this, mUsersRepository, AndroidSchedulers.mainThread());
     }
 
     @Override
