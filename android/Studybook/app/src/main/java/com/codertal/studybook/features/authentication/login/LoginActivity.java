@@ -53,6 +53,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     private LoginContract.Presenter mPresenter;
 
 
+    //LIFECYCLE METHODS
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
@@ -89,6 +91,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         }
     }
 
+
+    // CONTRACT METHODS //
+
     @Override
     public void showLoginUi() {
         startActivityForResult(
@@ -115,9 +120,21 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
     @Override
-    public void showMessage(String message) {
-        Snackbar.make(mLoginLayout, message, Snackbar.LENGTH_LONG).show();
+    public void showNetworkErrorMessage() {
+        Snackbar.make(mLoginLayout, getString(R.string.login_network_error), Snackbar.LENGTH_LONG).show();
     }
+
+    @Override
+    public void showUnknownErrorMessage() {
+        Snackbar.make(mLoginLayout, getString(R.string.login_unknown_error), Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showCancelledMessage() {
+        Snackbar.make(mLoginLayout, getString(R.string.login_cancelled), Snackbar.LENGTH_LONG).show();
+    }
+
+    //VIEW HANDLES
 
     @OnClick(R.id.btn_login)
     public void onLoginClick() {

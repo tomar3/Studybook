@@ -92,11 +92,11 @@ public class LoginPresenter extends LoginContract.Presenter {
             mLoginView.enableButtons(true);
 
             if (loginResponse.getLoginResult() == LOGIN_CANCELLED) {
-                mLoginView.showMessage("Login cancelled");
+                mLoginView.showCancelledMessage();
             }else if (loginResponse.getLoginResult() == NETWORK_ERROR) {
-                mLoginView.showMessage("Network error");
+                mLoginView.showNetworkErrorMessage();
             }else {
-                mLoginView.showMessage("Unable to login, please try again");
+                mLoginView.showUnknownErrorMessage();
             }
         }
     }

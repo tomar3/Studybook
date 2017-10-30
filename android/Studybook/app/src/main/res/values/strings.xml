@@ -9,6 +9,9 @@
     <!--login screen start-->
     <string name="login_sign_in">Log in or Register</string>
     <string name="login_continue_without_account">Continue without an account</string>
+    <string name="login_cancelled">Login cancelled</string>
+    <string name="login_network_error">Network unavailable, please try again</string>
+    <string name="login_unknown_error">Unable to login, please try again</string>
     <!--login screen end-->
 
 </resources>

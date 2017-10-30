@@ -20,7 +20,11 @@ public interface LoginContract {
 
         void enableButtons(boolean enabled);
 
-        void showMessage(String message);
+        void showNetworkErrorMessage();
+
+        void showUnknownErrorMessage();
+
+        void showCancelledMessage();
     }
 
     abstract class Presenter extends BaseRxPresenter {
