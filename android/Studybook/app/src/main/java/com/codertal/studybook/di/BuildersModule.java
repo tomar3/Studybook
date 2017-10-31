@@ -9,7 +9,6 @@ package com.codertal.studybook.di;
 
 import com.codertal.studybook.features.authentication.login.LoginActivity;
 import com.codertal.studybook.features.authentication.login.LoginModule;
-import com.codertal.studybook.features.splash.SplashActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

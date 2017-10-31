@@ -23,7 +23,6 @@ public class UsersRepository {
 
     public Single<User> getCurrentUser() {
         return Single.fromCallable(() -> {
-            System.out.println("DB thread: " + Thread.currentThread().getId());
             FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
 
             if(firebaseUser != null){
@@ -32,5 +31,9 @@ public class UsersRepository {
                 return null;
             }
         });
+    }
+
+    public boolean containsUserDatabase(String userId){
+        return false;
     }
 }

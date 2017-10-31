@@ -16,14 +16,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import com.codertal.studybook.BuildConfig;
 import com.codertal.studybook.R;
 import com.codertal.studybook.data.users.source.UsersRepository;
 import com.codertal.studybook.features.authentication.login.domain.LoginResponseAdapter;
-import com.codertal.studybook.features.splash.SplashActivity;
+import com.codertal.studybook.features.loading.LoadingActivity;
 import com.codertal.studybook.util.ClickManager;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
@@ -38,7 +37,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import timber.log.Timber;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
     @BindView(R.id.cl_login)
@@ -122,7 +120,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @Override
     public void showSplashScreen() {
-        Intent splashIntent = new Intent(this, SplashActivity.class);
+        Intent splashIntent = new Intent(this, LoadingActivity.class);
 
         //Shared element transition
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

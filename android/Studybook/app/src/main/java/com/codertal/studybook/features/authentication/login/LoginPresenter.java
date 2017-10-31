@@ -29,7 +29,7 @@ public class LoginPresenter extends LoginContract.Presenter {
     @NonNull
     private LoginContract.View mLoginView;
 
-    private UsersRepository mUsersRepository;
+    private final UsersRepository mUsersRepository;
 
     private final Scheduler mMainScheduler;
 
@@ -63,7 +63,7 @@ public class LoginPresenter extends LoginContract.Presenter {
     }
 
 
-    public void loadCurrentUser() {
+    private void loadCurrentUser() {
         mCompositeDisposable.add(mUsersRepository.getCurrentUser()
                 .subscribeOn(Schedulers.io())
                 .observeOn(mMainScheduler)

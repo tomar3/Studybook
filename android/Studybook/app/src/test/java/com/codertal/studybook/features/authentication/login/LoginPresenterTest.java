@@ -1,16 +1,14 @@
 /*
- * Created by Talab Omar on 10/27/17 4:42 PM
+ * Created by Talab Omar on 10/31/17 2:12 PM
  * Copyright (c) 2017. All rights reserved.
  *
- * Last modified 10/27/17 4:42 PM
+ * Last modified 10/31/17 2:04 PM
  */
 
-package com.codertal.studybook.authentication.login;
+package com.codertal.studybook.features.authentication.login;
 
 import com.codertal.studybook.data.users.User;
 import com.codertal.studybook.data.users.source.UsersRepository;
-import com.codertal.studybook.features.authentication.login.LoginContract;
-import com.codertal.studybook.features.authentication.login.LoginPresenter;
 import com.codertal.studybook.features.authentication.login.domain.LoginResponse;
 import com.codertal.studybook.util.ClickManager;
 
@@ -76,19 +74,19 @@ public class LoginPresenterTest {
     }
 
     @Test
-    public void loadCurrentUser_WhenNoCurrentUserOrError_ShouldDoNothing(){
+    public void subscribe_WhenNoCurrentUserOrError_ShouldDoNothing(){
         when(usersRepository.getCurrentUser()).thenReturn(Single.error(new Throwable("null or error")));
 
-        loginPresenter.loadCurrentUser();
+        loginPresenter.subscribe();
 
         verifyZeroInteractions(loginView);
     }
 
     @Test
-    public void loadCurrentUser_WhenRealUser_ShouldShowSplashScreen(){
+    public void subscribe_WhenRealUser_ShouldShowSplashScreen(){
         when(usersRepository.getCurrentUser()).thenReturn(Single.just(REAL_USER));
 
-        loginPresenter.loadCurrentUser();
+        loginPresenter.subscribe();
 
         verify(loginView).showSplashScreen();
     }
