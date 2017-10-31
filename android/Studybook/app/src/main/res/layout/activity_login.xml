@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_app_logo"
         app:layout_constraintVertical_bias="0.0" />
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_skip_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/login_continue_without_account"
-        android:backgroundTint="@android:color/white"
+        app:backgroundTint="@android:color/white"
         android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,13 +60,13 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_login"
         app:layout_constraintVertical_bias="0.0" />
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_login"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/login_sign_in"
-        android:backgroundTint="@color/colorAccent"
+        app:backgroundTint="@color/colorAccent"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="@+id/btn_skip_login"
         app:layout_constraintStart_toStartOf="@+id/btn_skip_login"

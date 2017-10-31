@@ -8,10 +8,7 @@
 package com.codertal.studybook.util;
 
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
 import android.util.SparseLongArray;
-
-import java.util.HashMap;
 
 /**
  * This class allows a single click and prevents multiple clicks on
@@ -20,15 +17,14 @@ import java.util.HashMap;
  */
 public class ClickManager {
 
-    private SparseLongArray lastClickedTimes;
-    private static final int MINIMUM_DELAY = 1000;
+    public SparseLongArray lastClickedTimes;
+    private static final int MINIMUM_DELAY_MILLISECONDS = 1000;
 
     public ClickManager() {
         lastClickedTimes = new SparseLongArray();
     }
 
     public boolean isClickable(int viewId){
-
         if(lastClickedTimes.indexOfKey(viewId) < 0){
             //View does not exist
 
@@ -37,7 +33,7 @@ public class ClickManager {
         }else{
             long lastViewClickedTime = lastClickedTimes.get(viewId);
 
-            if (SystemClock.elapsedRealtime() - lastViewClickedTime < MINIMUM_DELAY){
+            if (SystemClock.elapsedRealtime() - lastViewClickedTime < MINIMUM_DELAY_MILLISECONDS){
                 return false;
             }else{
                 lastClickedTimes.put(viewId, SystemClock.elapsedRealtime());

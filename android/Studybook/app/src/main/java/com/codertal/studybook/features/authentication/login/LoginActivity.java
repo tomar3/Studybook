@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -44,10 +45,10 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     View mLoginLayout;
 
     @BindView(R.id.btn_login)
-    Button mLoginButton;
+    AppCompatButton mLoginButton;
 
     @BindView(R.id.btn_skip_login)
-    Button mSkipLoginButton;
+    AppCompatButton mSkipLoginButton;
 
     @BindView(R.id.iv_app_logo)
     ImageView mAppLogo;

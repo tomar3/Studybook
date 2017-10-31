@@ -99,7 +99,6 @@ public class LoginPresenterTest {
 
         loginPresenter.processLoginResult(LOGIN_CANCELLED);
 
-       // verify(loginView, times(1)).enableButtons(true);
         verify(loginView, times(1)).showCancelledMessage();
         verifyNoMoreInteractions(loginView);
     }
@@ -110,7 +109,6 @@ public class LoginPresenterTest {
 
         loginPresenter.processLoginResult(NETWORK_ERROR);
 
-       // verify(loginView, times(1)).enableButtons(true);
         verify(loginView, times(1)).showNetworkErrorMessage();
         verifyNoMoreInteractions(loginView);
     }
@@ -121,7 +119,6 @@ public class LoginPresenterTest {
 
         loginPresenter.processLoginResult(UNKNOWN_ERROR);
 
-        //verify(loginView, times(1)).enableButtons(true);
         verify(loginView, times(1)).showUnknownErrorMessage();
         verifyNoMoreInteractions(loginView);
     }
