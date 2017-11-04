@@ -27,7 +27,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/app_logo"
-        android:transitionName="@string/login_app_logo_transition"
         tools:ignore="UnusedAttribute"/>
 
     <ProgressBar

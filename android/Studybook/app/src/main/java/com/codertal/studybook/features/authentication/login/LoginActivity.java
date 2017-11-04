@@ -37,6 +37,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import timber.log.Timber;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
     @BindView(R.id.cl_login)
@@ -47,9 +48,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @BindView(R.id.btn_skip_login)
     AppCompatButton mSkipLoginButton;
-
-    @BindView(R.id.iv_app_logo)
-    ImageView mAppLogo;
 
     @Inject
     UsersRepository mUsersRepository;
@@ -121,17 +119,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void showSplashScreen() {
         Intent splashIntent = new Intent(this, LoadingActivity.class);
+        startActivity(splashIntent);
 
-        //Shared element transition
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptionsCompat options = ActivityOptionsCompat.
-                    makeSceneTransitionAnimation(this,
-                            mAppLogo,
-                            ViewCompat.getTransitionName(mAppLogo));
-            startActivity(splashIntent, options.toBundle());
-        } else {
-            startActivity(splashIntent);
-        }
+        finish();
     }
 
     @Override

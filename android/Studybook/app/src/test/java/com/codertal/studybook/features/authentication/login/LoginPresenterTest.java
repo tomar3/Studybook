@@ -88,7 +88,7 @@ public class LoginPresenterTest {
 
         loginPresenter.subscribe();
 
-        verify(loginView).showSplashScreen();
+        verify(loginView, times(1)).showSplashScreen();
     }
 
     @Test

@@ -20,7 +20,7 @@ import com.f2prateek.dart.InjectExtra;
 
 public class LoadingActivity extends AppCompatActivity implements LoadingContract.View{
 
-    @InjectExtra
+    //@InjectExtra
     String mUserId;
 
     private LoadingContract.Presenter mPresenter;
@@ -29,7 +29,8 @@ public class LoadingActivity extends AppCompatActivity implements LoadingContrac
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
-        Dart.inject(this);
+        //Dart.inject(this);
+        mUserId = "";
 
         mPresenter = new LoadingPresenter(this, mUserId, new UsersRepository(), new DatabaseRepository());
 
