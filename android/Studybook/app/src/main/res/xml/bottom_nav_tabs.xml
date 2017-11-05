@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Talab Omar on 11/5/17 2:07 PM
+  ~ Copyright (c) 2017. All rights reserved.
+  ~
+  ~ Last modified 11/5/17 2:07 PM
+  -->
+
+<tabs>
+    <tab
+        id="@+id/tab_home"
+        icon="@drawable/ic_home"
+        title="Home"
+        barColorWhenSelected="@color/materialGreen"/>
+    <tab
+        id="@+id/tab_fav"
+        icon="@drawable/ic_favorite"
+        title="Favorites"
+        barColorWhenSelected="@color/materialDarkPink"/>
+
+    <tab
+        id="@+id/tab_history"
+        icon="@drawable/ic_history"
+        title="History"
+        barColorWhenSelected="@color/materialPurple"/>
+
+    <tab
+        id="@+id/tab_tools"
+        icon="@drawable/ic_build"
+        title="Tools"
+        barColorWhenSelected="@color/colorPrimary"/>
+
+
+    <tab
+        id="@+id/tab_account"
+        icon="@drawable/ic_person"
+        title="Account"
+        barColorWhenSelected="@color/materialBrown"/>
+</tabs>

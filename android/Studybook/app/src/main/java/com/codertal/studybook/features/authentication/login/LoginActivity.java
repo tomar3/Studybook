@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         ButterKnife.bind(this);
 
         //TODO: remove once done with login screen
-        FirebaseAuth.getInstance().signOut();
+        //FirebaseAuth.getInstance().signOut();
 
         mPresenter = new LoginPresenter(this, mUsersRepository, AndroidSchedulers.mainThread(),
                 mClickManager);

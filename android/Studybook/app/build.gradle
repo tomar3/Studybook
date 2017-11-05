@@ -70,6 +70,10 @@ dependencies {
     annotationProcessor "com.f2prateek.dart:dart-processor:$project.dartVersion"
     implementation "com.f2prateek.dart:henson:$project.dartVersion"
     annotationProcessor "com.f2prateek.dart:henson-processor:$project.dartVersion"
+
+    // Custom Views
+    implementation 'com.yarolegovich:sliding-root-nav:1.1.0'
+    implementation 'com.roughike:bottom-bar:2.3.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
