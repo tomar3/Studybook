@@ -16,7 +16,7 @@ public interface LoginContract {
 
         void showLoginUi();
 
-        void showSplashScreen();
+        void showDashboard();
 
         void showNetworkErrorMessage();
 

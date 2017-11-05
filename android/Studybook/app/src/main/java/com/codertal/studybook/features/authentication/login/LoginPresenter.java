@@ -18,7 +18,6 @@ import com.codertal.studybook.util.ClickManager;
 import io.reactivex.Scheduler;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
-import timber.log.Timber;
 
 import static com.codertal.studybook.features.authentication.login.domain.LoginResponse.ResponseCodes.LOGIN_CANCELLED;
 import static com.codertal.studybook.features.authentication.login.domain.LoginResponse.ResponseCodes.LOGIN_SUCCESS;
@@ -58,7 +57,7 @@ public class LoginPresenter extends LoginContract.Presenter {
     @Override
     public void loadSkipLogin(int viewId) {
         if (mClickManager.isClickable(viewId)) {
-            mLoginView.showSplashScreen();
+            mLoginView.showDashboard();
         }
     }
 
@@ -70,7 +69,7 @@ public class LoginPresenter extends LoginContract.Presenter {
                 .subscribeWith(new DisposableSingleObserver<User>(){
                     @Override
                     public void onSuccess(User currentUser) {
-                        mLoginView.showSplashScreen();
+                        mLoginView.showDashboard();
                     }
 
                     @Override
@@ -85,10 +84,10 @@ public class LoginPresenter extends LoginContract.Presenter {
     @Override
     public void processLoginResult(LoginResponse loginResponse) {
 
-        // Successfully logged in
-        if (loginResponse.getLoginResult() == LOGIN_SUCCESS) {
-            mLoginView.showSplashScreen();
-        } else {
+//        // Successfully logged in
+//        if (loginResponse.getLoginResult() == LOGIN_SUCCESS) {
+//            mLoginView.showDashboard();
+//        } else {
             // Log in failed
 
             //Determine which error message to show
@@ -101,6 +100,6 @@ public class LoginPresenter extends LoginContract.Presenter {
             }else {
                 mLoginView.showUnknownErrorMessage();
             }
-        }
+        //}
     }
 }

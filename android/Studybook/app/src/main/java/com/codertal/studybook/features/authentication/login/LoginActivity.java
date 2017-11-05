@@ -19,9 +19,11 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.codertal.studybook.BuildConfig;
+import com.codertal.studybook.Henson;
 import com.codertal.studybook.R;
 import com.codertal.studybook.data.users.source.UsersRepository;
 import com.codertal.studybook.features.authentication.login.domain.LoginResponseAdapter;
+import com.codertal.studybook.features.dashboard.DashboardActivity;
 import com.codertal.studybook.features.loading.LoadingActivity;
 import com.codertal.studybook.util.ClickManager;
 import com.firebase.ui.auth.AuthUI;
@@ -117,10 +119,12 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
     @Override
-    public void showSplashScreen() {
-        Intent splashIntent = new Intent(this, LoadingActivity.class);
-        startActivity(splashIntent);
+    public void showDashboard() {
+        Intent dashboardIntent = Henson.with(this)
+                .gotoDashboardActivity()
+                .build();
 
+        startActivity(dashboardIntent);
         finish();
     }
 

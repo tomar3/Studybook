@@ -12,6 +12,12 @@
     <string name="login_cancelled">Login cancelled</string>
     <string name="login_network_error">Network unavailable, please try again</string>
     <string name="login_unknown_error">Unable to login, please try again</string>
+    <string name="title_activity_dashboard">Studybook</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
     <!--login screen end-->
 
 </resources>

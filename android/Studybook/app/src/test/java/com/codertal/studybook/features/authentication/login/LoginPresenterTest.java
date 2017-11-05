@@ -65,12 +65,12 @@ public class LoginPresenterTest {
     }
 
     @Test
-    public void loadSkipLogin_ShouldShowSplashScreen() {
+    public void loadSkipLogin_ShouldShowDashboard() {
         when(clickManager.isClickable(DUMMY_ID)).thenReturn(true);
 
         loginPresenter.loadSkipLogin(DUMMY_ID);
 
-        verify(loginView).showSplashScreen();
+        verify(loginView).showDashboard();
     }
 
     @Test
@@ -83,12 +83,12 @@ public class LoginPresenterTest {
     }
 
     @Test
-    public void subscribe_WhenRealUser_ShouldShowSplashScreen(){
+    public void subscribe_WhenRealUser_ShouldShowDashboard(){
         when(usersRepository.getCurrentUser()).thenReturn(Single.just(REAL_USER));
 
         loginPresenter.subscribe();
 
-        verify(loginView, times(1)).showSplashScreen();
+        verify(loginView, times(1)).showDashboard();
     }
 
     @Test
@@ -121,13 +121,14 @@ public class LoginPresenterTest {
         verifyNoMoreInteractions(loginView);
     }
 
-    @Test
-    public void processLoginResult_WhenLoginSuccess_ShouldShowSplashScreen(){
-        LoginResponse LOGIN_SUCCESS = new LoginResponse(LoginResponse.ResponseCodes.LOGIN_SUCCESS);
-
-        loginPresenter.processLoginResult(LOGIN_SUCCESS);
-
-        verify(loginView).showSplashScreen();
-    }
+    //TODO: Remove this test, already covered
+//    @Test
+//    public void processLoginResult_WhenLoginSuccess_ShouldShowDashboard(){
+//        LoginResponse LOGIN_SUCCESS = new LoginResponse(LoginResponse.ResponseCodes.LOGIN_SUCCESS);
+//
+//        loginPresenter.processLoginResult(LOGIN_SUCCESS);
+//
+//        verify(loginView).showDashboard();
+//    }
 
 }
