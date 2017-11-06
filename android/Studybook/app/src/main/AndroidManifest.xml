@@ -25,7 +25,7 @@
         <activity
             android:name=".features.dashboard.DashboardActivity"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/MaterialDrawerTheme"/>
     </application>
 
 </manifest>

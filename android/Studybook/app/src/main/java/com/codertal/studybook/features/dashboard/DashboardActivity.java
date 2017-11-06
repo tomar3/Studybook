@@ -8,11 +8,7 @@
 package com.codertal.studybook.features.dashboard;
 
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,9 +18,12 @@ import com.codertal.studybook.base.BaseTabFragment;
 import com.codertal.studybook.features.homework.HomeworkFragment;
 import com.codertal.studybook.features.manage.ManageFragment;
 import com.f2prateek.dart.HensonNavigable;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnTabSelectListener;
-import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
 import timber.log.Timber;
 
@@ -38,12 +37,7 @@ public class DashboardActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        new SlidingRootNavBuilder(this)
-                .withToolbarMenuToggle(toolbar)
-                .withMenuOpened(false)
-                .withContentClickableWhenMenuOpened(false)
-                .withMenuLayout(R.layout.drawer_menu_dashboard)
-                .inject();
+        setUpDrawer(toolbar);
 
         BottomBar bottomBar = findViewById(R.id.bottomBar);
         bottomBar.setOnTabSelectListener(tabId -> {
@@ -79,6 +73,25 @@ public class DashboardActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fl_dash_fragment, defaultFragment, defaultFragment.getFragmentTag());
         transaction.commit();
+    }
+
+    private void setUpDrawer(Toolbar toolbar) {
+        //if you want to update the items at a later time it is recommended to keep it in a variable
+        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("Item 1").withSelectable(false);
+        SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName("Item 2").withSelectable(false);
+
+        //create the drawer and remember the `Drawer` result object
+        Drawer result = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .addDrawerItems(
+                        item1,
+                        new DividerDrawerItem(),
+                        item2,
+                        new SecondaryDrawerItem().withName("Settings").withSelectable(false)
+                )
+                .withSelectedItem(-1)
+                .build();
     }
 
     @Override

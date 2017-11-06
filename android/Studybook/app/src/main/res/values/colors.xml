@@ -12,4 +12,6 @@
 
     <color name="lightGrayInactive">#bdbdbd</color>
     <color name="lightGrayActive">#fafafa</color>
+    
+    <color name="materialBlueGray">#37474f</color>
 </resources>
