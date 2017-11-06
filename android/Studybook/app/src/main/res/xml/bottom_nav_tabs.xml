@@ -11,23 +11,23 @@
         id="@+id/tab_home"
         icon="@drawable/ic_home"
         title="Home"
-        barColorWhenSelected="@color/materialGreen"/>
+        barColorWhenSelected="@color/md_green_800"/>
     <tab
         id="@+id/tab_fav"
         icon="@drawable/ic_favorite"
         title="Favorites"
-        barColorWhenSelected="@color/materialDarkPink"/>
+        barColorWhenSelected="@color/md_pink_900"/>
 
     <tab
         id="@+id/tab_history"
         icon="@drawable/ic_history"
         title="History"
-        barColorWhenSelected="@color/materialPurple"/>
+        barColorWhenSelected="@color/md_purple_800"/>
 
     <tab
         id="@+id/tab_manage"
         icon="@drawable/ic_build"
         title="Manage"
-        barColorWhenSelected="@color/materialBrown"/>
+        barColorWhenSelected="@color/md_brown_600"/>
 
 </tabs>

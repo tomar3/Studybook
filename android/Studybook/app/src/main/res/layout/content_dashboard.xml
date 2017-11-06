@@ -33,8 +33,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:bb_inActiveTabColor="@color/lightGrayInactive"
-        app:bb_activeTabColor="@color/lightGrayActive"
+        app:bb_inActiveTabColor="@color/md_grey_400"
+        app:bb_activeTabColor="@color/md_grey_50"
         app:bb_behavior="shifting"
         app:bb_tabXmlResource="@xml/bottom_nav_tabs"/>
 
