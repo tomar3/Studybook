@@ -8,7 +8,7 @@
 package com.codertal.studybook.features.authentication.login;
 
 import com.codertal.studybook.features.authentication.login.domain.LoginResponse;
-import com.codertal.studybook.mvp.BaseRxPresenter;
+import com.codertal.studybook.base.BaseRxPresenter;
 
 public interface LoginContract {
 

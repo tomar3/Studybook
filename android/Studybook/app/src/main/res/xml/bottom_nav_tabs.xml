@@ -25,15 +25,9 @@
         barColorWhenSelected="@color/materialPurple"/>
 
     <tab
-        id="@+id/tab_tools"
+        id="@+id/tab_manage"
         icon="@drawable/ic_build"
-        title="Tools"
-        barColorWhenSelected="@color/colorPrimary"/>
-
-
-    <tab
-        id="@+id/tab_account"
-        icon="@drawable/ic_person"
-        title="Account"
+        title="Manage"
         barColorWhenSelected="@color/materialBrown"/>
+
 </tabs>

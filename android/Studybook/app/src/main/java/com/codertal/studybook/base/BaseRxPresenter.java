@@ -5,7 +5,7 @@
  * Last modified 10/29/17 4:13 PM
  */
 
-package com.codertal.studybook.mvp;
+package com.codertal.studybook.base;
 
 
 import android.support.annotation.NonNull;
