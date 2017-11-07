@@ -25,7 +25,17 @@
         <activity
             android:name=".features.dashboard.DashboardActivity"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/MaterialDrawerTheme"/>
+            android:theme="@style/MaterialDrawerTheme"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".features.manage.classes.ClassesActivity"
+            android:label="@string/title_activity_classes"
+            android:parentActivityName=".features.dashboard.DashboardActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.codertal.studybook.features.dashboard.DashboardActivity" />
+        </activity>
     </application>
 
 </manifest>

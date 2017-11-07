@@ -102,6 +102,19 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
 
+    //VIEW HANDLES
+
+    @OnClick(R.id.btn_login)
+    public void onLoginClick(View view) {
+        mPresenter.loadLogin(view.getId());
+    }
+
+    @OnClick(R.id.btn_skip_login)
+    public void onSkipLoginClick(View view) {
+        mPresenter.loadSkipLogin(view.getId());
+    }
+
+
     // CONTRACT METHODS //
 
     @Override
@@ -141,17 +154,5 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void showCancelledMessage() {
         Snackbar.make(mLoginLayout, getString(R.string.login_cancelled), Snackbar.LENGTH_LONG).show();
-    }
-
-    //VIEW HANDLES
-
-    @OnClick(R.id.btn_login)
-    public void onLoginClick(View view) {
-        mPresenter.loadLogin(view.getId());
-    }
-
-    @OnClick(R.id.btn_skip_login)
-    public void onSkipLoginClick(View view) {
-        mPresenter.loadSkipLogin(view.getId());
     }
 }

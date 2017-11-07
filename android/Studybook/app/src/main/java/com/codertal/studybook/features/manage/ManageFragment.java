@@ -7,15 +7,23 @@
 
 package com.codertal.studybook.features.manage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.codertal.studybook.Henson;
 import com.codertal.studybook.R;
 import com.codertal.studybook.base.BaseTabFragment;
 
-public class ManageFragment extends BaseTabFragment {
+import java.util.zip.Inflater;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class ManageFragment extends BaseTabFragment implements ManageContract.View{
+    private ManageContract.Presenter mPresenter;
 
     public static ManageFragment newInstance() {
         ManageFragment fragment = new ManageFragment();
@@ -25,6 +33,34 @@ public class ManageFragment extends BaseTabFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_manage, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_manage, container, false);
+        ButterKnife.bind(this, rootView);
+
+        mPresenter = new ManagePresenter(this);
+
+        return rootView;
+    }
+
+
+    @OnClick(R.id.cv_classes)
+    public void onClassesClick(){
+        mPresenter.openClasses();
+    }
+
+    @OnClick(R.id.cv_teachers)
+    public void onTeachersClick(){
+
+    }
+
+
+    @Override
+    public void showClassesUi() {
+        if(isAdded()) {
+            Intent classesIntent = Henson.with(getContext())
+                    .gotoClassesActivity()
+                    .build();
+
+            startActivity(classesIntent);
+        }
     }
 }
