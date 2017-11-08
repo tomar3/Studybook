@@ -27,13 +27,15 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.Clas
 
     private List<Class> mClasses;
     private OnClassClickListener mOnClassClickListener;
+    private ViewGroup mEmptyView;
 
     public interface OnClassClickListener {
         void onClassClick(Class selectedClass);
     }
 
-    public ClassListAdapter(@NonNull OnClassClickListener onClassClickListener) {
-        this.mOnClassClickListener = onClassClickListener;
+    public ClassListAdapter(@NonNull OnClassClickListener onClassClickListener, @NonNull ViewGroup emptyView) {
+        mOnClassClickListener = onClassClickListener;
+        mEmptyView = emptyView;
 
         mClasses = new ArrayList<>();
     }
@@ -55,6 +57,12 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.Clas
 
     @Override
     public int getItemCount() {
+        if(mClasses.isEmpty()){
+            mEmptyView.setVisibility(View.VISIBLE);
+        }else {
+            mEmptyView.setVisibility(View.GONE);
+        }
+
         return mClasses.size();
     }
 

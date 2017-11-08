@@ -16,11 +16,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.codertal.studybook.R;
 import com.codertal.studybook.data.model.Class;
 import com.codertal.studybook.features.manage.classes.adapter.ClassListAdapter;
 import com.f2prateek.dart.HensonNavigable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +37,9 @@ public class ClassesActivity extends AppCompatActivity implements ClassListAdapt
 
     @BindView(R.id.rv_classes)
     RecyclerView mClassesRecycler;
+
+    @BindView(R.id.layout_empty_view)
+    ViewGroup mEmptyView;
 
     private ClassListAdapter mClassListAdapter;
 
@@ -47,6 +56,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassListAdapt
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        setUpEmptyView();
         setUpClassesRecycler();
     }
 
@@ -61,6 +71,14 @@ public class ClassesActivity extends AppCompatActivity implements ClassListAdapt
 
     }
 
+    private void setUpEmptyView(){
+        TextView emptyMessage = mEmptyView.findViewById(R.id.tv_empty_message);
+        emptyMessage.setText("Click the '+' to add a class");
+
+        ImageView emptyImage = mEmptyView.findViewById(R.id.iv_empty);
+        emptyImage.setImageResource(R.drawable.app_logo);
+    }
+
     private void setUpClassesRecycler() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
@@ -68,8 +86,10 @@ public class ClassesActivity extends AppCompatActivity implements ClassListAdapt
 
         mClassesRecycler.setHasFixedSize(true);
 
-        mClassListAdapter = new ClassListAdapter(this);
+        mClassListAdapter = new ClassListAdapter(this, mEmptyView);
 
         mClassesRecycler.setAdapter(mClassListAdapter);
     }
+
+
 }
