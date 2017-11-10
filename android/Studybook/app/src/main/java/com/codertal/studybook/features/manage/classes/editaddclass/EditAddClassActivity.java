@@ -1,0 +1,65 @@
+/*
+ * Created by Talab Omar on 11/8/17 12:29 PM
+ * Copyright (c) 2017. All rights reserved.
+ *
+ * Last modified 11/8/17 12:29 PM
+ */
+
+package com.codertal.studybook.features.manage.classes.editaddclass;
+
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.EditText;
+
+import com.codertal.studybook.R;
+import com.f2prateek.dart.HensonNavigable;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+@HensonNavigable
+public class EditAddClassActivity extends AppCompatActivity implements EditAddClassContract.View {
+
+    @BindView(R.id.et_class_name)
+    EditText mEditClassName;
+
+    private EditAddClassContract.Presenter mPresenter;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_edit_add_class);
+        ButterKnife.bind(this);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        mPresenter = new EditAddClassPresenter(this);
+    }
+
+    @Override
+    public void returnToClassesUi() {
+        finish();
+    }
+
+    @Override
+    public void showRequiredFields() {
+        mEditClassName.setError(getString(R.string.required_label));
+    }
+
+
+    @OnClick(R.id.fab_save_class)
+    public void onSaveClassClick() {
+        mPresenter.verifySaveClass(mEditClassName.getText().toString());
+    }
+}

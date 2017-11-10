@@ -25,16 +25,26 @@
         <activity
             android:name=".features.dashboard.DashboardActivity"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/MaterialDrawerTheme"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:theme="@style/MaterialDrawerTheme" />
         <activity
             android:name=".features.manage.classes.ClassesActivity"
             android:label="@string/title_activity_classes"
             android:parentActivityName=".features.dashboard.DashboardActivity"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.codertal.studybook.features.dashboard.DashboardActivity" />
+        </activity>
+        <activity
+            android:name=".features.manage.classes.editaddclass.EditAddClassActivity"
+            android:label="@string/title_activity_edit_add_class"
+            android:parentActivityName=".features.manage.classes.ClassesActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.codertal.studybook.features.manage.classes.ClassesActivity" />
         </activity>
     </application>
 

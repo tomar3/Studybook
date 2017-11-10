@@ -4,21 +4,30 @@
     <!--facebook login start-->
     <string name="facebook_application_id" translatable="false">151567328911795</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fb151567328911795</string>
-    <!--facebook login end-->
 
-    <!--login screen start-->
+
+    <!--login screen-->
     <string name="login_sign_in">Log in or Register</string>
     <string name="login_continue_without_account">Continue without an account</string>
     <string name="login_cancelled">Login cancelled</string>
     <string name="login_network_error">Network unavailable, please try again</string>
     <string name="login_unknown_error">Unable to login, please try again</string>
-    <string name="title_activity_dashboard">Studybook</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <!--dashboard screen-->
+    <string name="title_activity_dashboard">@string/app_name</string>
+
+
+    <!--classes screen-->
     <string name="title_activity_classes">Classes</string>
-    <!--login screen end-->
+
+
+    <!--edit-add-class screen-->
+    <string name="title_activity_edit_add_class">Add class</string>
+    <string name="edit_class_name">Class name</string>
+
+
+    <!--shared-->
+    <string name="required_label">Required</string>
 
 </resources>

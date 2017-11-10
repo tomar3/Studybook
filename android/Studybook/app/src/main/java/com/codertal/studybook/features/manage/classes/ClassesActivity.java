@@ -7,6 +7,7 @@
 
 package com.codertal.studybook.features.manage.classes;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.codertal.studybook.Henson;
 import com.codertal.studybook.R;
 import com.codertal.studybook.data.model.Class;
 import com.codertal.studybook.features.manage.classes.adapter.ClassListAdapter;
@@ -33,7 +35,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 @HensonNavigable
-public class ClassesActivity extends AppCompatActivity implements ClassListAdapter.OnClassClickListener {
+public class ClassesActivity extends AppCompatActivity implements ClassesContract.View,
+        ClassListAdapter.OnClassClickListener {
 
     @BindView(R.id.rv_classes)
     RecyclerView mClassesRecycler;
@@ -41,6 +44,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassListAdapt
     @BindView(R.id.layout_empty_view)
     ViewGroup mEmptyView;
 
+    private ClassesContract.Presenter mPresenter;
     private ClassListAdapter mClassListAdapter;
 
     @Override
@@ -58,12 +62,22 @@ public class ClassesActivity extends AppCompatActivity implements ClassListAdapt
 
         setUpEmptyView();
         setUpClassesRecycler();
+
+        mPresenter = new ClassesPresenter(this);
+    }
+
+    @Override
+    public void showAddClassUi() {
+        Intent addClassIntent = Henson.with(this)
+                .gotoEditAddClassActivity()
+                .build();
+
+        startActivity(addClassIntent);
     }
 
     @OnClick(R.id.fab_add_class)
-    public void onAddClassClick(View view){
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+    public void onAddClassClick(){
+        mPresenter.openAddClass();
     }
 
     @Override
@@ -90,6 +104,4 @@ public class ClassesActivity extends AppCompatActivity implements ClassListAdapt
 
         mClassesRecycler.setAdapter(mClassListAdapter);
     }
-
-
 }
