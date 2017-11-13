@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 public class ClassesPresenter extends ClassesContract.Presenter {
 
     @NonNull
-    ClassesContract.View mClassesView;
+    private ClassesContract.View mClassesView;
 
     public ClassesPresenter(@NonNull ClassesContract.View classesView) {
         mClassesView = classesView;

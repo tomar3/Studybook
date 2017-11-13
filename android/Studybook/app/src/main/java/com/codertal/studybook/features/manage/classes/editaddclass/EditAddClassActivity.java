@@ -26,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
 
 @HensonNavigable
@@ -60,7 +61,8 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
 //            Timber.d("CLASS REPO IS INJECTED");
 //        }
 
-        mPresenter = new EditAddClassPresenter(this, mClassesRepository);
+        mPresenter = new EditAddClassPresenter(this, mClassesRepository,
+                AndroidSchedulers.mainThread());
     }
 
     @Override
@@ -78,6 +80,11 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
     @Override
     public void showRequiredFields() {
         mEditClassName.setError(getString(R.string.required_label));
+    }
+
+    @Override
+    public void showSaveError(Throwable error) {
+
     }
 
 

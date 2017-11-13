@@ -17,6 +17,8 @@ public interface EditAddClassContract {
 
         void showRequiredFields();
 
+        void showSaveError(Throwable error);
+
     }
 
     abstract class Presenter extends BaseRxPresenter {

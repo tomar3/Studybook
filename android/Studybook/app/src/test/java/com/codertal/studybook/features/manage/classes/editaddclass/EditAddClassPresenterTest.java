@@ -1,14 +1,14 @@
 /*
- * Created by Talab Omar on 11/9/17 8:31 PM
+ * Created by Talab Omar.
  * Copyright (c) 2017. All rights reserved.
- *
- * Last modified 11/9/17 8:31 PM
  */
 
 package com.codertal.studybook.features.manage.classes.editaddclass;
 
+import com.codertal.studybook.data.classes.ClassInfo;
 import com.codertal.studybook.data.classes.source.ClassesRepository;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,8 +16,14 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import io.reactivex.plugins.RxJavaPlugins;
+import io.reactivex.schedulers.Schedulers;
+
+import static io.reactivex.Completable.complete;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class EditAddClassPresenterTest {
 
@@ -34,12 +40,19 @@ public class EditAddClassPresenterTest {
 
     @Before
     public void setUp(){
-        editAddClassPresenter = new EditAddClassPresenter(editAddClassView, classesRepository);
+        editAddClassPresenter = new EditAddClassPresenter(editAddClassView, classesRepository,
+                Schedulers.trampoline());
+        RxJavaPlugins.setIoSchedulerHandler(scheduler -> Schedulers.trampoline());
+    }
+
+    @After
+    public void cleanUp() {
+        RxJavaPlugins.reset();
     }
 
 
     @Test
-    public void verifySaveClass_WhenClassNameNotEntered_ShouldShowRequiredFields(){
+    public void verifySaveClass_WhenClassNameNotEntered_ShouldShowRequiredFields() {
         editAddClassPresenter.verifySaveClass("");
 
         verify(editAddClassView).showRequiredFields();
@@ -48,11 +61,15 @@ public class EditAddClassPresenterTest {
 
 
     @Test
-    public void verifySaveClass_WhenAllRequiredFieldsGiven_ShouldReturnToClassesUi(){
+    public void verifySaveClass_WhenAllRequiredFieldsGiven_ShouldReturnToClassesUi() {
+        when(classesRepository.save(any(ClassInfo.class))).thenReturn(complete());
+
         editAddClassPresenter.verifySaveClass("Class Name");
 
         verify(editAddClassView).returnToClassesUi();
         verify(editAddClassView, times(0)).showRequiredFields();
     }
+
+    //TODO: TEST COMPLETEABLE ERROR
 
 }
