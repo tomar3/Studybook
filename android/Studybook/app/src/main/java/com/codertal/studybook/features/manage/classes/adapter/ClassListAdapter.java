@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.codertal.studybook.R;
-import com.codertal.studybook.data.model.Class;
+import com.codertal.studybook.data.classes.ClassInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +25,12 @@ import butterknife.ButterKnife;
 
 public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.ClassViewHolder>{
 
-    private List<Class> mClasses;
+    private List<ClassInfo> mClasses;
     private OnClassClickListener mOnClassClickListener;
     private ViewGroup mEmptyView;
 
     public interface OnClassClickListener {
-        void onClassClick(Class selectedClass);
+        void onClassClick(ClassInfo selectedClass);
     }
 
     public ClassListAdapter(@NonNull OnClassClickListener onClassClickListener, @NonNull ViewGroup emptyView) {
@@ -50,7 +50,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.Clas
 
     @Override
     public void onBindViewHolder(ClassViewHolder holder, int position) {
-        Class currentClass = mClasses.get(position);
+        ClassInfo currentClass = mClasses.get(position);
 
         holder.mClassNameView.setText(currentClass.getName());
     }
@@ -66,7 +66,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.Clas
         return mClasses.size();
     }
 
-    public void updateData(List<Class> newClasses){
+    public void updateData(List<ClassInfo> newClasses){
         mClasses = newClasses;
         this.notifyDataSetChanged();
     }

@@ -7,6 +7,8 @@
 
 package com.codertal.studybook.features.manage.classes.editaddclass;
 
+import com.codertal.studybook.data.classes.source.ClassesRepository;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,11 +27,14 @@ public class EditAddClassPresenterTest {
     @Mock
     private EditAddClassContract.View editAddClassView;
 
+    @Mock
+    private ClassesRepository classesRepository;
+
     private EditAddClassPresenter editAddClassPresenter;
 
     @Before
     public void setUp(){
-        editAddClassPresenter = new EditAddClassPresenter(editAddClassView);
+        editAddClassPresenter = new EditAddClassPresenter(editAddClassView, classesRepository);
     }
 
 

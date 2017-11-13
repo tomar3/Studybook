@@ -16,11 +16,17 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.codertal.studybook.R;
+import com.codertal.studybook.data.classes.ClassInfo;
+import com.codertal.studybook.data.classes.source.ClassesRepository;
 import com.f2prateek.dart.HensonNavigable;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dagger.android.AndroidInjection;
+import timber.log.Timber;
 
 @HensonNavigable
 public class EditAddClassActivity extends AppCompatActivity implements EditAddClassContract.View {
@@ -28,11 +34,15 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
     @BindView(R.id.et_class_name)
     EditText mEditClassName;
 
+    @Inject
+    ClassesRepository mClassesRepository;
+
     private EditAddClassContract.Presenter mPresenter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_add_class);
         ButterKnife.bind(this);
@@ -44,7 +54,13 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        mPresenter = new EditAddClassPresenter(this);
+//        if(mClassesRepository == null){
+//            Timber.d("CLASS REPO IS NULL");
+//        }else {
+//            Timber.d("CLASS REPO IS INJECTED");
+//        }
+
+        mPresenter = new EditAddClassPresenter(this, mClassesRepository);
     }
 
     @Override

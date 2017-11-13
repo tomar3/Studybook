@@ -9,13 +9,20 @@ package com.codertal.studybook.features.manage.classes.editaddclass;
 
 import android.support.annotation.NonNull;
 
+import com.codertal.studybook.data.classes.ClassInfo;
+import com.codertal.studybook.data.classes.source.ClassesRepository;
+
 public class EditAddClassPresenter implements EditAddClassContract.Presenter{
 
     @NonNull
     EditAddClassContract.View mEditClassView;
 
-    public EditAddClassPresenter(@NonNull EditAddClassContract.View editClassView) {
-        this.mEditClassView = editClassView;
+    private ClassesRepository mClassesRepository;
+
+    public EditAddClassPresenter(@NonNull EditAddClassContract.View editClassView,
+                                 @NonNull ClassesRepository classesRepository) {
+        mEditClassView = editClassView;
+        mClassesRepository = classesRepository;
     }
 
 
@@ -25,8 +32,10 @@ public class EditAddClassPresenter implements EditAddClassContract.Presenter{
         if(className.isEmpty()){
             mEditClassView.showRequiredFields();
         }else{
-            //TODO: Save into database
 
+            //TODO: Save into database
+            ClassInfo classInfo = new ClassInfo(className);
+            mClassesRepository.save(classInfo);
 
             mEditClassView.returnToClassesUi();
         }

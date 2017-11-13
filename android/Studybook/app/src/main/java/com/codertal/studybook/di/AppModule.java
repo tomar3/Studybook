@@ -10,9 +10,13 @@ package com.codertal.studybook.di;
 import android.content.Context;
 
 import com.codertal.studybook.app.MainApplication;
+import com.codertal.studybook.data.classes.MyObjectBox;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.objectbox.BoxStore;
 
 /**
  * Inject application-wide dependencies.
@@ -21,8 +25,9 @@ import dagger.Provides;
 public class AppModule {
 
     @Provides
-    Context provideContext(MainApplication application) {
-        return application.getApplicationContext();
+    @Singleton
+    BoxStore provideBoxStore(MainApplication application) {
+        return MyObjectBox.builder().androidContext(application.getApplicationContext()).build();
     }
 
 }

@@ -75,6 +75,9 @@ dependencies {
     implementation "com.f2prateek.dart:henson:$project.dartVersion"
     annotationProcessor "com.f2prateek.dart:henson-processor:$project.dartVersion"
 
+    debugImplementation "io.objectbox:objectbox-android-objectbrowser:$objectboxVersion"
+    releaseImplementation "io.objectbox:objectbox-android:$objectboxVersion"
+
     // Custom Views
     implementation("com.mikepenz:materialdrawer:6.0.1@aar") {
         transitive = true
@@ -83,3 +86,4 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.objectbox'

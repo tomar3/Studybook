@@ -19,12 +19,17 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
+import io.objectbox.BoxStore;
+import io.objectbox.android.AndroidObjectBrowser;
 import timber.log.Timber;
 
 public class MainApplication extends Application implements HasActivityInjector {
 
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
+
+    @Inject
+    BoxStore boxStore;
 
     @Override
     public void onCreate() {
@@ -37,10 +42,13 @@ public class MainApplication extends Application implements HasActivityInjector 
                 .build()
                 .inject(this);
 
-        //Set up Timber
+        //Set up Timber and ObjectBox data browser
         if(BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
+
+            new AndroidObjectBrowser(boxStore).start(this);
         }
+
 
         //Set up LeakCanary
         if (LeakCanary.isInAnalyzerProcess(this)) {
