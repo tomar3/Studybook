@@ -8,6 +8,7 @@
 package com.codertal.studybook.features.manage.classes;
 
 import com.codertal.studybook.base.BaseRxPresenter;
+import com.codertal.studybook.base.SubscribablePresenter;
 
 public interface ClassesContract {
 
@@ -17,7 +18,7 @@ public interface ClassesContract {
 
     }
 
-    abstract class Presenter extends BaseRxPresenter {
+    abstract class Presenter extends SubscribablePresenter {
 
         abstract void openAddClass();
     }

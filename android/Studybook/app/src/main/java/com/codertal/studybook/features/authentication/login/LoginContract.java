@@ -7,6 +7,7 @@
 
 package com.codertal.studybook.features.authentication.login;
 
+import com.codertal.studybook.base.SubscribablePresenter;
 import com.codertal.studybook.features.authentication.login.domain.LoginResponse;
 import com.codertal.studybook.base.BaseRxPresenter;
 
@@ -25,7 +26,7 @@ public interface LoginContract {
         void showCancelledMessage();
     }
 
-    abstract class Presenter extends BaseRxPresenter {
+    abstract class Presenter extends SubscribablePresenter {
 
         abstract void loadLogin(int viewId);
 

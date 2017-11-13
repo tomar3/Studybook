@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import io.objectbox.Box;
 import io.objectbox.BoxStore;
+import io.reactivex.Completable;
 
 public class ClassesRepository {
 
@@ -21,7 +22,7 @@ public class ClassesRepository {
         classInfoBox = boxStore.boxFor(ClassInfo.class);
     }
 
-    public void save(ClassInfo entity) {
-        classInfoBox.put(entity);
+    public Completable save(ClassInfo entity) {
+        return Completable.fromAction(() -> classInfoBox.put(entity));
     }
 }

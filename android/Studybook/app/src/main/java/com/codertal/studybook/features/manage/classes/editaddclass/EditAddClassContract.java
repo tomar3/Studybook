@@ -7,6 +7,8 @@
 
 package com.codertal.studybook.features.manage.classes.editaddclass;
 
+import com.codertal.studybook.base.BaseRxPresenter;
+
 public interface EditAddClassContract {
 
     interface View {
@@ -17,8 +19,8 @@ public interface EditAddClassContract {
 
     }
 
-    interface Presenter {
+    abstract class Presenter extends BaseRxPresenter {
 
-        void verifySaveClass(String className);
+        abstract void verifySaveClass(String className);
     }
 }

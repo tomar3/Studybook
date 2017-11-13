@@ -12,7 +12,11 @@ import android.support.annotation.NonNull;
 import com.codertal.studybook.data.classes.ClassInfo;
 import com.codertal.studybook.data.classes.source.ClassesRepository;
 
-public class EditAddClassPresenter implements EditAddClassContract.Presenter{
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableCompletableObserver;
+import io.reactivex.schedulers.Schedulers;
+
+public class EditAddClassPresenter extends EditAddClassContract.Presenter{
 
     @NonNull
     EditAddClassContract.View mEditClassView;
@@ -25,19 +29,28 @@ public class EditAddClassPresenter implements EditAddClassContract.Presenter{
         mClassesRepository = classesRepository;
     }
 
-
     @Override
     public void verifySaveClass(String className) {
 
-        if(className.isEmpty()){
+        if(className.isEmpty()) {
             mEditClassView.showRequiredFields();
-        }else{
-
-            //TODO: Save into database
+        }else {
             ClassInfo classInfo = new ClassInfo(className);
-            mClassesRepository.save(classInfo);
 
-            mEditClassView.returnToClassesUi();
+            mCompositeDisposable.add(mClassesRepository.save(classInfo)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(new DisposableCompletableObserver() {
+                        @Override
+                        public void onComplete() {
+                            mEditClassView.returnToClassesUi();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            //TODO: Show db error toast
+                        }
+                    }));
         }
 
     }

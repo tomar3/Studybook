@@ -9,6 +9,7 @@ package com.codertal.studybook.features.loading;
 
 
 import com.codertal.studybook.base.BaseRxPresenter;
+import com.codertal.studybook.base.SubscribablePresenter;
 
 public interface LoadingContract {
 
@@ -19,7 +20,7 @@ public interface LoadingContract {
     }
 
 
-    abstract class Presenter extends BaseRxPresenter {
+    abstract class Presenter extends SubscribablePresenter {
 
 
     }

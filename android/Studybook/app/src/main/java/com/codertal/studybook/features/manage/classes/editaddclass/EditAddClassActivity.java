@@ -64,6 +64,13 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+
+        mPresenter.unsubscribe();
+    }
+
+    @Override
     public void returnToClassesUi() {
         finish();
     }

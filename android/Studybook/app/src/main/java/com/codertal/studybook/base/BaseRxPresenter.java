@@ -20,8 +20,6 @@ public abstract class BaseRxPresenter {
         mCompositeDisposable = new CompositeDisposable();
     }
 
-    public abstract void subscribe();
-
     public void unsubscribe(){
         mCompositeDisposable.clear();
     }
