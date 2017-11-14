@@ -41,13 +41,27 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
         if(className.isEmpty()) {
             mEditClassView.showRequiredFields();
         }else {
+            mEditClassView.showLoadingIndicator(true);
+
             ClassInfo classInfo = new ClassInfo(className);
 
             mCompositeDisposable.add(mClassesRepository.save(classInfo)
                     .subscribeOn(Schedulers.io())
                     .observeOn(mMainScheduler)
-                    .subscribe(mEditClassView::returnToClassesUi, mEditClassView::showSaveError));
+                    .subscribe(this::returnToClasses, this::displaySaveError));
         }
 
+    }
+
+    private void returnToClasses() {
+        mEditClassView.showLoadingIndicator(false);
+        mEditClassView.returnToClassesUi();
+    }
+
+    private void displaySaveError(Throwable error) {
+        //TODO: Log error to server
+
+        mEditClassView.showLoadingIndicator(false);
+        mEditClassView.showSaveError();
     }
 }

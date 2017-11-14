@@ -17,7 +17,9 @@ public interface EditAddClassContract {
 
         void showRequiredFields();
 
-        void showSaveError(Throwable error);
+        void showSaveError();
+
+        void showLoadingIndicator(boolean loading);
 
     }
 

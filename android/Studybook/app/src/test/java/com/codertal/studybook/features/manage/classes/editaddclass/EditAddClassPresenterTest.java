@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import io.reactivex.Completable;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.Schedulers;
 
@@ -38,6 +39,8 @@ public class EditAddClassPresenterTest {
 
     private EditAddClassPresenter editAddClassPresenter;
 
+    private final String REAL_CLASS_NAME = "Class name";
+
     @Before
     public void setUp(){
         editAddClassPresenter = new EditAddClassPresenter(editAddClassView, classesRepository,
@@ -59,17 +62,66 @@ public class EditAddClassPresenterTest {
         verify(editAddClassView, times(0)).returnToClassesUi();
     }
 
+    @Test
+    public void verifySaveClass_WhenAllRequiredFieldsGiven_ShouldShowLoadingIndicator() {
+        when(classesRepository.save(any(ClassInfo.class))).thenReturn(complete());
+
+        editAddClassPresenter.verifySaveClass(REAL_CLASS_NAME);
+
+        verify(editAddClassView).showLoadingIndicator(true);
+    }
+
 
     @Test
     public void verifySaveClass_WhenAllRequiredFieldsGiven_ShouldReturnToClassesUi() {
         when(classesRepository.save(any(ClassInfo.class))).thenReturn(complete());
 
-        editAddClassPresenter.verifySaveClass("Class Name");
+        editAddClassPresenter.verifySaveClass(REAL_CLASS_NAME);
 
         verify(editAddClassView).returnToClassesUi();
         verify(editAddClassView, times(0)).showRequiredFields();
     }
 
-    //TODO: TEST COMPLETEABLE ERROR
+    @Test
+    public void verifySaveClass_WhenAllRequiredFieldsGiven_ShouldSaveClass() {
+        when(classesRepository.save(any(ClassInfo.class))).thenReturn(complete());
+
+        editAddClassPresenter.verifySaveClass(REAL_CLASS_NAME);
+
+        verify(classesRepository).save(any(ClassInfo.class));
+    }
+
+    @Test
+    public void verifySaveClass_WhenClassSaved_ShouldStopShowingLoadingIndicator() {
+        when(classesRepository.save(any(ClassInfo.class))).thenReturn(complete());
+
+        editAddClassPresenter.verifySaveClass(REAL_CLASS_NAME);
+
+        verify(editAddClassView).showLoadingIndicator(false);
+    }
+
+
+
+    @Test
+    public void verifySaveClass_WhenDatabaseError_ShouldShowSaveError() {
+        when(classesRepository.save(any(ClassInfo.class)))
+                .thenReturn(Completable.error(new Throwable("db error")));
+
+        editAddClassPresenter.verifySaveClass(REAL_CLASS_NAME);
+
+        verify(editAddClassView).showSaveError();
+        verify(editAddClassView, times(0)).returnToClassesUi();
+    }
+
+
+    @Test
+    public void verifySaveClass_WhenDatabaseError_ShouldStopShowingLoading() {
+        when(classesRepository.save(any(ClassInfo.class)))
+                .thenReturn(Completable.error(new Throwable("db error")));
+
+        editAddClassPresenter.verifySaveClass(REAL_CLASS_NAME);
+
+        verify(editAddClassView).showLoadingIndicator(false);
+    }
 
 }
