@@ -16,6 +16,7 @@ import com.codertal.studybook.features.authentication.login.domain.LoginResponse
 import com.codertal.studybook.util.ClickManager;
 
 import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -30,15 +31,12 @@ public class LoginPresenter extends LoginContract.Presenter {
 
     private final UsersRepository mUsersRepository;
 
-    private final Scheduler mMainScheduler;
-
     private final ClickManager mClickManager;
 
     public LoginPresenter(@NonNull LoginContract.View loginView, @NonNull UsersRepository usersRepository,
-                          @NonNull Scheduler mainScheduler, @NonNull ClickManager clickManager) {
+                          @NonNull ClickManager clickManager) {
         mLoginView = loginView;
         mUsersRepository = usersRepository;
-        mMainScheduler = mainScheduler;
         mClickManager = clickManager;
     }
 
@@ -65,7 +63,7 @@ public class LoginPresenter extends LoginContract.Presenter {
     private void loadCurrentUser() {
         mCompositeDisposable.add(mUsersRepository.getCurrentUser()
                 .subscribeOn(Schedulers.io())
-                .observeOn(mMainScheduler)
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<User>(){
                     @Override
                     public void onSuccess(User currentUser) {

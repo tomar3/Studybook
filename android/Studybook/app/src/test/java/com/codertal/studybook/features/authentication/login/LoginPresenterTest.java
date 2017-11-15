@@ -21,6 +21,7 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import io.reactivex.Single;
+import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.Schedulers;
 
@@ -46,8 +47,9 @@ public class LoginPresenterTest {
 
     @Before
     public void setUp() {
-        loginPresenter = new LoginPresenter(loginView, usersRepository, Schedulers.trampoline(), clickManager);
+        loginPresenter = new LoginPresenter(loginView, usersRepository, clickManager);
         RxJavaPlugins.setIoSchedulerHandler(scheduler -> Schedulers.trampoline());
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler(__ -> Schedulers.trampoline());
     }
 
     @After

@@ -1,19 +1,21 @@
 /*
- * Created by Talab Omar on 11/8/17 12:33 PM
+ * Created by Talab Omar.
  * Copyright (c) 2017. All rights reserved.
- *
- * Last modified 11/8/17 12:33 PM
  */
 
 package com.codertal.studybook.features.manage.classes;
 
-import com.codertal.studybook.base.BaseRxPresenter;
 import com.codertal.studybook.base.SubscribablePresenter;
+import com.codertal.studybook.data.classes.ClassInfo;
+
+import java.util.List;
 
 public interface ClassesContract {
 
     interface View {
 
+        void displayClasses(List<ClassInfo> classes);
+        void displayLoadingError();
         void showAddClassUi();
 
     }

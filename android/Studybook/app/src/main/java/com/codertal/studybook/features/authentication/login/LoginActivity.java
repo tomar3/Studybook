@@ -75,8 +75,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         //TODO: remove once done with login screen
         //FirebaseAuth.getInstance().signOut();
 
-        mPresenter = new LoginPresenter(this, mUsersRepository, AndroidSchedulers.mainThread(),
-                mClickManager);
+        mPresenter = new LoginPresenter(this, mUsersRepository, mClickManager);
     }
 
     @Override

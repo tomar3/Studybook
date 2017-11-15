@@ -17,6 +17,9 @@ public class ClassInfo {
 
     private String name;
 
+    public ClassInfo() {
+    }
+
     public ClassInfo(String name) {
         this.name = name;
         id = 0; //ObjectBox will assign unique id

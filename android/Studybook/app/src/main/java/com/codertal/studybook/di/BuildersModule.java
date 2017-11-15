@@ -10,6 +10,7 @@ package com.codertal.studybook.di;
 import com.codertal.studybook.data.modules.ClassesModule;
 import com.codertal.studybook.data.modules.UsersModule;
 import com.codertal.studybook.features.authentication.login.LoginActivity;
+import com.codertal.studybook.features.manage.classes.ClassesActivity;
 import com.codertal.studybook.features.manage.classes.editaddclass.EditAddClassActivity;
 
 import dagger.Module;
@@ -26,4 +27,7 @@ public abstract class BuildersModule {
 
     @ContributesAndroidInjector(modules = ClassesModule.class)
     abstract EditAddClassActivity bindEditAddClassActivity();
+
+    @ContributesAndroidInjector(modules = ClassesModule.class)
+    abstract ClassesActivity bindClassesActivity();
 }
