@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.codertal.studybook.R;
 import com.codertal.studybook.data.classes.ClassInfo;
@@ -28,6 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
+import es.dmoral.toasty.Toasty;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
 
@@ -46,6 +48,7 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
     private EditAddClassContract.Presenter mPresenter;
     private boolean mLoadingSave;
     private Runnable mRotateRunnable;
+    private Toast mErrorToast;
 
 
     @Override
@@ -64,6 +67,10 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
 
         setUpRotateRunnable();
         mLoadingSave = false;
+        mErrorToast = Toasty.error(this,
+                getString(R.string.edit_unable_to_save),
+                Toast.LENGTH_LONG,
+                true);
 
         mPresenter = new EditAddClassPresenter(this, mClassesRepository,
                 AndroidSchedulers.mainThread());
@@ -74,6 +81,10 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
         super.onStop();
 
         mPresenter.unsubscribe();
+
+        if(mErrorToast != null){
+            mErrorToast.cancel();
+        }
     }
 
     @Override
@@ -88,7 +99,7 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
 
     @Override
     public void showSaveError() {
-
+        mErrorToast.show();
     }
 
     @Override

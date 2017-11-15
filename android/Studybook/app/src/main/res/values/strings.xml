@@ -25,6 +25,7 @@
     <!--edit-add-class screen-->
     <string name="title_activity_edit_add_class">Add class</string>
     <string name="edit_class_name">Class name</string>
+    <string name="edit_unable_to_save">Unable to save, try again soon</string>
 
 
     <!--shared-->
