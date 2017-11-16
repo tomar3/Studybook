@@ -70,10 +70,8 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
         //Manually displaying the first fragment - one time only
-        BaseTabFragment defaultFragment = HomeworkFragment.newInstance();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fl_dash_fragment, defaultFragment, defaultFragment.getFragmentTag());
-        transaction.commit();
+        //TODO: Change selected tab to 0th position
+        bottomBar.selectTabAtPosition(3, true);
     }
 
     private void setUpDrawer(Toolbar toolbar) {

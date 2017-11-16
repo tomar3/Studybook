@@ -42,6 +42,11 @@ public class ClassesPresenter extends ClassesContract.Presenter {
         mClassesView.showAddClassUi();
     }
 
+    @Override
+    void openEditClass(long classId) {
+        mClassesView.showEditClassUi(classId);
+    }
+
     private void displayError(Throwable error) {
         Timber.e(error);
 

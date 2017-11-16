@@ -8,8 +8,10 @@
 package com.codertal.studybook.features.manage.classes.editaddclass;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,7 +23,9 @@ import android.widget.Toast;
 import com.codertal.studybook.R;
 import com.codertal.studybook.data.classes.ClassInfo;
 import com.codertal.studybook.data.classes.source.ClassesRepository;
+import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.HensonNavigable;
+import com.f2prateek.dart.InjectExtra;
 
 import javax.inject.Inject;
 
@@ -33,7 +37,6 @@ import es.dmoral.toasty.Toasty;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
 
-@HensonNavigable
 public class EditAddClassActivity extends AppCompatActivity implements EditAddClassContract.View {
 
     @BindView(R.id.et_class_name)
@@ -42,13 +45,19 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
     @BindView(R.id.fab_save_class)
     FloatingActionButton mSaveFab;
 
+    @BindView(R.id.il_class_name)
+    TextInputLayout mEditClassNameLayout;
+
     @Inject
     ClassesRepository mClassesRepository;
+
+    @Nullable
+    @InjectExtra
+    Long mClassId;
 
     private EditAddClassContract.Presenter mPresenter;
     private boolean mLoadingSave;
     private Runnable mRotateRunnable;
-    private Toast mErrorToast;
 
 
     @Override
@@ -57,6 +66,7 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_add_class);
         ButterKnife.bind(this);
+        Dart.inject(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -67,13 +77,16 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
 
         setUpRotateRunnable();
         mLoadingSave = false;
-        mErrorToast = Toasty.error(this,
-                getString(R.string.edit_unable_to_save),
-                Toast.LENGTH_LONG,
-                true);
 
-        mPresenter = new EditAddClassPresenter(this, mClassesRepository,
-                AndroidSchedulers.mainThread());
+        mPresenter = new EditAddClassPresenter(this, mClassesRepository);
+
+        //If class id given, fill fields with class info
+        if(mClassId != null){
+            setTitle(getString(R.string.title_edit_class));
+            mEditClassNameLayout.setHintAnimationEnabled(false);
+
+            mPresenter.loadClassInfo(mClassId);
+        }
     }
 
     @Override
@@ -81,10 +94,6 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
         super.onStop();
 
         mPresenter.unsubscribe();
-
-        if(mErrorToast != null){
-            mErrorToast.cancel();
-        }
     }
 
     @Override
@@ -99,7 +108,10 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
 
     @Override
     public void showSaveError() {
-        mErrorToast.show();
+        Toasty.error(this,
+                getString(R.string.edit_unable_to_save),
+                Toast.LENGTH_LONG,
+                true).show();
     }
 
     @Override
@@ -120,6 +132,22 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
                     ContextCompat.getDrawable(EditAddClassActivity.this, R.drawable.half_circle)),
                     100);
         }
+    }
+
+    @Override
+    public void fillClassInfo(ClassInfo classInfo) {
+        mEditClassName.setText(classInfo.getName());
+        mEditClassNameLayout.setHintAnimationEnabled(true);
+    }
+
+    @Override
+    public void showLoadError() {
+        Toasty.error(this,
+                getString(R.string.edit_unable_to_load),
+                Toast.LENGTH_LONG,
+                true).show();
+
+        finish();
     }
 
     @OnClick(R.id.fab_save_class)

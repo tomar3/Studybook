@@ -33,4 +33,8 @@ public class ClassesRepository {
         return Single.fromCallable(classInfoBox::getAll);
     }
 
+    public Single<ClassInfo> getClassInfo(long classId) {
+        return Single.fromCallable(() -> classInfoBox.get(classId));
+    }
+
 }

@@ -9,10 +9,13 @@ package com.codertal.studybook.features.manage.classes;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +26,7 @@ import com.codertal.studybook.R;
 import com.codertal.studybook.data.classes.ClassInfo;
 import com.codertal.studybook.data.classes.source.ClassesRepository;
 import com.codertal.studybook.features.manage.classes.adapter.ClassListAdapter;
+import com.codertal.studybook.util.ViewUtils;
 import com.f2prateek.dart.HensonNavigable;
 
 import java.util.List;
@@ -46,12 +50,22 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
     @BindView(R.id.layout_empty_view)
     ViewGroup mEmptyView;
 
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
+    @BindView(R.id.fab_add_class)
+    FloatingActionButton mAddClassFab;
+
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout mAppBarLayout;
+
     @Inject
     ClassesRepository mClassesRepository;
 
     private ClassesContract.Presenter mPresenter;
     private ClassListAdapter mClassListAdapter;
     private Toast mErrorToast;
+    private LinearLayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +74,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
         setContentView(R.layout.activity_classes);
         ButterKnife.bind(this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
 
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -106,11 +119,22 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
     @Override
     public void displayClasses(List<ClassInfo> classes) {
         mClassListAdapter.updateData(classes);
+      //  updateToolbarBehaviour(classes.size());
     }
 
     @Override
     public void displayLoadingError() {
         mErrorToast.show();
+    }
+
+    @Override
+    public void showEditClassUi(long classId) {
+        Intent editClassIntent = Henson.with(this)
+                .gotoEditAddClassActivity()
+                .mClassId(classId)
+                .build();
+
+        startActivity(editClassIntent);
     }
 
     @OnClick(R.id.fab_add_class)
@@ -120,7 +144,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
 
     @Override
     public void onClassClick(ClassInfo selectedClass) {
-
+        mPresenter.openEditClass(selectedClass.getId());
     }
 
     private void setUpEmptyView(){
@@ -132,14 +156,37 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
     }
 
     private void setUpClassesRecycler() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,
+        mLayoutManager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
-        mClassesRecycler.setLayoutManager(linearLayoutManager);
+        mClassesRecycler.setLayoutManager(mLayoutManager);
 
         mClassesRecycler.setHasFixedSize(true);
 
         mClassListAdapter = new ClassListAdapter(this, mEmptyView);
 
         mClassesRecycler.setAdapter(mClassListAdapter);
+
+        mClassesRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && mAddClassFab.getVisibility() == View.VISIBLE) {
+                    mAddClassFab.hide();
+                } else if (dy < 0 && mAddClassFab.getVisibility() != View.VISIBLE) {
+                    mAddClassFab.show();
+                }
+            }
+        });
+    }
+
+    private void updateToolbarBehaviour(int dataSize){
+        mToolbar.postDelayed(() -> {
+            if (mLayoutManager.findLastCompletelyVisibleItemPosition() == dataSize-1) {
+                ViewUtils.turnOffToolbarScrolling(mToolbar, mAppBarLayout);
+            } else {
+                ViewUtils.turnOnToolbarScrolling(mToolbar, mAppBarLayout);
+            }
+        }, 100);
+
     }
 }

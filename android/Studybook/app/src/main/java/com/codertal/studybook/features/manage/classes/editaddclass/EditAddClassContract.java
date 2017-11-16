@@ -8,6 +8,7 @@
 package com.codertal.studybook.features.manage.classes.editaddclass;
 
 import com.codertal.studybook.base.BaseRxPresenter;
+import com.codertal.studybook.data.classes.ClassInfo;
 
 public interface EditAddClassContract {
 
@@ -21,10 +22,16 @@ public interface EditAddClassContract {
 
         void showLoadingIndicator(boolean loading);
 
+        void fillClassInfo(ClassInfo classInfo);
+
+        void showLoadError();
+
     }
 
     abstract class Presenter extends BaseRxPresenter {
 
         abstract void verifySaveClass(String className);
+
+        abstract void loadClassInfo(long classId);
     }
 }

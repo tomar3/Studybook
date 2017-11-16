@@ -15,6 +15,7 @@ import com.codertal.studybook.data.classes.source.ClassesRepository;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableCompletableObserver;
+import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -24,15 +25,13 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
     private EditAddClassContract.View mEditClassView;
 
     private ClassesRepository mClassesRepository;
+    private ClassInfo mLoadedClassInfo;
 
-    private Scheduler mMainScheduler;
 
     public EditAddClassPresenter(@NonNull EditAddClassContract.View editClassView,
-                                 @NonNull ClassesRepository classesRepository,
-                                 @NonNull Scheduler mainScheduler) {
+                                 @NonNull ClassesRepository classesRepository) {
         mEditClassView = editClassView;
         mClassesRepository = classesRepository;
-        mMainScheduler = mainScheduler;
     }
 
     @Override
@@ -43,14 +42,42 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
         }else {
             mEditClassView.showLoadingIndicator(true);
 
-            ClassInfo classInfo = new ClassInfo(className);
+            ClassInfo saveClassInfo;
 
-            mCompositeDisposable.add(mClassesRepository.save(classInfo)
+            if(mLoadedClassInfo == null) {
+                saveClassInfo = new ClassInfo(className);
+            }else {
+                saveClassInfo = mLoadedClassInfo;
+                saveClassInfo.setName(className);
+            }
+
+            mCompositeDisposable.add(mClassesRepository.save(saveClassInfo)
                     .subscribeOn(Schedulers.io())
-                    .observeOn(mMainScheduler)
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(this::returnToClasses, this::displaySaveError));
         }
 
+    }
+
+    @Override
+    void loadClassInfo(long classId) {
+        mCompositeDisposable.add(mClassesRepository.getClassInfo(classId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<ClassInfo>() {
+                    @Override
+                    public void onSuccess(ClassInfo classInfo) {
+                        mLoadedClassInfo = classInfo;
+                        mEditClassView.fillClassInfo(classInfo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.d(e);
+
+                        mEditClassView.showLoadError();
+                    }
+                }));
     }
 
     private void returnToClasses() {
@@ -59,7 +86,7 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
     }
 
     private void displaySaveError(Throwable error) {
-        //TODO: Log error to server
+        Timber.d(error);
 
         mEditClassView.showLoadingIndicator(false);
         mEditClassView.showSaveError();

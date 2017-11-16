@@ -46,12 +46,14 @@ public class ClassesPresenterTest {
     private ClassesPresenter classesPresenter;
 
     private List<ClassInfo> MANY_CLASSES;
+    private long CLASS_ID;
 
     @Before
     public void setUp(){
         classesPresenter = new ClassesPresenter(classesView, classesRepository);
         MANY_CLASSES = Arrays.asList(new ClassInfo("1"), new ClassInfo("2"),
                 new ClassInfo("3"));
+        CLASS_ID = 1;
 
         RxJavaPlugins.setIoSchedulerHandler(__ -> Schedulers.trampoline());
         RxAndroidPlugins.setInitMainThreadSchedulerHandler(__ -> Schedulers.trampoline());
@@ -95,6 +97,13 @@ public class ClassesPresenterTest {
         classesPresenter.subscribe();
 
         verify(classesView).displayLoadingError();
+    }
+
+    @Test
+    public void openEditClass_ShouldShowEditClassUi(){
+        classesPresenter.openEditClass(CLASS_ID);
+
+        verify(classesView).showEditClassUi(CLASS_ID);
     }
 
 }

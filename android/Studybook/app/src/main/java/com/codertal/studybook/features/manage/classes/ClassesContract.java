@@ -17,11 +17,12 @@ public interface ClassesContract {
         void displayClasses(List<ClassInfo> classes);
         void displayLoadingError();
         void showAddClassUi();
-
+        void showEditClassUi(long classId);
     }
 
     abstract class Presenter extends SubscribablePresenter {
 
         abstract void openAddClass();
+        abstract void openEditClass(long classId);
     }
 }

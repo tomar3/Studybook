@@ -17,6 +17,8 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import io.reactivex.Completable;
+import io.reactivex.Single;
+import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.Schedulers;
 
@@ -39,13 +41,19 @@ public class EditAddClassPresenterTest {
 
     private EditAddClassPresenter editAddClassPresenter;
 
-    private final String REAL_CLASS_NAME = "Class name";
+    private String REAL_CLASS_NAME;
+    private ClassInfo REAL_CLASS_INFO;
+    private long CLASS_ID;
 
     @Before
     public void setUp(){
-        editAddClassPresenter = new EditAddClassPresenter(editAddClassView, classesRepository,
-                Schedulers.trampoline());
+        editAddClassPresenter = new EditAddClassPresenter(editAddClassView, classesRepository);
+        REAL_CLASS_NAME = "Class name";
+        REAL_CLASS_INFO = new ClassInfo(REAL_CLASS_NAME);
+        CLASS_ID = 1;
+
         RxJavaPlugins.setIoSchedulerHandler(scheduler -> Schedulers.trampoline());
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler(__ -> Schedulers.trampoline());
     }
 
     @After
@@ -122,6 +130,24 @@ public class EditAddClassPresenterTest {
         editAddClassPresenter.verifySaveClass(REAL_CLASS_NAME);
 
         verify(editAddClassView).showLoadingIndicator(false);
+    }
+
+    @Test
+    public void verifyLoadClassInfo_WhenDatabaseSuccess_ShouldFillClassInfo() {
+        when(classesRepository.getClassInfo(CLASS_ID)).thenReturn(Single.just(REAL_CLASS_INFO));
+
+        editAddClassPresenter.loadClassInfo(CLASS_ID);
+
+        verify(editAddClassView).fillClassInfo(REAL_CLASS_INFO);
+    }
+
+    @Test
+    public void verifyLoadClassInfo_WhenDatabaseError_ShouldShowLoadError() {
+        when(classesRepository.getClassInfo(CLASS_ID)).thenReturn(Single.error(new Throwable("db error")));
+
+        editAddClassPresenter.loadClassInfo(CLASS_ID);
+
+        verify(editAddClassView).showLoadError();
     }
 
 }
