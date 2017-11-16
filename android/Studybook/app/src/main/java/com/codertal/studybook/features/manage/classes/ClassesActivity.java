@@ -118,8 +118,8 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
 
     @Override
     public void displayClasses(List<ClassInfo> classes) {
-        mClassListAdapter.updateData(classes);
-      //  updateToolbarBehaviour(classes.size());
+       mClassListAdapter.updateData(classes);
+       // updateToolbarBehaviour(classes.size());
     }
 
     @Override
@@ -149,10 +149,10 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
 
     private void setUpEmptyView(){
         TextView emptyMessage = mEmptyView.findViewById(R.id.tv_empty_message);
-        emptyMessage.setText("Click the '+' to add a class");
+        emptyMessage.setText(getString(R.string.class_empty_classes));
 
         ImageView emptyImage = mEmptyView.findViewById(R.id.iv_empty);
-        emptyImage.setImageResource(R.drawable.app_logo);
+        emptyImage.setImageResource(R.drawable.ic_school);
     }
 
     private void setUpClassesRecycler() {

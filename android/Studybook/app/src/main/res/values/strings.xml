@@ -21,6 +21,7 @@
     <!--classes screen-->
     <string name="title_activity_classes">Classes</string>
     <string name="class_unable_to_load">Unable to load classes, try again soon</string>
+    <string name="class_empty_classes">Click the \'+\' to add a class</string>
 
 
     <!--edit-add-class screen-->

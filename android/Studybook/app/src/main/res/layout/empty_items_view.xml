@@ -26,7 +26,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:srcCompat="@drawable/app_logo" />
+        tools:srcCompat="@drawable/app_logo"
+        android:tint="@color/md_grey_500"/>
 
     <TextView
         android:id="@+id/tv_empty_message"
