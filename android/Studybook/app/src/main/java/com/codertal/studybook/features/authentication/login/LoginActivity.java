@@ -8,27 +8,20 @@
 package com.codertal.studybook.features.authentication.login;
 
 import android.content.Intent;
-import android.os.Build;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.codertal.studybook.BuildConfig;
 import com.codertal.studybook.Henson;
 import com.codertal.studybook.R;
-import com.codertal.studybook.data.users.source.UsersRepository;
+import com.codertal.studybook.data.users.UsersRepository;
 import com.codertal.studybook.features.authentication.login.domain.LoginResponseAdapter;
-import com.codertal.studybook.features.dashboard.DashboardActivity;
-import com.codertal.studybook.features.loading.LoadingActivity;
 import com.codertal.studybook.util.ClickManager;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Arrays;
 
@@ -38,8 +31,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import timber.log.Timber;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
     @BindView(R.id.cl_login)

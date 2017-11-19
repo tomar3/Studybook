@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "2:2686379604529376997",
-      "lastPropertyId": "2:5364157537764494771",
+      "lastPropertyId": "3:5917895228380309868",
       "name": "ClassInfo",
       "properties": [
         {
@@ -15,13 +15,34 @@
         {
           "id": "2:5364157537764494771",
           "name": "name"
+        },
+        {
+          "id": "3:5917895228380309868",
+          "indexId": "1:96452646667009362",
+          "name": "teacherId"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:9132832055355833754",
+      "lastPropertyId": "2:7516849977673235315",
+      "name": "Teacher",
+      "properties": [
+        {
+          "id": "1:154553095876998634",
+          "name": "id"
+        },
+        {
+          "id": "2:7516849977673235315",
+          "name": "name"
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "2:2686379604529376997",
-  "lastIndexId": "0:0",
+  "lastEntityId": "3:9132832055355833754",
+  "lastIndexId": "1:96452646667009362",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 4,

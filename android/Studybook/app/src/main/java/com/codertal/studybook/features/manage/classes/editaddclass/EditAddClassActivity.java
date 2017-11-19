@@ -10,22 +10,28 @@ package com.codertal.studybook.features.manage.classes.editaddclass;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.codertal.studybook.R;
 import com.codertal.studybook.data.classes.ClassInfo;
-import com.codertal.studybook.data.classes.source.ClassesRepository;
+import com.codertal.studybook.data.classes.ClassesRepository;
+import com.codertal.studybook.data.teachers.Teacher;
+import com.codertal.studybook.data.teachers.TeachersRepository;
+import com.codertal.studybook.features.manage.classes.adapter.HintAdapter;
 import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.HensonNavigable;
 import com.f2prateek.dart.InjectExtra;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -34,8 +40,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import es.dmoral.toasty.Toasty;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import timber.log.Timber;
 
 public class EditAddClassActivity extends AppCompatActivity implements EditAddClassContract.View {
 
@@ -48,8 +52,14 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
     @BindView(R.id.il_class_name)
     TextInputLayout mEditClassNameLayout;
 
+    @BindView(R.id.spinner_teacher)
+    Spinner mTeacherSpinner;
+
     @Inject
     ClassesRepository mClassesRepository;
+
+    @Inject
+    TeachersRepository mTeachersRepository;
 
     @Nullable
     @InjectExtra
@@ -78,7 +88,7 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
         setUpRotateRunnable();
         mLoadingSave = false;
 
-        mPresenter = new EditAddClassPresenter(this, mClassesRepository);
+        mPresenter = new EditAddClassPresenter(this, mClassesRepository, mTeachersRepository);
 
         //If class id given, fill fields with class info
         if(mClassId != null){
@@ -87,6 +97,15 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
 
             mPresenter.loadClassInfo(mClassId);
         }
+
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        mPresenter.subscribe();
     }
 
     @Override
@@ -141,13 +160,28 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
     }
 
     @Override
-    public void showLoadError() {
+    public void showLoadClassInfoError() {
         Toasty.error(this,
                 getString(R.string.edit_unable_to_load),
                 Toast.LENGTH_LONG,
                 true).show();
 
         finish();
+    }
+
+    @Override
+    public void showLoadTeachersError() {
+        Toasty.warning(this,
+                getString(R.string.edit_unable_to_load),
+                Toast.LENGTH_LONG,
+                true).show();
+
+        setUpTeacherSpinner(new ArrayList<>());
+    }
+
+    @Override
+    public void fillTeacherOptionsList(List<String> teacherOptionsList) {
+        setUpTeacherSpinner(teacherOptionsList);
     }
 
     @OnClick(R.id.fab_save_class)
@@ -183,5 +217,36 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
                 .setDuration(1000)
                 .setInterpolator(new LinearInterpolator())
                 .start();
+    }
+
+
+    private void setUpTeacherSpinner(List<String> teacherOptions) {
+        teacherOptions.add(0, getString(R.string.edit_teacher_none));
+        teacherOptions.add(1, getString(R.string.edit_teacher_add_new));
+
+        HintAdapter teacherDataAdapter = new HintAdapter(this,
+                android.R.layout.simple_spinner_item, teacherOptions);
+
+        teacherDataAdapter.setDropDownViewResource(R.layout.spinner_item);
+
+        mTeacherSpinner.setAdapter(teacherDataAdapter);
+
+        mTeacherSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItemText = (String) parent.getItemAtPosition(position);
+
+                if(position > 0){
+                    Toast.makeText
+                            (getApplicationContext(), "Selected : " + selectedItemText, Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 }

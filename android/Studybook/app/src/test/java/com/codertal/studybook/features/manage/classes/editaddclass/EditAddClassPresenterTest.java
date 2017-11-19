@@ -6,7 +6,9 @@
 package com.codertal.studybook.features.manage.classes.editaddclass;
 
 import com.codertal.studybook.data.classes.ClassInfo;
-import com.codertal.studybook.data.classes.source.ClassesRepository;
+import com.codertal.studybook.data.classes.ClassesRepository;
+import com.codertal.studybook.data.teachers.Teacher;
+import com.codertal.studybook.data.teachers.TeachersRepository;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,6 +18,9 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import java.util.Arrays;
+import java.util.List;
+
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.android.plugins.RxAndroidPlugins;
@@ -24,6 +29,7 @@ import io.reactivex.schedulers.Schedulers;
 
 import static io.reactivex.Completable.complete;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -39,18 +45,23 @@ public class EditAddClassPresenterTest {
     @Mock
     private ClassesRepository classesRepository;
 
+    @Mock
+    private TeachersRepository teachersRepository;
+
     private EditAddClassPresenter editAddClassPresenter;
 
     private String REAL_CLASS_NAME;
     private ClassInfo REAL_CLASS_INFO;
     private long CLASS_ID;
+    private List<Teacher> MANY_TEACHERS;
 
     @Before
     public void setUp(){
-        editAddClassPresenter = new EditAddClassPresenter(editAddClassView, classesRepository);
+        editAddClassPresenter = new EditAddClassPresenter(editAddClassView, classesRepository, teachersRepository);
         REAL_CLASS_NAME = "Class name";
         REAL_CLASS_INFO = new ClassInfo(REAL_CLASS_NAME);
         CLASS_ID = 1;
+        MANY_TEACHERS = Arrays.asList(new Teacher("Name1"), new Teacher("Name2"));
 
         RxJavaPlugins.setIoSchedulerHandler(scheduler -> Schedulers.trampoline());
         RxAndroidPlugins.setInitMainThreadSchedulerHandler(__ -> Schedulers.trampoline());
@@ -147,7 +158,25 @@ public class EditAddClassPresenterTest {
 
         editAddClassPresenter.loadClassInfo(CLASS_ID);
 
-        verify(editAddClassView).showLoadError();
+        verify(editAddClassView).showLoadClassInfoError();
+    }
+
+    @Test
+    public void subscribe_WhenDatabaseSuccess_ShouldFillTeacherOptionsList() {
+        when(teachersRepository.getAllTeachers()).thenReturn(Single.just(MANY_TEACHERS));
+
+        editAddClassPresenter.subscribe();
+
+        verify(editAddClassView).fillTeacherOptionsList(anyList());
+    }
+
+    @Test
+    public void subscribe_WhenDatabaseError_ShouldShowLoadError() {
+        when(teachersRepository.getAllTeachers()).thenReturn(Single.error(new Throwable("db error")));
+
+        editAddClassPresenter.subscribe();
+
+        verify(editAddClassView).showLoadTeachersError();
     }
 
 }

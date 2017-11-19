@@ -9,7 +9,7 @@ package com.codertal.studybook.features.manage.classes;
 
 import android.support.annotation.NonNull;
 
-import com.codertal.studybook.data.classes.source.ClassesRepository;
+import com.codertal.studybook.data.classes.ClassesRepository;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;

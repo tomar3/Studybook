@@ -10,7 +10,7 @@ package com.codertal.studybook.features.loading;
 import android.support.annotation.NonNull;
 
 import com.codertal.studybook.data.database.DatabaseRepository;
-import com.codertal.studybook.data.users.source.UsersRepository;
+import com.codertal.studybook.data.users.UsersRepository;
 
 import static com.codertal.studybook.util.UserUtils.UserConstants.TEMP_USER;
 

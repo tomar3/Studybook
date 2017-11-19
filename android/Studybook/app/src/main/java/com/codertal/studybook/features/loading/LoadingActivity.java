@@ -13,9 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.codertal.studybook.R;
 import com.codertal.studybook.data.database.DatabaseRepository;
-import com.codertal.studybook.data.users.source.UsersRepository;
-import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.InjectExtra;
+import com.codertal.studybook.data.users.UsersRepository;
 
 
 public class LoadingActivity extends AppCompatActivity implements LoadingContract.View{

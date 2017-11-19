@@ -1,6 +1,6 @@
 package com.codertal.studybook.data.modules;
 
-import com.codertal.studybook.data.users.source.UsersRepository;
+import com.codertal.studybook.data.users.UsersRepository;
 
 import dagger.Module;
 import dagger.Provides;

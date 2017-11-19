@@ -7,8 +7,11 @@
 
 package com.codertal.studybook.data.classes;
 
+import com.codertal.studybook.data.teachers.Teacher;
+
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
+import io.objectbox.relation.ToOne;
 
 @Entity
 public class ClassInfo {
@@ -17,11 +20,19 @@ public class ClassInfo {
 
     private String name;
 
+    private ToOne<Teacher> teacher;
+
     public ClassInfo() {
     }
 
     public ClassInfo(String name) {
         this.name = name;
+        id = 0;
+    }
+
+    public ClassInfo(String name, Teacher teacher) {
+        this.name = name;
+        this.teacher.setTarget(teacher);
         id = 0; //ObjectBox will assign unique id
     }
 
@@ -39,5 +50,13 @@ public class ClassInfo {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public ToOne<Teacher> getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(ToOne<Teacher> teacher) {
+        this.teacher = teacher;
     }
 }

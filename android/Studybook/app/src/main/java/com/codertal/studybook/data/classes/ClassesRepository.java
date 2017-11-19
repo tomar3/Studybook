@@ -1,9 +1,9 @@
 /*
- * Created by Talab Omar
+ * Created by Talab Omar.
  * Copyright (c) 2017. All rights reserved.
  */
 
-package com.codertal.studybook.data.classes.source;
+package com.codertal.studybook.data.classes;
 
 import com.codertal.studybook.data.classes.ClassInfo;
 

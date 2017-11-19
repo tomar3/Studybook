@@ -7,10 +7,8 @@
 
 package com.codertal.studybook.di;
 
-import android.content.Context;
-
 import com.codertal.studybook.app.MainApplication;
-import com.codertal.studybook.data.classes.MyObjectBox;
+import com.codertal.studybook.data.MyObjectBox;
 
 import javax.inject.Singleton;
 

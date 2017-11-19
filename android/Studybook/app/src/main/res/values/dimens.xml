@@ -1,8 +1,6 @@
 <!--
-  ~ Created by Talab Omar on 11/5/17 12:47 PM
+  ~ Created by Talab Omar.
   ~ Copyright (c) 2017. All rights reserved.
-  ~
-  ~ Last modified 11/5/17 12:47 PM
   -->
 
 <resources>
@@ -14,4 +12,7 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="fab_normal_size_with_margin">72dp</dimen>
+
+    <!--edit add class activity-->
+    <dimen name="edit_class_label_size">16sp</dimen>
 </resources>

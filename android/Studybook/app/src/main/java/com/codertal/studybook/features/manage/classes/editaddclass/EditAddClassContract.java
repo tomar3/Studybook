@@ -7,8 +7,11 @@
 
 package com.codertal.studybook.features.manage.classes.editaddclass;
 
-import com.codertal.studybook.base.BaseRxPresenter;
+import com.codertal.studybook.base.SubscribablePresenter;
 import com.codertal.studybook.data.classes.ClassInfo;
+import com.codertal.studybook.data.teachers.Teacher;
+
+import java.util.List;
 
 public interface EditAddClassContract {
 
@@ -24,11 +27,15 @@ public interface EditAddClassContract {
 
         void fillClassInfo(ClassInfo classInfo);
 
-        void showLoadError();
+        void fillTeacherOptionsList(List<String> teacherOptionsList);
+
+        void showLoadClassInfoError();
+
+        void showLoadTeachersError();
 
     }
 
-    abstract class Presenter extends BaseRxPresenter {
+    abstract class Presenter extends SubscribablePresenter {
 
         abstract void verifySaveClass(String className);
 

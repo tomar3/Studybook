@@ -8,7 +8,7 @@
 package com.codertal.studybook.features.authentication.login;
 
 import com.codertal.studybook.data.users.User;
-import com.codertal.studybook.data.users.source.UsersRepository;
+import com.codertal.studybook.data.users.UsersRepository;
 import com.codertal.studybook.features.authentication.login.domain.LoginResponse;
 import com.codertal.studybook.util.ClickManager;
 

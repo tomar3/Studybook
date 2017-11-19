@@ -1,11 +1,9 @@
 /*
- * Created by Talab Omar on 10/28/17 12:18 PM
+ * Created by Talab Omar.
  * Copyright (c) 2017. All rights reserved.
- *
- * Last modified 10/28/17 12:18 PM
  */
 
-package com.codertal.studybook.data.users.source;
+package com.codertal.studybook.data.users;
 
 import com.codertal.studybook.data.users.User;
 import com.google.firebase.auth.FirebaseAuth;

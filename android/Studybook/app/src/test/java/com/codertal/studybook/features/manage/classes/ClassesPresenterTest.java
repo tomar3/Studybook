@@ -8,7 +8,7 @@
 package com.codertal.studybook.features.manage.classes;
 
 import com.codertal.studybook.data.classes.ClassInfo;
-import com.codertal.studybook.data.classes.source.ClassesRepository;
+import com.codertal.studybook.data.classes.ClassesRepository;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,9 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Single;

@@ -5,7 +5,7 @@
 
 package com.codertal.studybook.data.modules;
 
-import com.codertal.studybook.data.classes.source.ClassesRepository;
+import com.codertal.studybook.data.classes.ClassesRepository;
 
 import dagger.Module;
 import dagger.Provides;

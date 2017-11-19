@@ -7,21 +7,7 @@
 
 package com.codertal.studybook.features.loading;
 
-import com.codertal.studybook.data.database.DatabaseRepository;
-import com.codertal.studybook.data.users.source.UsersRepository;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-
-import static com.codertal.studybook.util.UserUtils.UserConstants.TEMP_USER;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 public class LoadingPresenterTest {
 

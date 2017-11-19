@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Created by Talab Omar on 11/8/17 12:29 PM
+  ~ Created by Talab Omar.
   ~ Copyright (c) 2017. All rights reserved.
-  ~
-  ~ Last modified 11/8/17 12:29 PM
   -->
 
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -36,4 +34,28 @@
             android:textSize="20sp"
             android:hint="@string/edit_class_name" />
     </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_teacher_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/edit_class_label_size"
+        android:textColor="@color/accent"
+        android:text="@string/edit_teacher"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@id/il_class_name"
+        app:layout_constraintTop_toBottomOf="@id/il_class_name" />
+
+    <Spinner
+        android:id="@+id/spinner_teacher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_teacher_label" />
+
 </android.support.constraint.ConstraintLayout>

@@ -11,17 +11,15 @@ package com.codertal.studybook.features.authentication.login;
 import android.support.annotation.NonNull;
 
 import com.codertal.studybook.data.users.User;
-import com.codertal.studybook.data.users.source.UsersRepository;
+import com.codertal.studybook.data.users.UsersRepository;
 import com.codertal.studybook.features.authentication.login.domain.LoginResponse;
 import com.codertal.studybook.util.ClickManager;
 
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.codertal.studybook.features.authentication.login.domain.LoginResponse.ResponseCodes.LOGIN_CANCELLED;
-import static com.codertal.studybook.features.authentication.login.domain.LoginResponse.ResponseCodes.LOGIN_SUCCESS;
 import static com.codertal.studybook.features.authentication.login.domain.LoginResponse.ResponseCodes.NETWORK_ERROR;
 
 public class LoginPresenter extends LoginContract.Presenter {

@@ -24,7 +24,7 @@ import android.widget.Toast;
 import com.codertal.studybook.Henson;
 import com.codertal.studybook.R;
 import com.codertal.studybook.data.classes.ClassInfo;
-import com.codertal.studybook.data.classes.source.ClassesRepository;
+import com.codertal.studybook.data.classes.ClassesRepository;
 import com.codertal.studybook.features.manage.classes.adapter.ClassListAdapter;
 import com.codertal.studybook.util.ViewUtils;
 import com.f2prateek.dart.HensonNavigable;
@@ -38,7 +38,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import es.dmoral.toasty.Toasty;
-import timber.log.Timber;
 
 @HensonNavigable
 public class ClassesActivity extends AppCompatActivity implements ClassesContract.View,
