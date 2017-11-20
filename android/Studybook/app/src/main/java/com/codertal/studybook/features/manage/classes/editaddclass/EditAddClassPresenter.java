@@ -23,6 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class EditAddClassPresenter extends EditAddClassContract.Presenter{
+    private static final int TEACHER_INDEX_OFFSET = 2;
 
     @NonNull
     private EditAddClassContract.View mEditClassView;
@@ -30,6 +31,7 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
     private ClassesRepository mClassesRepository;
     private TeachersRepository mTeachersRepository;
     private ClassInfo mLoadedClassInfo;
+    private List<Teacher> mTeacherOptions;
 
 
     public EditAddClassPresenter(@NonNull EditAddClassContract.View editClassView,
@@ -49,6 +51,7 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
                 .subscribeWith(new DisposableSingleObserver<List<Teacher>>() {
                     @Override
                     public void onSuccess(List<Teacher> teachers) {
+                        mTeacherOptions = teachers;
                         List<String> teacherOptions = new ArrayList<>();
 
                         for(Teacher teacher : teachers){
@@ -111,6 +114,11 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
                         mEditClassView.showLoadClassInfoError();
                     }
                 }));
+    }
+
+    @Override
+    void loadAddNewTeacher() {
+        mEditClassView.showAddTeacherDialog();
     }
 
     private void returnToClasses() {

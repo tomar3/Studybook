@@ -179,4 +179,12 @@ public class EditAddClassPresenterTest {
         verify(editAddClassView).showLoadTeachersError();
     }
 
+    @Test
+    public void loadAddNewTeacher_ShouldShowAddTeacherDialog() {
+        editAddClassPresenter.loadAddNewTeacher();
+
+        verify(editAddClassView).showAddTeacherDialog();
+    }
+
+
 }

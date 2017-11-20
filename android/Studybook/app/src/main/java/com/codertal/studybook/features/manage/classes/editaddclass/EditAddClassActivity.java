@@ -7,6 +7,7 @@
 
 package com.codertal.studybook.features.manage.classes.editaddclass;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -14,7 +15,9 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -24,9 +27,10 @@ import android.widget.Toast;
 import com.codertal.studybook.R;
 import com.codertal.studybook.data.classes.ClassInfo;
 import com.codertal.studybook.data.classes.ClassesRepository;
-import com.codertal.studybook.data.teachers.Teacher;
 import com.codertal.studybook.data.teachers.TeachersRepository;
 import com.codertal.studybook.features.manage.classes.adapter.HintAdapter;
+import com.codertal.studybook.util.dialog.DialogUtils;
+import com.codertal.studybook.util.dialog.TextSubmitListener;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 
@@ -42,6 +46,7 @@ import dagger.android.AndroidInjection;
 import es.dmoral.toasty.Toasty;
 
 public class EditAddClassActivity extends AppCompatActivity implements EditAddClassContract.View {
+    private static final int ADD_TEACHER_INDEX = 1;
 
     @BindView(R.id.et_class_name)
     EditText mEditClassName;
@@ -184,6 +189,28 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
         setUpTeacherSpinner(teacherOptionsList);
     }
 
+    @Override
+    public void showAddTeacherDialog() {
+        TextSubmitListener saveTeacherListener = new TextSubmitListener() {
+            @Override
+            public void onTextSubmit(String inputText) {
+                Toasty.success(EditAddClassActivity.this, "Teacher added").show();
+            }
+        };
+
+        DialogInterface.OnClickListener cancelListener = (dialog, which) -> {
+
+        };
+
+        ViewGroup parentView = findViewById(android.R.id.content);
+        View dialogLayout = LayoutInflater.from(this)
+                .inflate(R.layout.dialog_text_input, parentView, false);
+
+
+        DialogUtils.displayTextInputDialog(this, "Add a new teacher", "You can add more details in the teacher management section.",
+                 "Teacher name", dialogLayout, saveTeacherListener,null, cancelListener);
+    }
+
     @OnClick(R.id.fab_save_class)
     public void onSaveClassClick() {
         mPresenter.verifySaveClass(mEditClassName.getText().toString());
@@ -222,7 +249,7 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
 
     private void setUpTeacherSpinner(List<String> teacherOptions) {
         teacherOptions.add(0, getString(R.string.edit_teacher_none));
-        teacherOptions.add(1, getString(R.string.edit_teacher_add_new));
+        teacherOptions.add(ADD_TEACHER_INDEX, getString(R.string.edit_teacher_add_new));
 
         HintAdapter teacherDataAdapter = new HintAdapter(this,
                 android.R.layout.simple_spinner_item, teacherOptions);
@@ -234,12 +261,8 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
         mTeacherSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItemText = (String) parent.getItemAtPosition(position);
-
-                if(position > 0){
-                    Toast.makeText
-                            (getApplicationContext(), "Selected : " + selectedItemText, Toast.LENGTH_SHORT)
-                            .show();
+                if(position == ADD_TEACHER_INDEX ){
+                    mPresenter.loadAddNewTeacher();
                 }
             }
 

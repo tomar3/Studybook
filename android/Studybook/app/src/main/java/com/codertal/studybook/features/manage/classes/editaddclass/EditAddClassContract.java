@@ -33,6 +33,8 @@ public interface EditAddClassContract {
 
         void showLoadTeachersError();
 
+        void showAddTeacherDialog();
+
     }
 
     abstract class Presenter extends SubscribablePresenter {
@@ -40,5 +42,7 @@ public interface EditAddClassContract {
         abstract void verifySaveClass(String className);
 
         abstract void loadClassInfo(long classId);
+
+        abstract void loadAddNewTeacher();
     }
 }
