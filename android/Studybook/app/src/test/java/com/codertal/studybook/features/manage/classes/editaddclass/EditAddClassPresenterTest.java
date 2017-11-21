@@ -10,6 +10,8 @@ import com.codertal.studybook.data.classes.ClassesRepository;
 import com.codertal.studybook.data.teachers.Teacher;
 import com.codertal.studybook.data.teachers.TeachersRepository;
 
+import junit.framework.Assert;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -28,7 +30,9 @@ import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.Schedulers;
 
 import static io.reactivex.Completable.complete;
+import static junit.framework.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -53,6 +57,7 @@ public class EditAddClassPresenterTest {
     private String REAL_CLASS_NAME;
     private ClassInfo REAL_CLASS_INFO;
     private long CLASS_ID;
+    private int SAVED_TEACHER_POSITION;
     private List<Teacher> MANY_TEACHERS;
 
     @Before
@@ -61,6 +66,7 @@ public class EditAddClassPresenterTest {
         REAL_CLASS_NAME = "Class name";
         REAL_CLASS_INFO = new ClassInfo(REAL_CLASS_NAME);
         CLASS_ID = 1;
+        SAVED_TEACHER_POSITION = 2;
         MANY_TEACHERS = Arrays.asList(new Teacher("Name1"), new Teacher("Name2"));
 
         RxJavaPlugins.setIoSchedulerHandler(scheduler -> Schedulers.trampoline());
@@ -185,6 +191,31 @@ public class EditAddClassPresenterTest {
 
         verify(editAddClassView).showAddTeacherDialog();
     }
+
+    @Test
+    public void loadAddNewTeacher_ShouldSelectTeacherPosition() {
+        editAddClassPresenter.loadAddNewTeacher();
+
+        verify(editAddClassView).selectTeacherPosition(editAddClassPresenter.getChosenTeacherPosition());
+    }
+
+    @Test
+    public void saveTeacherPosition_ShouldStoreTeacherPosition() {
+        editAddClassPresenter.saveTeacherPosition(SAVED_TEACHER_POSITION);
+
+        assertEquals("The presenter should store the saved teacher position",
+                SAVED_TEACHER_POSITION, editAddClassPresenter.getChosenTeacherPosition());
+    }
+
+    @Test
+    public void loadPreviousTeacherPosition_ShouldSelectTeacherPosition() {
+        editAddClassPresenter.saveTeacherPosition(SAVED_TEACHER_POSITION);
+
+        editAddClassPresenter.loadPreviousTeacherPosition();
+
+        verify(editAddClassView).selectTeacherPosition(SAVED_TEACHER_POSITION);
+    }
+
 
 
 }

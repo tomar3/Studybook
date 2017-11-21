@@ -32,6 +32,7 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
     private TeachersRepository mTeachersRepository;
     private ClassInfo mLoadedClassInfo;
     private List<Teacher> mTeacherOptions;
+    private int mChosenTeacherPosition;
 
 
     public EditAddClassPresenter(@NonNull EditAddClassContract.View editClassView,
@@ -40,6 +41,7 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
         mEditClassView = editClassView;
         mClassesRepository = classesRepository;
         mTeachersRepository = teachersRepository;
+        mChosenTeacherPosition = 0;
     }
 
 
@@ -118,7 +120,19 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
 
     @Override
     void loadAddNewTeacher() {
+        mEditClassView.selectTeacherPosition(mChosenTeacherPosition);
         mEditClassView.showAddTeacherDialog();
+    }
+
+    @Override
+    void saveTeacherPosition(int teacherPosition) {
+        mChosenTeacherPosition = teacherPosition;
+    }
+
+    //TODO: REMOVE THIS, CHECK IF STILL NOT NEEDED
+    @Override
+    void loadPreviousTeacherPosition() {
+        mEditClassView.selectTeacherPosition(mChosenTeacherPosition);
     }
 
     private void returnToClasses() {
@@ -131,5 +145,9 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
 
         mEditClassView.showLoadingIndicator(false);
         mEditClassView.showSaveError();
+    }
+
+    public int getChosenTeacherPosition() {
+        return mChosenTeacherPosition;
     }
 }

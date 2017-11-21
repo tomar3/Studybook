@@ -35,6 +35,8 @@ public interface EditAddClassContract {
 
         void showAddTeacherDialog();
 
+        void selectTeacherPosition(int teacherPosition);
+
     }
 
     abstract class Presenter extends SubscribablePresenter {
@@ -44,5 +46,9 @@ public interface EditAddClassContract {
         abstract void loadClassInfo(long classId);
 
         abstract void loadAddNewTeacher();
+
+        abstract void saveTeacherPosition(int teacherPosition);
+
+        abstract void loadPreviousTeacherPosition();
     }
 }

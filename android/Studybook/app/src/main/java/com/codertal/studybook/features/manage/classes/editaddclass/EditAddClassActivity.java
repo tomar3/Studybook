@@ -211,6 +211,11 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
                  "Teacher name", dialogLayout, saveTeacherListener,null, cancelListener);
     }
 
+    @Override
+    public void selectTeacherPosition(int teacherPosition) {
+        mTeacherSpinner.setSelection(teacherPosition);
+    }
+
     @OnClick(R.id.fab_save_class)
     public void onSaveClassClick() {
         mPresenter.verifySaveClass(mEditClassName.getText().toString());
@@ -263,13 +268,13 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position == ADD_TEACHER_INDEX ){
                     mPresenter.loadAddNewTeacher();
+                }else {
+                    mPresenter.saveTeacherPosition(position);
                 }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 }
