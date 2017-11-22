@@ -5,7 +5,6 @@
 
 package com.codertal.studybook.data.teachers;
 
-import android.support.annotation.NonNull;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ import javax.inject.Inject;
 
 import io.objectbox.Box;
 import io.objectbox.BoxStore;
-import io.reactivex.Completable;
+import io.objectbox.query.Query;
 import io.reactivex.Single;
 
 public class TeachersRepository {
@@ -25,11 +24,17 @@ public class TeachersRepository {
         teacherBox = boxStore.boxFor(Teacher.class);
     }
 
-    public Completable save(Teacher teacher) {
-        return Completable.fromAction(() -> teacherBox.put(teacher));
+    public Single<Long> save(Teacher teacher) {
+        return Single.fromCallable(() -> teacherBox.put(teacher));
     }
 
-    public Single<List<Teacher>> getAllTeachers() {
-        return Single.fromCallable(teacherBox::getAll);
+    //TODO: REMOVE IF NOT NEEDED
+//    public Single<List<Teacher>> getAllTeachers() {
+//        return Single.fromCallable(teacherBox::getAll);
+//    }
+
+    public Single<List<Teacher>> getAllTeachersAlphabetically() {
+        Query<Teacher> teachersQuery = teacherBox.query().order(Teacher_.name).build();
+        return Single.fromCallable(teachersQuery::find);
     }
 }

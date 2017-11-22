@@ -7,7 +7,9 @@ package com.codertal.studybook.features.manage.classes.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -62,17 +64,25 @@ public class HintAdapter extends ArrayAdapter<String> {
 
         View view = super.getDropDownView(position, convertView, parent);
         TextView tv = (TextView) view;
+        tv.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+
         if(position == 0){
             //Set the hint text color
             tv.setTextColor(Color.GRAY);
         }
         else if(position == 1){
-            //Set the add new text color
+            //Set the add new text view properties
+            Drawable addDrawable = ContextCompat.getDrawable(mContext, R.drawable.ic_add);
+            DrawableCompat.setTint(addDrawable, ContextCompat.getColor(mContext, R.color.primary_light));
+
             tv.setTextColor(ContextCompat.getColor(mContext, R.color.primary_light));
+            tv.setCompoundDrawablesWithIntrinsicBounds(addDrawable, null, null, null);
+           // tv.setCompoundDrawablePadding(16);
         }
         else {
             tv.setTextColor(Color.BLACK);
         }
+
         return view;
     }
 }

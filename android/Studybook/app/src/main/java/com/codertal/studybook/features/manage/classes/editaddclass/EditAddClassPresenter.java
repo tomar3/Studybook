@@ -15,9 +15,12 @@ import com.codertal.studybook.data.teachers.Teacher;
 import com.codertal.studybook.data.teachers.TeachersRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
@@ -33,6 +36,7 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
     private ClassInfo mLoadedClassInfo;
     private List<Teacher> mTeacherOptions;
     private int mChosenTeacherPosition;
+    private long mSavedClassId;
 
 
     public EditAddClassPresenter(@NonNull EditAddClassContract.View editClassView,
@@ -47,29 +51,7 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
 
     @Override
     public void subscribe() {
-        mCompositeDisposable.add(mTeachersRepository.getAllTeachers()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<List<Teacher>>() {
-                    @Override
-                    public void onSuccess(List<Teacher> teachers) {
-                        mTeacherOptions = teachers;
-                        List<String> teacherOptions = new ArrayList<>();
-
-                        for(Teacher teacher : teachers){
-                            teacherOptions.add(teacher.getName());
-                        }
-
-                        mEditClassView.fillTeacherOptionsList(teacherOptions);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Timber.d(e);
-
-                        mEditClassView.showLoadTeachersError();
-                    }
-                }));
+       loadAllTeachers(false);
     }
 
     @Override
@@ -133,6 +115,68 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
     @Override
     void loadPreviousTeacherPosition() {
         mEditClassView.selectTeacherPosition(mChosenTeacherPosition);
+    }
+
+    @Override
+    void saveNewTeacher(String teacherName) {
+        mCompositeDisposable.add(mTeachersRepository.save(new Teacher(teacherName))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<Long>() {
+
+                    @Override
+                    public void onSuccess(Long savedClassId) {
+                        mSavedClassId = savedClassId;
+                        loadAllTeachers(true);
+                        mEditClassView.showTeacherSaveSuccess();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.d(e);
+
+                        mEditClassView.showTeacherSaveError();
+                    }
+                }));
+    }
+
+    private void loadAllTeachers(boolean selectTeacherPosition) {
+        mCompositeDisposable.add(mTeachersRepository.getAllTeachersAlphabetically()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<List<Teacher>>() {
+                    @Override
+                    public void onSuccess(List<Teacher> teachers) {
+                        mTeacherOptions = teachers;
+                        List<String> teacherOptions = new ArrayList<>();
+
+                        int chosenTeacherPosition = 0;
+
+                        for (int i = 0; i < teachers.size(); i++) {
+                            Teacher currentTeacher = teachers.get(i);
+
+                            if(selectTeacherPosition && currentTeacher.getId() == mSavedClassId){
+                                chosenTeacherPosition = i;
+                            }
+
+                            teacherOptions.add(currentTeacher.getName());
+                        }
+
+
+                        mEditClassView.fillTeacherOptionsList(teacherOptions);
+
+                        if(selectTeacherPosition){
+                            mEditClassView.selectTeacherPosition(chosenTeacherPosition + TEACHER_INDEX_OFFSET);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.d(e);
+
+                        mEditClassView.showLoadTeachersError();
+                    }
+                }));
     }
 
     private void returnToClasses() {

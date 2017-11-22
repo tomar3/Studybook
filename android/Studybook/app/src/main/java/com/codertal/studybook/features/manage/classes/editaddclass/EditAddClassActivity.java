@@ -7,7 +7,6 @@
 
 package com.codertal.studybook.features.manage.classes.editaddclass;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -191,29 +190,31 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
 
     @Override
     public void showAddTeacherDialog() {
-        TextSubmitListener saveTeacherListener = new TextSubmitListener() {
-            @Override
-            public void onTextSubmit(String inputText) {
-                Toasty.success(EditAddClassActivity.this, "Teacher added").show();
-            }
-        };
-
-        DialogInterface.OnClickListener cancelListener = (dialog, which) -> {
-
-        };
+        TextSubmitListener saveTeacherListener = inputText -> mPresenter.saveNewTeacher(inputText);
 
         ViewGroup parentView = findViewById(android.R.id.content);
         View dialogLayout = LayoutInflater.from(this)
                 .inflate(R.layout.dialog_text_input, parentView, false);
 
 
-        DialogUtils.displayTextInputDialog(this, "Add a new teacher", "You can add more details in the teacher management section.",
-                 "Teacher name", dialogLayout, saveTeacherListener,null, cancelListener);
+        DialogUtils.displayTextInputDialog(this, getString(R.string.edit_teacher_add_new),
+                getString(R.string.edit_teacher_add_message), getString(R.string.edit_teacher_name_hint),
+                dialogLayout, saveTeacherListener, null);
     }
 
     @Override
     public void selectTeacherPosition(int teacherPosition) {
         mTeacherSpinner.setSelection(teacherPosition);
+    }
+
+    @Override
+    public void showTeacherSaveSuccess() {
+        Toasty.success(this, getString(R.string.edit_teacher_added)).show();
+    }
+
+    @Override
+    public void showTeacherSaveError() {
+        Toasty.error(this, getString(R.string.edit_teacher_add_error)).show();
     }
 
     @OnClick(R.id.fab_save_class)

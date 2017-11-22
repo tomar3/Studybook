@@ -30,6 +30,8 @@ import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.Schedulers;
 
 import static io.reactivex.Completable.complete;
+import static io.reactivex.Completable.error;
+import static io.reactivex.Single.just;
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -54,7 +56,7 @@ public class EditAddClassPresenterTest {
 
     private EditAddClassPresenter editAddClassPresenter;
 
-    private String REAL_CLASS_NAME;
+    private String REAL_CLASS_NAME, REAL_TEACHER_NAME;
     private ClassInfo REAL_CLASS_INFO;
     private long CLASS_ID;
     private int SAVED_TEACHER_POSITION;
@@ -64,6 +66,7 @@ public class EditAddClassPresenterTest {
     public void setUp(){
         editAddClassPresenter = new EditAddClassPresenter(editAddClassView, classesRepository, teachersRepository);
         REAL_CLASS_NAME = "Class name";
+        REAL_TEACHER_NAME = "Teacher name";
         REAL_CLASS_INFO = new ClassInfo(REAL_CLASS_NAME);
         CLASS_ID = 1;
         SAVED_TEACHER_POSITION = 2;
@@ -130,7 +133,7 @@ public class EditAddClassPresenterTest {
     @Test
     public void verifySaveClass_WhenDatabaseError_ShouldShowSaveError() {
         when(classesRepository.save(any(ClassInfo.class)))
-                .thenReturn(Completable.error(new Throwable("db error")));
+                .thenReturn(error(new Throwable("db error")));
 
         editAddClassPresenter.verifySaveClass(REAL_CLASS_NAME);
 
@@ -142,7 +145,7 @@ public class EditAddClassPresenterTest {
     @Test
     public void verifySaveClass_WhenDatabaseError_ShouldStopShowingLoading() {
         when(classesRepository.save(any(ClassInfo.class)))
-                .thenReturn(Completable.error(new Throwable("db error")));
+                .thenReturn(error(new Throwable("db error")));
 
         editAddClassPresenter.verifySaveClass(REAL_CLASS_NAME);
 
@@ -151,7 +154,7 @@ public class EditAddClassPresenterTest {
 
     @Test
     public void verifyLoadClassInfo_WhenDatabaseSuccess_ShouldFillClassInfo() {
-        when(classesRepository.getClassInfo(CLASS_ID)).thenReturn(Single.just(REAL_CLASS_INFO));
+        when(classesRepository.getClassInfo(CLASS_ID)).thenReturn(just(REAL_CLASS_INFO));
 
         editAddClassPresenter.loadClassInfo(CLASS_ID);
 
@@ -169,7 +172,7 @@ public class EditAddClassPresenterTest {
 
     @Test
     public void subscribe_WhenDatabaseSuccess_ShouldFillTeacherOptionsList() {
-        when(teachersRepository.getAllTeachers()).thenReturn(Single.just(MANY_TEACHERS));
+        when(teachersRepository.getAllTeachersAlphabetically()).thenReturn(just(MANY_TEACHERS));
 
         editAddClassPresenter.subscribe();
 
@@ -178,7 +181,7 @@ public class EditAddClassPresenterTest {
 
     @Test
     public void subscribe_WhenDatabaseError_ShouldShowLoadError() {
-        when(teachersRepository.getAllTeachers()).thenReturn(Single.error(new Throwable("db error")));
+        when(teachersRepository.getAllTeachersAlphabetically()).thenReturn(Single.error(new Throwable("db error")));
 
         editAddClassPresenter.subscribe();
 
@@ -217,5 +220,43 @@ public class EditAddClassPresenterTest {
     }
 
 
+    @Test
+    public void saveNewTeacher_WhenDatabaseError_ShouldShowTeacherSaveError() {
+        when(teachersRepository.save(any(Teacher.class))).thenReturn(Single.error(new Throwable("db error")));
+
+        editAddClassPresenter.saveNewTeacher(REAL_TEACHER_NAME);
+
+        verify(editAddClassView).showTeacherSaveError();
+    }
+
+    @Test
+    public void saveNewTeacher_WhenDatabaseSuccess_ShouldShowTeacherSaveSuccess() {
+        when(teachersRepository.getAllTeachersAlphabetically()).thenReturn(just(MANY_TEACHERS));
+        when(teachersRepository.save(any(Teacher.class))).thenReturn(just(CLASS_ID));
+
+        editAddClassPresenter.saveNewTeacher(REAL_TEACHER_NAME);
+
+        verify(editAddClassView).showTeacherSaveSuccess();
+    }
+
+    @Test
+    public void saveNewTeacher_WhenDatabaseSuccess_ShouldFillTeacherOptionsList() {
+        when(teachersRepository.getAllTeachersAlphabetically()).thenReturn(just(MANY_TEACHERS));
+        when(teachersRepository.save(any(Teacher.class))).thenReturn(just(CLASS_ID));
+
+        editAddClassPresenter.saveNewTeacher(REAL_TEACHER_NAME);
+
+        verify(editAddClassView).fillTeacherOptionsList(anyList());
+    }
+
+    @Test
+    public void saveNewTeacher_WhenDatabaseSuccess_ShouldSelectTeacherPosition() {
+        when(teachersRepository.getAllTeachersAlphabetically()).thenReturn(just(MANY_TEACHERS));
+        when(teachersRepository.save(any(Teacher.class))).thenReturn(just(CLASS_ID));
+
+        editAddClassPresenter.saveNewTeacher(REAL_TEACHER_NAME);
+
+        verify(editAddClassView).selectTeacherPosition(anyInt());
+    }
 
 }

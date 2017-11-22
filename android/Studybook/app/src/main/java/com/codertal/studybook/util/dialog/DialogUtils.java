@@ -17,7 +17,7 @@ import com.codertal.studybook.R;
 public class DialogUtils {
 
     public static void displayTextInputDialog(Context context, String title, String message, String inputHint,
-                                              View layoutView, TextSubmitListener textSubmitListener , DialogInterface.OnClickListener positiveListener,
+                                              View layoutView, TextSubmitListener textSubmitListener,
                                               DialogInterface.OnClickListener negativeListener) {
 
         final TextInputEditText input = layoutView.findViewById(R.id.et_input);
@@ -45,6 +45,6 @@ public class DialogUtils {
             }
         });
 
-
+        inputDialog.setCanceledOnTouchOutside(false);
     }
 }
