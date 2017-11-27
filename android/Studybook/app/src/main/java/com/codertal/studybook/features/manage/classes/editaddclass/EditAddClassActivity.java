@@ -169,6 +169,7 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
     @Override
     public void fillClassInfo(ClassInfo classInfo) {
         mEditClassName.setText(classInfo.getName());
+        mEditClassName.setSelection(classInfo.getName().length());
         mEditClassNameLayout.setHintAnimationEnabled(true);
     }
 
