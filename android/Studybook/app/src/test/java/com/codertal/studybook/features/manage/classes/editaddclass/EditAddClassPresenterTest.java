@@ -10,8 +10,6 @@ import com.codertal.studybook.data.classes.ClassesRepository;
 import com.codertal.studybook.data.teachers.Teacher;
 import com.codertal.studybook.data.teachers.TeachersRepository;
 
-import junit.framework.Assert;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -23,7 +21,6 @@ import org.mockito.junit.MockitoRule;
 import java.util.Arrays;
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.plugins.RxJavaPlugins;
@@ -61,6 +58,7 @@ public class EditAddClassPresenterTest {
     private long CLASS_ID;
     private int SAVED_TEACHER_POSITION;
     private List<Teacher> MANY_TEACHERS;
+    private EditAddClassContract.State REAL_STATE;
 
     @Before
     public void setUp(){
@@ -71,6 +69,7 @@ public class EditAddClassPresenterTest {
         CLASS_ID = 1;
         SAVED_TEACHER_POSITION = 2;
         MANY_TEACHERS = Arrays.asList(new Teacher("Name1"), new Teacher("Name2"));
+        REAL_STATE = new EditAddClassState(1);
 
         RxJavaPlugins.setIoSchedulerHandler(scheduler -> Schedulers.trampoline());
         RxAndroidPlugins.setInitMainThreadSchedulerHandler(__ -> Schedulers.trampoline());
@@ -211,16 +210,6 @@ public class EditAddClassPresenterTest {
     }
 
     @Test
-    public void loadPreviousTeacherPosition_ShouldSelectTeacherPosition() {
-        editAddClassPresenter.saveTeacherPosition(SAVED_TEACHER_POSITION);
-
-        editAddClassPresenter.loadPreviousTeacherPosition();
-
-        verify(editAddClassView).selectTeacherPosition(SAVED_TEACHER_POSITION);
-    }
-
-
-    @Test
     public void saveNewTeacher_WhenDatabaseError_ShouldShowTeacherSaveError() {
         when(teachersRepository.save(any(Teacher.class))).thenReturn(Single.error(new Throwable("db error")));
 
@@ -257,6 +246,16 @@ public class EditAddClassPresenterTest {
         editAddClassPresenter.saveNewTeacher(REAL_TEACHER_NAME);
 
         verify(editAddClassView).selectTeacherPosition(anyInt());
+    }
+
+    @Test
+    public void restoreState_ShouldSelectTeacherPosition() {
+        when(teachersRepository.getAllTeachersAlphabetically()).thenReturn(just(MANY_TEACHERS));
+
+        editAddClassPresenter.restoreState(REAL_STATE);
+        editAddClassPresenter.subscribe();
+
+        verify(editAddClassView).selectTeacherPosition(REAL_STATE.getLastTeacherPosition());
     }
 
 }

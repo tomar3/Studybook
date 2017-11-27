@@ -15,17 +15,15 @@ import com.codertal.studybook.data.teachers.Teacher;
 import com.codertal.studybook.data.teachers.TeachersRepository;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class EditAddClassPresenter extends EditAddClassContract.Presenter{
+public class EditAddClassPresenter extends EditAddClassContract.Presenter {
+
     private static final int TEACHER_INDEX_OFFSET = 2;
 
     @NonNull
@@ -36,7 +34,8 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
     private ClassInfo mLoadedClassInfo;
     private List<Teacher> mTeacherOptions;
     private int mChosenTeacherPosition;
-    private long mSavedClassId;
+    private long mSavedTeacherId;
+    private boolean mRestoreState;
 
 
     public EditAddClassPresenter(@NonNull EditAddClassContract.View editClassView,
@@ -46,12 +45,25 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
         mClassesRepository = classesRepository;
         mTeachersRepository = teachersRepository;
         mChosenTeacherPosition = 0;
+        mSavedTeacherId = -1;
+        mRestoreState = false;
     }
 
 
     @Override
     public void subscribe() {
        loadAllTeachers(false);
+    }
+
+    @Override
+    public void restoreState(EditAddClassContract.State state) {
+        mChosenTeacherPosition = state.getLastTeacherPosition();
+        mRestoreState = true;
+    }
+
+    @Override
+    public EditAddClassContract.State getState() {
+        return new EditAddClassState(mChosenTeacherPosition);
     }
 
     @Override
@@ -71,6 +83,13 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
                 saveClassInfo.setName(className);
             }
 
+            if(mChosenTeacherPosition == 0) {
+                mClassesRepository.assignTeacherToClass(saveClassInfo, null);
+            }else {
+                mClassesRepository.assignTeacherToClass(saveClassInfo,
+                        mTeacherOptions.get(mChosenTeacherPosition - TEACHER_INDEX_OFFSET));
+            }
+
             mCompositeDisposable.add(mClassesRepository.save(saveClassInfo)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -88,6 +107,12 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
                     @Override
                     public void onSuccess(ClassInfo classInfo) {
                         mLoadedClassInfo = classInfo;
+
+                        if(mClassesRepository.classHasTeacher(mLoadedClassInfo)){
+                            mSavedTeacherId = mClassesRepository.getClassTeacherId(mLoadedClassInfo);
+                            loadAllTeachers(true);
+                        }
+
                         mEditClassView.fillClassInfo(classInfo);
                     }
 
@@ -111,11 +136,7 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
         mChosenTeacherPosition = teacherPosition;
     }
 
-    //TODO: REMOVE THIS, CHECK IF STILL NOT NEEDED
-    @Override
-    void loadPreviousTeacherPosition() {
-        mEditClassView.selectTeacherPosition(mChosenTeacherPosition);
-    }
+
 
     @Override
     void saveNewTeacher(String teacherName) {
@@ -125,8 +146,8 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
                 .subscribeWith(new DisposableSingleObserver<Long>() {
 
                     @Override
-                    public void onSuccess(Long savedClassId) {
-                        mSavedClassId = savedClassId;
+                    public void onSuccess(Long savedTeacherId) {
+                        mSavedTeacherId = savedTeacherId;
                         loadAllTeachers(true);
                         mEditClassView.showTeacherSaveSuccess();
                     }
@@ -155,7 +176,7 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
                         for (int i = 0; i < teachers.size(); i++) {
                             Teacher currentTeacher = teachers.get(i);
 
-                            if(selectTeacherPosition && currentTeacher.getId() == mSavedClassId){
+                            if(selectTeacherPosition && currentTeacher.getId() == mSavedTeacherId){
                                 chosenTeacherPosition = i;
                             }
 
@@ -165,8 +186,11 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
 
                         mEditClassView.fillTeacherOptionsList(teacherOptions);
 
-                        if(selectTeacherPosition){
+                        if(selectTeacherPosition) {
                             mEditClassView.selectTeacherPosition(chosenTeacherPosition + TEACHER_INDEX_OFFSET);
+                        }else if(mRestoreState) {
+                            mEditClassView.selectTeacherPosition(mChosenTeacherPosition);
+                            mRestoreState = false;
                         }
                     }
 
@@ -178,6 +202,14 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter{
                     }
                 }));
     }
+
+
+//    private void selectTeacherPosition() {
+//        if(mSavedTeacherId != -1){
+//            //mEditClassView.selectTeacherPosition(getTeacherIndexById(mSavedTeacherId) + TEACHER_INDEX_OFFSET);
+//        }
+//    }
+
 
     private void returnToClasses() {
         mEditClassView.showLoadingIndicator(false);

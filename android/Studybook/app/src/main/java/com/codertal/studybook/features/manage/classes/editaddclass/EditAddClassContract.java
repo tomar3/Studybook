@@ -7,6 +7,8 @@
 
 package com.codertal.studybook.features.manage.classes.editaddclass;
 
+import com.codertal.studybook.base.BaseState;
+import com.codertal.studybook.base.StatefulPresenter;
 import com.codertal.studybook.base.SubscribablePresenter;
 import com.codertal.studybook.data.classes.ClassInfo;
 import com.codertal.studybook.data.teachers.Teacher;
@@ -43,7 +45,7 @@ public interface EditAddClassContract {
 
     }
 
-    abstract class Presenter extends SubscribablePresenter {
+    abstract class Presenter extends SubscribablePresenter  implements StatefulPresenter<State>{
 
         abstract void verifySaveClass(String className);
 
@@ -53,8 +55,10 @@ public interface EditAddClassContract {
 
         abstract void saveTeacherPosition(int teacherPosition);
 
-        abstract void loadPreviousTeacherPosition();
-
         abstract void saveNewTeacher(String teacherName);
+    }
+
+    interface State extends BaseState{
+        int getLastTeacherPosition();
     }
 }

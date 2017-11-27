@@ -6,6 +6,7 @@
 package com.codertal.studybook.data.classes;
 
 import com.codertal.studybook.data.classes.ClassInfo;
+import com.codertal.studybook.data.teachers.Teacher;
 
 import java.util.List;
 
@@ -35,6 +36,18 @@ public class ClassesRepository {
 
     public Single<ClassInfo> getClassInfo(long classId) {
         return Single.fromCallable(() -> classInfoBox.get(classId));
+    }
+
+    public long getClassTeacherId(ClassInfo classInfo) {
+        return classInfo.getTeacher().getTargetId();
+    }
+
+    public void assignTeacherToClass(ClassInfo classInfo, Teacher teacher) {
+        classInfo.getTeacher().setTarget(teacher);
+    }
+
+    public boolean classHasTeacher(ClassInfo classInfo) {
+        return !classInfo.getTeacher().isNull();
     }
 
 }

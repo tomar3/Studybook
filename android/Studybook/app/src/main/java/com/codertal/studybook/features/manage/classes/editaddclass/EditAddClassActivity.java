@@ -46,6 +46,7 @@ import es.dmoral.toasty.Toasty;
 
 public class EditAddClassActivity extends AppCompatActivity implements EditAddClassContract.View {
     private static final int ADD_TEACHER_INDEX = 1;
+    private static final String LAST_TEACHER_INDEX_KEY = "LAST_TEACHER_INDEX_KEY";
 
     @BindView(R.id.et_class_name)
     EditText mEditClassName;
@@ -102,8 +103,10 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
             mPresenter.loadClassInfo(mClassId);
         }
 
+        if(savedInstanceState != null) {
+            mPresenter.restoreState(readFromBundle(savedInstanceState));
+        }
     }
-
 
     @Override
     protected void onStart() {
@@ -117,6 +120,12 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
         super.onStop();
 
         mPresenter.unsubscribe();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        writeToBundle(outState, mPresenter.getState());
     }
 
     @Override
@@ -277,5 +286,15 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
+    }
+
+    private void writeToBundle(Bundle outState, EditAddClassContract.State state) {
+        outState.putInt(LAST_TEACHER_INDEX_KEY, state.getLastTeacherPosition());
+    }
+
+    private EditAddClassContract.State readFromBundle(Bundle savedInstanceState) {
+        int lastTeacherPosition = savedInstanceState.getInt(LAST_TEACHER_INDEX_KEY);
+
+        return new EditAddClassState(lastTeacherPosition);
     }
 }
