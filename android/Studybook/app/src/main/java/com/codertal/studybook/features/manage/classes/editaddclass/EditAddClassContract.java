@@ -43,6 +43,8 @@ public interface EditAddClassContract {
 
         void showTeacherSaveError();
 
+        int getSelectedTeacherPosition();
+
     }
 
     abstract class Presenter extends SubscribablePresenter  implements StatefulPresenter<State>{

@@ -66,7 +66,7 @@ public class EditAddClassPresenterTest {
         REAL_CLASS_NAME = "Class name";
         REAL_TEACHER_NAME = "Teacher name";
         REAL_CLASS_INFO = new ClassInfo(REAL_CLASS_NAME);
-        CLASS_ID = 1;
+        CLASS_ID = 0;
         SAVED_TEACHER_POSITION = 2;
         MANY_TEACHERS = Arrays.asList(new Teacher("Name1"), new Teacher("Name2"));
         REAL_STATE = new EditAddClassState(1);

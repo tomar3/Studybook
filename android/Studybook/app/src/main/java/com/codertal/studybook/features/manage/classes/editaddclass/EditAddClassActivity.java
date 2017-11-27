@@ -226,6 +226,12 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
         Toasty.error(this, getString(R.string.edit_teacher_add_error)).show();
     }
 
+    @Override
+    public int getSelectedTeacherPosition() {
+        return mTeacherSpinner.getSelectedItemPosition();
+    }
+
+
     @OnClick(R.id.fab_save_class)
     public void onSaveClassClick() {
         mPresenter.verifySaveClass(mEditClassName.getText().toString());
