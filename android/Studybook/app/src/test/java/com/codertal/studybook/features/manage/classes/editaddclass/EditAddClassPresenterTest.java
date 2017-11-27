@@ -119,6 +119,15 @@ public class EditAddClassPresenterTest {
     }
 
     @Test
+    public void verifySaveClass_WhenAllRequiredFieldsGiven_ShouldAssignTeacherToClass() {
+        when(classesRepository.save(any(ClassInfo.class))).thenReturn(complete());
+
+        editAddClassPresenter.verifySaveClass(REAL_CLASS_NAME);
+
+        verify(classesRepository).assignTeacherToClass(any(ClassInfo.class), any());
+    }
+
+    @Test
     public void verifySaveClass_WhenClassSaved_ShouldStopShowingLoadingIndicator() {
         when(classesRepository.save(any(ClassInfo.class))).thenReturn(complete());
 
@@ -152,7 +161,7 @@ public class EditAddClassPresenterTest {
     }
 
     @Test
-    public void verifyLoadClassInfo_WhenDatabaseSuccess_ShouldFillClassInfo() {
+    public void loadClassInfo_WhenDatabaseSuccess_ShouldFillClassInfo() {
         when(classesRepository.getClassInfo(CLASS_ID)).thenReturn(just(REAL_CLASS_INFO));
 
         editAddClassPresenter.loadClassInfo(CLASS_ID);
@@ -161,7 +170,17 @@ public class EditAddClassPresenterTest {
     }
 
     @Test
-    public void verifyLoadClassInfo_WhenDatabaseError_ShouldShowLoadError() {
+    public void loadClassInfo_WhenClassHasTeacher_ShouldGetClassTeacherId() {
+        when(classesRepository.classHasTeacher(REAL_CLASS_INFO)).thenReturn(true);
+        when(classesRepository.getClassInfo(CLASS_ID)).thenReturn(just(REAL_CLASS_INFO));
+
+        editAddClassPresenter.loadClassInfo(CLASS_ID);
+
+        verify(classesRepository).getClassTeacherId(REAL_CLASS_INFO);
+    }
+
+    @Test
+    public void loadClassInfo_WhenDatabaseError_ShouldShowLoadError() {
         when(classesRepository.getClassInfo(CLASS_ID)).thenReturn(Single.error(new Throwable("db error")));
 
         editAddClassPresenter.loadClassInfo(CLASS_ID);
