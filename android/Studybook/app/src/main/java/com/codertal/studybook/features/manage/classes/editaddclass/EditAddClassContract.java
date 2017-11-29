@@ -47,7 +47,7 @@ public interface EditAddClassContract {
 
     }
 
-    abstract class Presenter extends SubscribablePresenter  implements StatefulPresenter<State>{
+    abstract class Presenter extends SubscribablePresenter implements StatefulPresenter<State>{
 
         abstract void verifySaveClass(String className);
 

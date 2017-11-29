@@ -9,6 +9,7 @@ package com.codertal.studybook.features.manage.classes;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -42,6 +43,8 @@ import es.dmoral.toasty.Toasty;
 @HensonNavigable
 public class ClassesActivity extends AppCompatActivity implements ClassesContract.View,
         ClassListAdapter.OnClassClickListener {
+
+    private static final String LAYOUT_MANAGER_POSITION_KEY = "LAYOUT_MANAGER_POSITION_KEY";
 
     @BindView(R.id.rv_classes)
     RecyclerView mClassesRecycler;
@@ -107,6 +110,28 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        writeToBundle(outState, mPresenter.getState());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mPresenter.restoreState(readFromBundle(savedInstanceState));
+    }
+
+    private void writeToBundle(Bundle outState, ClassesContract.State state) {
+        outState.putInt(LAYOUT_MANAGER_POSITION_KEY, state.getLayoutManagerPosition());
+    }
+
+    private ClassesContract.State readFromBundle(Bundle savedInstanceState) {
+        int layoutManagerPosition = savedInstanceState.getInt(LAYOUT_MANAGER_POSITION_KEY);
+
+        return new ClassesState(layoutManagerPosition);
+    }
+
+    @Override
     public void showAddClassUi() {
         Intent addClassIntent = Henson.with(this)
                 .gotoEditAddClassActivity()
@@ -134,6 +159,16 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
                 .build();
 
         startActivity(editClassIntent);
+    }
+
+    @Override
+    public int getLayoutManagerPosition() {
+        return mLayoutManager.findFirstCompletelyVisibleItemPosition();
+    }
+
+    @Override
+    public void restoreLayoutManagerPosition(int layoutManagerPosition) {
+        mLayoutManager.scrollToPosition(layoutManagerPosition);
     }
 
     @OnClick(R.id.fab_add_class)

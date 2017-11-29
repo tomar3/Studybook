@@ -8,6 +8,7 @@
 package com.codertal.studybook.features.manage.classes.editaddclass;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
@@ -299,6 +300,7 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
         outState.putInt(LAST_TEACHER_INDEX_KEY, state.getLastTeacherPosition());
     }
 
+    @NonNull
     private EditAddClassContract.State readFromBundle(Bundle savedInstanceState) {
         int lastTeacherPosition = savedInstanceState.getInt(LAST_TEACHER_INDEX_KEY);
 

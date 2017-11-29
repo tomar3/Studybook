@@ -45,6 +45,7 @@ public class ClassesPresenterTest {
 
     private List<ClassInfo> MANY_CLASSES;
     private long CLASS_ID;
+    private ClassesState REAL_STATE;
 
     @Before
     public void setUp(){
@@ -52,6 +53,7 @@ public class ClassesPresenterTest {
         MANY_CLASSES = Arrays.asList(new ClassInfo("1"), new ClassInfo("2"),
                 new ClassInfo("3"));
         CLASS_ID = 1;
+        REAL_STATE = new ClassesState(1);
 
         RxJavaPlugins.setIoSchedulerHandler(__ -> Schedulers.trampoline());
         RxAndroidPlugins.setInitMainThreadSchedulerHandler(__ -> Schedulers.trampoline());
@@ -102,6 +104,16 @@ public class ClassesPresenterTest {
         classesPresenter.openEditClass(CLASS_ID);
 
         verify(classesView).showEditClassUi(CLASS_ID);
+    }
+
+    @Test
+    public void restoreState_ShouldRestoreLayoutManagerState(){
+        when(classesRepository.getAllClasses()).thenReturn(Single.just(MANY_CLASSES));
+
+        classesPresenter.restoreState(REAL_STATE);
+        classesPresenter.subscribe();
+
+        verify(classesView).restoreLayoutManagerPosition(REAL_STATE.getLayoutManagerPosition());
     }
 
 }
