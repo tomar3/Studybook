@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.codertal.studybook.Henson;
 import com.codertal.studybook.R;
+import com.codertal.studybook.base.StatefulView;
 import com.codertal.studybook.data.classes.ClassInfo;
 import com.codertal.studybook.data.classes.ClassesRepository;
 import com.codertal.studybook.features.manage.classes.adapter.ClassListAdapter;
@@ -42,7 +43,7 @@ import es.dmoral.toasty.Toasty;
 
 @HensonNavigable
 public class ClassesActivity extends AppCompatActivity implements ClassesContract.View,
-        ClassListAdapter.OnClassClickListener {
+        ClassListAdapter.OnClassClickListener, StatefulView<ClassesContract.State> {
 
     private static final String LAYOUT_MANAGER_POSITION_KEY = "LAYOUT_MANAGER_POSITION_KEY";
 
@@ -121,11 +122,13 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
         mPresenter.restoreState(readFromBundle(savedInstanceState));
     }
 
-    private void writeToBundle(Bundle outState, ClassesContract.State state) {
+    @Override
+    public void writeToBundle(Bundle outState, ClassesContract.State state) {
         outState.putInt(LAYOUT_MANAGER_POSITION_KEY, state.getLayoutManagerPosition());
     }
 
-    private ClassesContract.State readFromBundle(Bundle savedInstanceState) {
+    @Override
+    public ClassesContract.State readFromBundle(Bundle savedInstanceState) {
         int layoutManagerPosition = savedInstanceState.getInt(LAYOUT_MANAGER_POSITION_KEY);
 
         return new ClassesState(layoutManagerPosition);

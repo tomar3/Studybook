@@ -25,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.codertal.studybook.R;
+import com.codertal.studybook.base.StatefulView;
 import com.codertal.studybook.data.classes.ClassInfo;
 import com.codertal.studybook.data.classes.ClassesRepository;
 import com.codertal.studybook.data.teachers.TeachersRepository;
@@ -45,7 +46,8 @@ import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import es.dmoral.toasty.Toasty;
 
-public class EditAddClassActivity extends AppCompatActivity implements EditAddClassContract.View {
+public class EditAddClassActivity extends AppCompatActivity implements EditAddClassContract.View,
+        StatefulView<EditAddClassContract.State>{
     private static final int ADD_TEACHER_INDEX = 1;
     private static final String LAST_TEACHER_INDEX_KEY = "LAST_TEACHER_INDEX_KEY";
 
@@ -127,6 +129,18 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         writeToBundle(outState, mPresenter.getState());
+    }
+
+    @Override
+    public void writeToBundle(Bundle outState, EditAddClassContract.State state) {
+        outState.putInt(LAST_TEACHER_INDEX_KEY, state.getLastTeacherPosition());
+    }
+
+    @Override
+    public EditAddClassContract.State readFromBundle(Bundle savedInstanceState) {
+        int lastTeacherPosition = savedInstanceState.getInt(LAST_TEACHER_INDEX_KEY);
+
+        return new EditAddClassState(lastTeacherPosition);
     }
 
     @Override
@@ -294,16 +308,5 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
-    }
-
-    private void writeToBundle(Bundle outState, EditAddClassContract.State state) {
-        outState.putInt(LAST_TEACHER_INDEX_KEY, state.getLastTeacherPosition());
-    }
-
-    @NonNull
-    private EditAddClassContract.State readFromBundle(Bundle savedInstanceState) {
-        int lastTeacherPosition = savedInstanceState.getInt(LAST_TEACHER_INDEX_KEY);
-
-        return new EditAddClassState(lastTeacherPosition);
     }
 }
