@@ -11,9 +11,11 @@ public interface ManageContract  {
 
     interface View {
         void showClassesUi();
+        void showTeachersUi();
     }
 
     interface Presenter{
         void openClasses();
+        void openTeachers();
     }
 }

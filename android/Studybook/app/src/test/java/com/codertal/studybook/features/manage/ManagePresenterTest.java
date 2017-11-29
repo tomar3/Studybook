@@ -32,9 +32,16 @@ public class ManagePresenterTest {
 
 
     @Test
-    public void openClasses_ShouldShowClassUi(){
+    public void openClasses_ShouldShowClassesUi(){
         managePresenter.openClasses();
 
         verify(manageView).showClassesUi();
+    }
+
+    @Test
+    public void openTeachers_ShouldShowTeachersUi(){
+        managePresenter.openTeachers();
+
+        verify(manageView).showTeachersUi();
     }
 }

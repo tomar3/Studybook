@@ -22,4 +22,9 @@ public class ManagePresenter implements ManageContract.Presenter {
     public void openClasses() {
         mManageView.showClassesUi();
     }
+
+    @Override
+    public void openTeachers() {
+        mManageView.showTeachersUi();
+    }
 }

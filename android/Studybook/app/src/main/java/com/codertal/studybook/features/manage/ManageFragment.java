@@ -49,12 +49,23 @@ public class ManageFragment extends BaseTabFragment implements ManageContract.Vi
 
     @OnClick(R.id.cv_teachers)
     public void onTeachersClick(){
-
+        mPresenter.openTeachers();
     }
 
 
     @Override
     public void showClassesUi() {
+        if(isAdded()) {
+            Intent classesIntent = Henson.with(getContext())
+                    .gotoClassesActivity()
+                    .build();
+
+            startActivity(classesIntent);
+        }
+    }
+
+    @Override
+    public void showTeachersUi() {
         if(isAdded()) {
             Intent classesIntent = Henson.with(getContext())
                     .gotoClassesActivity()
