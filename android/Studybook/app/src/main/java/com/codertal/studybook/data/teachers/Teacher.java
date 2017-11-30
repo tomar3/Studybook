@@ -5,6 +5,7 @@
 
 package com.codertal.studybook.data.teachers;
 
+import com.codertal.studybook.data.BaseData;
 import com.codertal.studybook.data.classes.ClassInfo;
 
 import io.objectbox.annotation.Backlink;
@@ -13,7 +14,7 @@ import io.objectbox.annotation.Id;
 import io.objectbox.relation.ToMany;
 
 @Entity
-public class Teacher {
+public class Teacher implements BaseData{
 
     @Id
     private long id;
@@ -39,6 +40,7 @@ public class Teacher {
         this.id = id;
     }
 
+    @Override
     public String getName() {
         return name;
     }

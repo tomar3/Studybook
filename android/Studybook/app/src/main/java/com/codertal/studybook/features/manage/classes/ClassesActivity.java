@@ -25,11 +25,14 @@ import android.widget.Toast;
 import com.codertal.studybook.Henson;
 import com.codertal.studybook.R;
 import com.codertal.studybook.base.StatefulView;
+import com.codertal.studybook.base.adapter.BaseRecyclerViewAdapter;
 import com.codertal.studybook.data.classes.ClassInfo;
 import com.codertal.studybook.data.classes.ClassesRepository;
 import com.codertal.studybook.features.manage.classes.adapter.ClassListAdapter;
 import com.codertal.studybook.util.ViewUtils;
+import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.HensonNavigable;
+import com.f2prateek.dart.InjectExtra;
 
 import java.util.List;
 
@@ -41,9 +44,11 @@ import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import es.dmoral.toasty.Toasty;
 
-@HensonNavigable
 public class ClassesActivity extends AppCompatActivity implements ClassesContract.View,
-        ClassListAdapter.OnClassClickListener, StatefulView<ClassesContract.State> {
+        BaseRecyclerViewAdapter.OnViewHolderClick<ClassInfo>, StatefulView<ClassesContract.State> {
+
+    public static final String CLASSES_LIST_TYPE = "CLASSES_LIST_TYPE";
+    public static final String TEACHERS_LIST_TYPE = "TEACHERS_LIST_TYPE";
 
     private static final String LAYOUT_MANAGER_POSITION_KEY = "LAYOUT_MANAGER_POSITION_KEY";
 
@@ -62,6 +67,9 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
     @BindView(R.id.app_bar_layout)
     AppBarLayout mAppBarLayout;
 
+    @InjectExtra
+    String mListType;
+
     @Inject
     ClassesRepository mClassesRepository;
 
@@ -76,6 +84,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_classes);
         ButterKnife.bind(this);
+        Dart.inject(this);
 
         setSupportActionBar(mToolbar);
 
@@ -145,7 +154,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
 
     @Override
     public void displayClasses(List<ClassInfo> classes) {
-       mClassListAdapter.updateData(classes);
+       mClassListAdapter.updateItems(classes);
        // updateToolbarBehaviour(classes.size());
     }
 
@@ -180,7 +189,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
     }
 
     @Override
-    public void onClassClick(ClassInfo selectedClass) {
+    public void onViewHolderClick(View view, int position, ClassInfo selectedClass) {
         mPresenter.openEditClass(selectedClass.getId());
     }
 

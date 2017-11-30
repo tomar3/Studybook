@@ -7,6 +7,7 @@
 
 package com.codertal.studybook.data.classes;
 
+import com.codertal.studybook.data.BaseData;
 import com.codertal.studybook.data.teachers.Teacher;
 
 import io.objectbox.annotation.Entity;
@@ -14,7 +15,7 @@ import io.objectbox.annotation.Id;
 import io.objectbox.relation.ToOne;
 
 @Entity
-public class ClassInfo {
+public class ClassInfo implements BaseData{
     @Id
     private long id;
 
@@ -44,6 +45,7 @@ public class ClassInfo {
         this.id = id;
     }
 
+    @Override
     public String getName() {
         return name;
     }
