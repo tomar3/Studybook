@@ -45,7 +45,7 @@ public class ClassesPresenter extends ClassesContract.Presenter {
 
     @Override
     public void subscribe() {
-        mCompositeDisposable.add(mClassesRepository.getAllClasses()
+        mCompositeDisposable.add(mClassesRepository.getAllClassesAlphabetically()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::displayClasses, this::displayError));
