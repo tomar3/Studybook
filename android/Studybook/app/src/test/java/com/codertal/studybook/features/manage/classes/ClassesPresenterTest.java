@@ -1,8 +1,6 @@
 /*
- * Created by Talab Omar on 11/8/17 12:42 PM
+ * Created by Talab Omar.
  * Copyright (c) 2017. All rights reserved.
- *
- * Last modified 11/8/17 12:42 PM
  */
 
 package com.codertal.studybook.features.manage.classes;
