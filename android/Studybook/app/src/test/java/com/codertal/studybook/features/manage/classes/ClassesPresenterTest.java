@@ -72,7 +72,7 @@ public class ClassesPresenterTest {
 
     @Test
     public void subscribe_WhenManyClasses_ShouldDisplayClasses() {
-        when(classesRepository.getAllClasses()).thenReturn(Single.just(MANY_CLASSES));
+        when(classesRepository.getAllClassesAlphabetically()).thenReturn(Single.just(MANY_CLASSES));
 
         classesPresenter.subscribe();
 
@@ -81,7 +81,7 @@ public class ClassesPresenterTest {
 
     @Test
     public void subscribe_WhenEmptyClasses_ShouldDisplayClasses() {
-        when(classesRepository.getAllClasses()).thenReturn(Single.just(EMPTY_LIST));
+        when(classesRepository.getAllClassesAlphabetically()).thenReturn(Single.just(EMPTY_LIST));
 
         classesPresenter.subscribe();
 
@@ -90,7 +90,7 @@ public class ClassesPresenterTest {
 
     @Test
     public void subscribe_WhenDbError_ShouldShowLoadingError() {
-        when(classesRepository.getAllClasses()).thenReturn(Single.error(new Throwable("db error")));
+        when(classesRepository.getAllClassesAlphabetically()).thenReturn(Single.error(new Throwable("db error")));
 
         classesPresenter.subscribe();
 
@@ -106,7 +106,7 @@ public class ClassesPresenterTest {
 
     @Test
     public void restoreState_ShouldRestoreLayoutManagerState(){
-        when(classesRepository.getAllClasses()).thenReturn(Single.just(MANY_CLASSES));
+        when(classesRepository.getAllClassesAlphabetically()).thenReturn(Single.just(MANY_CLASSES));
 
         classesPresenter.restoreState(REAL_STATE);
         classesPresenter.subscribe();

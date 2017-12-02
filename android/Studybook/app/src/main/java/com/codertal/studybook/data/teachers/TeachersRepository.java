@@ -28,11 +28,6 @@ public class TeachersRepository {
         return Single.fromCallable(() -> teacherBox.put(teacher));
     }
 
-    //TODO: REMOVE IF NOT NEEDED
-//    public Single<List<Teacher>> getAllTeachers() {
-//        return Single.fromCallable(teacherBox::getAll);
-//    }
-
     public Single<List<Teacher>> getAllTeachersAlphabetically() {
         Query<Teacher> teachersQuery = teacherBox.query().order(Teacher_.name).build();
         return Single.fromCallable(teachersQuery::find);

@@ -14,6 +14,7 @@ import javax.inject.Inject;
 
 import io.objectbox.Box;
 import io.objectbox.BoxStore;
+import io.objectbox.query.Query;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -30,8 +31,9 @@ public class ClassesRepository {
         return Completable.fromAction(() -> classInfoBox.put(entity));
     }
 
-    public Single<List<ClassInfo>> getAllClasses() {
-        return Single.fromCallable(classInfoBox::getAll);
+    public Single<List<ClassInfo>> getAllClassesAlphabetically() {
+        Query<ClassInfo> classesQuery = classInfoBox.query().order(ClassInfo_.name).build();
+        return Single.fromCallable(classesQuery::find);
     }
 
     public Single<ClassInfo> getClassInfo(long classId) {
