@@ -1,16 +1,12 @@
 /*
- * Created by Talab Omar on 11/7/17 1:32 PM
+ * Created by Talab Omar.
  * Copyright (c) 2017. All rights reserved.
- *
- * Last modified 11/7/17 1:32 PM
  */
 
-package com.codertal.studybook.features.manage.classes;
+package com.codertal.studybook.features.manage.teachers;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,13 +22,11 @@ import com.codertal.studybook.Henson;
 import com.codertal.studybook.R;
 import com.codertal.studybook.base.StatefulView;
 import com.codertal.studybook.base.adapter.BaseRecyclerViewAdapter;
-import com.codertal.studybook.data.classes.ClassInfo;
-import com.codertal.studybook.data.classes.ClassesRepository;
-import com.codertal.studybook.features.manage.classes.adapter.ClassListAdapter;
-import com.codertal.studybook.util.ViewUtils;
+import com.codertal.studybook.data.teachers.Teacher;
+import com.codertal.studybook.data.teachers.TeachersRepository;
+import com.codertal.studybook.features.manage.teachers.adapter.TeacherListAdapter;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.HensonNavigable;
-import com.f2prateek.dart.InjectExtra;
 
 import java.util.List;
 
@@ -45,13 +39,13 @@ import dagger.android.AndroidInjection;
 import es.dmoral.toasty.Toasty;
 
 @HensonNavigable
-public class ClassesActivity extends AppCompatActivity implements ClassesContract.View,
-        BaseRecyclerViewAdapter.OnViewHolderClick<ClassInfo>, StatefulView<ClassesContract.State> {
+public class TeachersActivity extends AppCompatActivity implements TeachersContract.View,
+        BaseRecyclerViewAdapter.OnViewHolderClick<Teacher>, StatefulView<TeachersContract.State> {
 
     private static final String LAYOUT_MANAGER_POSITION_KEY = "LAYOUT_MANAGER_POSITION_KEY";
 
-    @BindView(R.id.rv_classes)
-    RecyclerView mClassesRecycler;
+    @BindView(R.id.rv_teachers)
+    RecyclerView mTeachersRecycler;
 
     @BindView(R.id.layout_empty_view)
     ViewGroup mEmptyView;
@@ -59,17 +53,14 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
-    @BindView(R.id.fab_add_class)
-    FloatingActionButton mAddClassFab;
-
-    @BindView(R.id.app_bar_layout)
-    AppBarLayout mAppBarLayout;
+    @BindView(R.id.fab_add_teacher)
+    FloatingActionButton mAddTeacherFab;
 
     @Inject
-    ClassesRepository mClassesRepository;
+    TeachersRepository mTeachersRepository;
 
-    private ClassesContract.Presenter mPresenter;
-    private ClassListAdapter mClassListAdapter;
+    private TeachersContract.Presenter mPresenter;
+    private TeacherListAdapter mTeacherListAdapter;
     private Toast mErrorToast;
     private LinearLayoutManager mLayoutManager;
 
@@ -77,7 +68,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_classes);
+        setContentView(R.layout.activity_teachers);
         ButterKnife.bind(this);
         Dart.inject(this);
 
@@ -88,14 +79,14 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
         }
 
         setUpEmptyView();
-        setUpClassesRecycler();
+        setUpTeachersRecycler();
 
         mErrorToast = Toasty.error(this,
-                getString(R.string.class_unable_to_load),
+                getString(R.string.teacher_unable_to_load),
                 Toast.LENGTH_LONG,
                 true);
 
-        mPresenter = new ClassesPresenter(this, mClassesRepository);
+        mPresenter = new TeachersPresenter(this, mTeachersRepository);
     }
 
     @Override
@@ -127,30 +118,29 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
     }
 
     @Override
-    public void writeToBundle(Bundle outState, ClassesContract.State state) {
+    public void writeToBundle(Bundle outState, TeachersContract.State state) {
         outState.putInt(LAYOUT_MANAGER_POSITION_KEY, state.getLayoutManagerPosition());
     }
 
     @Override
-    public ClassesContract.State readFromBundle(Bundle savedInstanceState) {
+    public TeachersContract.State readFromBundle(Bundle savedInstanceState) {
         int layoutManagerPosition = savedInstanceState.getInt(LAYOUT_MANAGER_POSITION_KEY);
 
-        return new ClassesState(layoutManagerPosition);
+        return new TeachersState(layoutManagerPosition);
     }
 
     @Override
-    public void showAddClassUi() {
-        Intent addClassIntent = Henson.with(this)
+    public void showAddTeacherUi() {
+        Intent addTeacherIntent = Henson.with(this)
                 .gotoEditAddClassActivity()
                 .build();
 
-        startActivity(addClassIntent);
+        startActivity(addTeacherIntent);
     }
 
     @Override
-    public void displayClasses(List<ClassInfo> classes) {
-       mClassListAdapter.updateItems(classes);
-       // updateToolbarBehaviour(classes.size());
+    public void displayTeachers(List<Teacher> teachers) {
+        mTeacherListAdapter.updateItems(teachers);
     }
 
     @Override
@@ -159,10 +149,10 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
     }
 
     @Override
-    public void showEditClassUi(long classId) {
+    public void showEditTeacherUi(long teacherId) {
         Intent editClassIntent = Henson.with(this)
                 .gotoEditAddClassActivity()
-                .mClassId(classId)
+                .mClassId(teacherId)
                 .build();
 
         startActivity(editClassIntent);
@@ -178,56 +168,45 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
         mLayoutManager.scrollToPosition(layoutManagerPosition);
     }
 
-    @OnClick(R.id.fab_add_class)
-    public void onAddClassClick(){
-        mPresenter.openAddClass();
+    @OnClick(R.id.fab_add_teacher)
+    public void onAddTeacherClick(){
+        mPresenter.openAddTeacher();
     }
 
     @Override
-    public void onViewHolderClick(View view, int position, ClassInfo selectedClass) {
-        mPresenter.openEditClass(selectedClass.getId());
+    public void onViewHolderClick(View view, int position, Teacher selectedTeacher) {
+        mPresenter.openEditTeacher(selectedTeacher.getId());
     }
 
     private void setUpEmptyView(){
         TextView emptyMessage = mEmptyView.findViewById(R.id.tv_empty_message);
-        emptyMessage.setText(getString(R.string.class_empty_classes));
+        emptyMessage.setText(getString(R.string.teacher_empty_teachers));
 
         ImageView emptyImage = mEmptyView.findViewById(R.id.iv_empty);
         emptyImage.setImageResource(R.drawable.ic_school);
     }
 
-    private void setUpClassesRecycler() {
+    private void setUpTeachersRecycler() {
         mLayoutManager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
-        mClassesRecycler.setLayoutManager(mLayoutManager);
+        mTeachersRecycler.setLayoutManager(mLayoutManager);
 
-        mClassesRecycler.setHasFixedSize(true);
+        mTeachersRecycler.setHasFixedSize(true);
 
-        mClassListAdapter = new ClassListAdapter(this, mEmptyView);
+        mTeacherListAdapter = new TeacherListAdapter(this, mEmptyView);
 
-        mClassesRecycler.setAdapter(mClassListAdapter);
+        mTeachersRecycler.setAdapter(mTeacherListAdapter);
 
-        mClassesRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mTeachersRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0 && mAddClassFab.getVisibility() == View.VISIBLE) {
-                    mAddClassFab.hide();
-                } else if (dy < 0 && mAddClassFab.getVisibility() != View.VISIBLE) {
-                    mAddClassFab.show();
+                if (dy > 0 && mAddTeacherFab.getVisibility() == View.VISIBLE) {
+                    mAddTeacherFab.hide();
+                } else if (dy < 0 && mAddTeacherFab.getVisibility() != View.VISIBLE) {
+                    mAddTeacherFab.show();
                 }
             }
         });
-    }
-
-    private void updateToolbarBehaviour(int dataSize){
-        mToolbar.postDelayed(() -> {
-            if (mLayoutManager.findLastCompletelyVisibleItemPosition() == dataSize-1) {
-                ViewUtils.turnOffToolbarScrolling(mToolbar, mAppBarLayout);
-            } else {
-                ViewUtils.turnOnToolbarScrolling(mToolbar, mAppBarLayout);
-            }
-        }, 100);
-
     }
 }

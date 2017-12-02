@@ -3,31 +3,30 @@
  * Copyright (c) 2017. All rights reserved.
  */
 
-package com.codertal.studybook.features.manage.classes;
+package com.codertal.studybook.features.manage.teachers;
 
 import com.codertal.studybook.base.BaseState;
 import com.codertal.studybook.base.presenter.StatefulPresenter;
 import com.codertal.studybook.base.presenter.SubscribablePresenter;
-import com.codertal.studybook.data.classes.ClassInfo;
+import com.codertal.studybook.data.teachers.Teacher;
 
 import java.util.List;
 
-public interface ClassesContract {
-
+public interface TeachersContract {
     interface View {
 
-        void displayClasses(List<ClassInfo> classes);
+        void displayTeachers(List<Teacher> teachers);
         void displayLoadingError();
-        void showAddClassUi();
-        void showEditClassUi(long classId);
+        void showAddTeacherUi();
+        void showEditTeacherUi(long teacherId);
         int getLayoutManagerPosition();
         void restoreLayoutManagerPosition(int layoutManagerPosition);
     }
 
-    abstract class Presenter extends SubscribablePresenter implements StatefulPresenter<State>{
+    abstract class Presenter extends SubscribablePresenter implements StatefulPresenter<State> {
 
-        abstract void openAddClass();
-        abstract void openEditClass(long classId);
+        abstract void openAddTeacher();
+        abstract void openEditTeacher(long teacherId);
     }
 
     interface State extends BaseState {

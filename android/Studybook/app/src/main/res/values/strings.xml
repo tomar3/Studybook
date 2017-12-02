@@ -21,7 +21,7 @@
     <!--classes screen-->
     <string name="title_activity_classes">Classes</string>
     <string name="class_unable_to_load">Unable to load classes, try again soon</string>
-    <string name="class_empty_classes">Click the \'+\' to add a class</string>
+    <string name="class_empty_classes">Tap the \'+\' to add a class</string>
 
 
     <!--edit-add-class screen-->
@@ -38,6 +38,11 @@
     <string name="edit_teacher_name_hint">Teacher name</string>
     <string name="edit_teacher_added">Teacher added</string>
     <string name="edit_teacher_add_error">Unable to add teacher</string>
+
+    <!--teachers screen-->
+    <string name="title_activity_teachers">Teachers</string>
+    <string name="teacher_unable_to_load">Unable to load teachers, try again soon</string>
+    <string name="teacher_empty_teachers">Tap the \'+\' to add a teacher</string>
 
 
     <!--shared-->

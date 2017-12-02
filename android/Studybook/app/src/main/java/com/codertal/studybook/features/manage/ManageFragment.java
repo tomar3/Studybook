@@ -59,7 +59,6 @@ public class ManageFragment extends BaseTabFragment implements ManageContract.Vi
         if(isAdded()) {
             Intent classesIntent = Henson.with(getContext())
                     .gotoClassesActivity()
-                    .mListType(ClassesActivity.CLASSES_LIST_TYPE)
                     .build();
 
             startActivity(classesIntent);
@@ -70,8 +69,7 @@ public class ManageFragment extends BaseTabFragment implements ManageContract.Vi
     public void showTeachersUi() {
         if(isAdded()) {
             Intent classesIntent = Henson.with(getContext())
-                    .gotoClassesActivity()
-                    .mListType(ClassesActivity.TEACHERS_LIST_TYPE)
+                    .gotoTeachersActivity()
                     .build();
 
             startActivity(classesIntent);

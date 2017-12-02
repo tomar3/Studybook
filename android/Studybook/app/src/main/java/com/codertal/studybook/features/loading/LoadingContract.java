@@ -8,8 +8,7 @@
 package com.codertal.studybook.features.loading;
 
 
-import com.codertal.studybook.base.BaseRxPresenter;
-import com.codertal.studybook.base.SubscribablePresenter;
+import com.codertal.studybook.base.presenter.SubscribablePresenter;
 
 public interface LoadingContract {
 

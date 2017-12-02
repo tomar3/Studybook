@@ -9,7 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.codertal.studybook.features.manage.classes.ClassesActivity">
+    tools:context="com.codertal.studybook.features.manage.teachers.TeachersActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -27,10 +27,10 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_classes" />
+    <include layout="@layout/content_teachers" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_add_class"
+        android:id="@+id/fab_add_teacher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

@@ -1,11 +1,9 @@
 /*
- * Created by Talab Omar on 10/29/17 4:13 PM
+ * Created by Talab Omar.
  * Copyright (c) 2017. All rights reserved.
- *
- * Last modified 10/29/17 4:13 PM
  */
 
-package com.codertal.studybook.base;
+package com.codertal.studybook.base.presenter;
 
 
 import android.support.annotation.NonNull;

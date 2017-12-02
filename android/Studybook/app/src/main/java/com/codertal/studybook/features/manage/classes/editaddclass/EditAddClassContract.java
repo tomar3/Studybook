@@ -8,10 +8,9 @@
 package com.codertal.studybook.features.manage.classes.editaddclass;
 
 import com.codertal.studybook.base.BaseState;
-import com.codertal.studybook.base.StatefulPresenter;
-import com.codertal.studybook.base.SubscribablePresenter;
+import com.codertal.studybook.base.presenter.StatefulPresenter;
+import com.codertal.studybook.base.presenter.SubscribablePresenter;
 import com.codertal.studybook.data.classes.ClassInfo;
-import com.codertal.studybook.data.teachers.Teacher;
 
 import java.util.List;
 
