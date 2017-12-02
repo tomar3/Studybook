@@ -32,8 +32,8 @@
         <activity
             android:name=".features.manage.classes.ClassesActivity"
             android:label="@string/title_activity_classes"
-            android:parentActivityName=".features.dashboard.DashboardActivity"
             android:launchMode="singleTop"
+            android:parentActivityName=".features.dashboard.DashboardActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -51,12 +51,21 @@
         <activity
             android:name=".features.manage.teachers.TeachersActivity"
             android:label="@string/title_activity_teachers"
-            android:parentActivityName=".features.dashboard.DashboardActivity"
             android:launchMode="singleTop"
+            android:parentActivityName=".features.dashboard.DashboardActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.codertal.studybook.features.dashboard.DashboardActivity" />
+        </activity>
+        <activity
+            android:name=".features.manage.teachers.editaddteacher.EditAddTeacherActivity"
+            android:label="@string/title_activity_edit_add_teacher"
+            android:parentActivityName=".features.manage.teachers.TeachersActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.codertal.studybook.features.manage.teachers.TeachersActivity" />
         </activity>
     </application>
 

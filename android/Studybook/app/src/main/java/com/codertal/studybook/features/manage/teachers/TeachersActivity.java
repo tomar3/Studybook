@@ -132,7 +132,7 @@ public class TeachersActivity extends AppCompatActivity implements TeachersContr
     @Override
     public void showAddTeacherUi() {
         Intent addTeacherIntent = Henson.with(this)
-                .gotoEditAddClassActivity()
+                .gotoEditAddTeacherActivity()
                 .build();
 
         startActivity(addTeacherIntent);
@@ -151,8 +151,8 @@ public class TeachersActivity extends AppCompatActivity implements TeachersContr
     @Override
     public void showEditTeacherUi(long teacherId) {
         Intent editClassIntent = Henson.with(this)
-                .gotoEditAddClassActivity()
-                .mClassId(teacherId)
+                .gotoEditAddTeacherActivity()
+                .mTeacherId(teacherId)
                 .build();
 
         startActivity(editClassIntent);

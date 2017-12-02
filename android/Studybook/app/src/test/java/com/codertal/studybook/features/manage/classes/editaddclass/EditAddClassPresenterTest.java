@@ -230,7 +230,7 @@ public class EditAddClassPresenterTest {
 
     @Test
     public void saveNewTeacher_WhenDatabaseError_ShouldShowTeacherSaveError() {
-        when(teachersRepository.save(any(Teacher.class))).thenReturn(Single.error(new Throwable("db error")));
+        when(teachersRepository.saveAndReturnId(any(Teacher.class))).thenReturn(Single.error(new Throwable("db error")));
 
         editAddClassPresenter.saveNewTeacher(REAL_TEACHER_NAME);
 
@@ -240,7 +240,7 @@ public class EditAddClassPresenterTest {
     @Test
     public void saveNewTeacher_WhenDatabaseSuccess_ShouldShowTeacherSaveSuccess() {
         when(teachersRepository.getAllTeachersAlphabetically()).thenReturn(just(MANY_TEACHERS));
-        when(teachersRepository.save(any(Teacher.class))).thenReturn(just(CLASS_ID));
+        when(teachersRepository.saveAndReturnId(any(Teacher.class))).thenReturn(just(CLASS_ID));
 
         editAddClassPresenter.saveNewTeacher(REAL_TEACHER_NAME);
 
@@ -250,7 +250,7 @@ public class EditAddClassPresenterTest {
     @Test
     public void saveNewTeacher_WhenDatabaseSuccess_ShouldFillTeacherOptionsList() {
         when(teachersRepository.getAllTeachersAlphabetically()).thenReturn(just(MANY_TEACHERS));
-        when(teachersRepository.save(any(Teacher.class))).thenReturn(just(CLASS_ID));
+        when(teachersRepository.saveAndReturnId(any(Teacher.class))).thenReturn(just(CLASS_ID));
 
         editAddClassPresenter.saveNewTeacher(REAL_TEACHER_NAME);
 
@@ -260,7 +260,7 @@ public class EditAddClassPresenterTest {
     @Test
     public void saveNewTeacher_WhenDatabaseSuccess_ShouldSelectTeacherPosition() {
         when(teachersRepository.getAllTeachersAlphabetically()).thenReturn(just(MANY_TEACHERS));
-        when(teachersRepository.save(any(Teacher.class))).thenReturn(just(CLASS_ID));
+        when(teachersRepository.saveAndReturnId(any(Teacher.class))).thenReturn(just(CLASS_ID));
 
         editAddClassPresenter.saveNewTeacher(REAL_TEACHER_NAME);
 

@@ -30,6 +30,7 @@ import com.codertal.studybook.data.classes.ClassInfo;
 import com.codertal.studybook.data.classes.ClassesRepository;
 import com.codertal.studybook.data.teachers.TeachersRepository;
 import com.codertal.studybook.features.manage.classes.adapter.HintAdapter;
+import com.codertal.studybook.util.ViewUtils;
 import com.codertal.studybook.util.dialog.DialogUtils;
 import com.codertal.studybook.util.dialog.TextSubmitListener;
 import com.f2prateek.dart.Dart;
@@ -171,10 +172,10 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
 
         if(loading) {
 
-            //Rotate save button
-            rotate360View(mSaveFab, mRotateRunnable);
+            //Rotate saveAndReturnId button
+            ViewUtils.rotate360View(mSaveFab, mRotateRunnable);
 
-            //Change save button image to circle
+            //Change saveAndReturnId button image to circle
             mSaveFab.postDelayed(() -> mSaveFab.setImageDrawable(
                     ContextCompat.getDrawable(EditAddClassActivity.this, R.drawable.half_circle)),
                     100);
@@ -201,7 +202,7 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
     @Override
     public void showLoadTeachersError() {
         Toasty.warning(this,
-                getString(R.string.edit_unable_to_load),
+                getString(R.string.edit_unable_to_load_teachers),
                 Toast.LENGTH_LONG,
                 true).show();
 
@@ -261,7 +262,7 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
 
                 //If still loading save, keep rotating
                 if(mLoadingSave) {
-                    rotate360View(mSaveFab, this);
+                    ViewUtils.rotate360View(mSaveFab, this);
                 }else {
                     //Restore button state
                     mSaveFab.setImageDrawable(
@@ -272,17 +273,6 @@ public class EditAddClassActivity extends AppCompatActivity implements EditAddCl
             }
         };
     }
-
-
-    private void rotate360View(View rotateView, Runnable endAction) {
-        rotateView.animate()
-                .rotationBy(360)
-                .withEndAction(endAction)
-                .setDuration(1000)
-                .setInterpolator(new LinearInterpolator())
-                .start();
-    }
-
 
     private void setUpTeacherSpinner(List<String> teacherOptions) {
         teacherOptions.add(0, getString(R.string.edit_teacher_none));

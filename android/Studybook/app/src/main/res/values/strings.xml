@@ -29,7 +29,6 @@
     <string name="title_edit_class">Edit class</string>
     <string name="edit_class_name">Class name</string>
     <string name="edit_teacher">Teacher</string>
-    <string name="edit_unable_to_save">Unable to save, try again soon</string>
     <string name="edit_unable_to_load">Unable to load class, try again soon</string>
     <string name="edit_unable_to_load_teachers">Unable to load the list of your teachers</string>
     <string name="edit_teacher_none">None</string>
@@ -44,10 +43,18 @@
     <string name="teacher_unable_to_load">Unable to load teachers, try again soon</string>
     <string name="teacher_empty_teachers">Tap the \'+\' to add a teacher</string>
 
+    <!--edit-add-class screen-->
+    <string name="title_activity_edit_add_teacher">Add teacher</string>
+    <string name="title_edit_teacher">Edit teacher</string>
+    <string name="edit_teacher_name">Teacher name</string>
+    <string name="edit_teacher_unable_to_load">Unable to load teacher, try again soon</string>
+
 
     <!--shared-->
     <string name="required_label">Required</string>
     <string name="okay_label">Okay</string>
     <string name="cancel_label">Cancel</string>
+    <string name="edit_unable_to_save">Unable to save, try again soon</string>
+
 
 </resources>

@@ -27,8 +27,8 @@ public class ClassesRepository {
         classInfoBox = boxStore.boxFor(ClassInfo.class);
     }
 
-    public Completable save(ClassInfo entity) {
-        return Completable.fromAction(() -> classInfoBox.put(entity));
+    public Completable save(ClassInfo classInfo) {
+        return Completable.fromAction(() -> classInfoBox.put(classInfo));
     }
 
     public Single<List<ClassInfo>> getAllClassesAlphabetically() {

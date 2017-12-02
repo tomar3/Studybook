@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Created by Talab Omar
+  ~ Created by Talab Omar.
   ~ Copyright (c) 2017. All rights reserved.
   -->
 
@@ -9,7 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.codertal.studybook.features.manage.classes.editaddclass.EditAddClassActivity">
+    tools:context="com.codertal.studybook.features.manage.teachers.editaddteacher.EditAddTeacherActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -25,10 +25,10 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_edit_add_class" />
+    <include layout="@layout/content_edit_add_teacher" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_save_class"
+        android:id="@+id/fab_save_teacher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

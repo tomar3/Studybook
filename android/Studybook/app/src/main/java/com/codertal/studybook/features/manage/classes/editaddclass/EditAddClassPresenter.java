@@ -1,8 +1,6 @@
 /*
- * Created by Talab Omar on 11/8/17 2:43 PM
+ * Created by Talab Omar.
  * Copyright (c) 2017. All rights reserved.
- *
- * Last modified 11/8/17 2:43 PM
  */
 
 package com.codertal.studybook.features.manage.classes.editaddclass;
@@ -137,7 +135,7 @@ public class EditAddClassPresenter extends EditAddClassContract.Presenter {
 
     @Override
     void saveNewTeacher(String teacherName) {
-        mCompositeDisposable.add(mTeachersRepository.save(new Teacher(teacherName))
+        mCompositeDisposable.add(mTeachersRepository.saveAndReturnId(new Teacher(teacherName))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<Long>() {
