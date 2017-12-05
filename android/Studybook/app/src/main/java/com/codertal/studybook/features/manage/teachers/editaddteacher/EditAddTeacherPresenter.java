@@ -54,8 +54,6 @@ public class EditAddTeacherPresenter extends EditAddTeacherContract.Presenter {
                 saveTeacher.setName(teacherName);
             }
 
-
-
             mCompositeDisposable.add(mTeachersRepository.save(saveTeacher)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

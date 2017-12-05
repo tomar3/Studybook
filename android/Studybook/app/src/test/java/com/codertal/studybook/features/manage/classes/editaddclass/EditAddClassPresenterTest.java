@@ -33,6 +33,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -136,6 +137,16 @@ public class EditAddClassPresenterTest {
         verify(editAddClassView).showLoadingIndicator(false);
     }
 
+    @Test
+    public void verifySaveTeacher_WhenSavingExistingTeacher_ShouldSaveTheExistingTeacher() {
+        when(classesRepository.getClassInfo(anyLong())).thenReturn(Single.just(REAL_CLASS_INFO));
+        when(classesRepository.save(any(ClassInfo.class))).thenReturn(complete());
+
+        editAddClassPresenter.loadClassInfo(CLASS_ID);
+        editAddClassPresenter.verifySaveClass(REAL_CLASS_NAME);
+
+        verify(classesRepository).save(REAL_CLASS_INFO);
+    }
 
 
     @Test
