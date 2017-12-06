@@ -6,6 +6,8 @@
 package com.codertal.studybook.data.teachers;
 
 
+import com.codertal.studybook.data.classes.ClassInfo;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -13,6 +15,7 @@ import javax.inject.Inject;
 import io.objectbox.Box;
 import io.objectbox.BoxStore;
 import io.objectbox.query.Query;
+import io.objectbox.relation.ToMany;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -40,5 +43,9 @@ public class TeachersRepository {
 
     public Single<Teacher> getTeacher(long teacherId) {
         return Single.fromCallable(() -> teacherBox.get(teacherId));
+    }
+
+    public ToMany<ClassInfo> getClassesForTeacher(long teacherId) {
+        return teacherBox.get(teacherId).getClasses();
     }
 }

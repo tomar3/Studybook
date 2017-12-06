@@ -6,6 +6,7 @@
 package com.codertal.studybook.features.manage.teachers.editaddteacher;
 
 import com.codertal.studybook.base.presenter.BaseRxPresenter;
+import com.codertal.studybook.base.presenter.SubscribablePresenter;
 import com.codertal.studybook.data.classes.ClassInfo;
 import com.codertal.studybook.data.teachers.Teacher;
 
@@ -34,7 +35,7 @@ public interface EditAddTeacherContract {
         void showClassesUi();
     }
 
-    abstract class Presenter extends BaseRxPresenter {
+    abstract class Presenter extends SubscribablePresenter{
 
         abstract void verifySaveTeacher(String teacherName);
 

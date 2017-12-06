@@ -31,6 +31,13 @@ public class EditAddTeacherPresenter extends EditAddTeacherContract.Presenter {
     }
 
     @Override
+    public void subscribe() {
+        if(mLoadedTeacher != null) {
+            loadClassesForTeacher();
+        }
+    }
+
+    @Override
     public void verifySaveTeacher(String teacherName) {
 
         if(teacherName.isEmpty()) {
@@ -89,7 +96,7 @@ public class EditAddTeacherPresenter extends EditAddTeacherContract.Presenter {
     }
 
     private void loadClassesForTeacher() {
-        mEditTeacherView.displayClasses(mLoadedTeacher.getClasses());
+        mEditTeacherView.displayClasses(mTeachersRepository.getClassesForTeacher(mLoadedTeacher.getId()));
     }
 
     private void returnToTeachers() {

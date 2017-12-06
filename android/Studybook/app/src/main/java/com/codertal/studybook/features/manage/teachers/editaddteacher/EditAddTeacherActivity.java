@@ -106,6 +106,13 @@ public class EditAddTeacherActivity extends AppCompatActivity implements EditAdd
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        mPresenter.subscribe();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
 

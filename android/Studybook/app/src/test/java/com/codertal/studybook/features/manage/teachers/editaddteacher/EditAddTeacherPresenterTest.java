@@ -27,6 +27,7 @@ import static io.reactivex.Completable.complete;
 import static io.reactivex.Completable.error;
 import static io.reactivex.Single.just;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -165,7 +166,7 @@ public class EditAddTeacherPresenterTest {
 
     @Test
     public void loadTeacher_WhenDatabaseSuccess_ShouldDisplayClasses() {
-        when(REAL_TEACHER.getClasses()).thenReturn(MANY_CLASSES);
+        when(teachersRepository.getClassesForTeacher(REAL_TEACHER.getId())).thenReturn(MANY_CLASSES);
         when(teachersRepository.getTeacher(TEACHER_ID)).thenReturn(just(REAL_TEACHER));
 
         editAddTeacherPresenter.loadTeacher(TEACHER_ID);
@@ -195,4 +196,24 @@ public class EditAddTeacherPresenterTest {
 
         verify(editAddTeacherView).showClassesUi();
     }
+
+    @Test
+    public void subscribe_WhenTeacherLoaded_ShouldDisplayClasses() {
+        when(teachersRepository.getClassesForTeacher(REAL_TEACHER.getId())).thenReturn(MANY_CLASSES);
+        when(teachersRepository.getTeacher(TEACHER_ID)).thenReturn(just(REAL_TEACHER));
+
+        editAddTeacherPresenter.loadTeacher(TEACHER_ID);
+        editAddTeacherPresenter.subscribe();
+
+        verify(editAddTeacherView, times(2)).displayClasses(MANY_CLASSES);
+    }
+
+
+    @Test
+    public void subscribe_WhenTeacherNotLoaded_ShouldNotDisplayClasses() {
+        editAddTeacherPresenter.subscribe();
+
+        verify(editAddTeacherView, times(0)).displayClasses(anyList());
+    }
+
 }
