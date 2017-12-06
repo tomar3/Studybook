@@ -49,11 +49,17 @@ public class EditAddTeacherActivity extends AppCompatActivity implements EditAdd
     @BindView(R.id.et_teacher_name)
     EditText mEditTeacherName;
 
+    @BindView(R.id.et_teacher_email)
+    EditText mEditTeacherEmail;
+
     @BindView(R.id.fab_save_teacher)
     FloatingActionButton mSaveFab;
 
     @BindView(R.id.il_teacher_name)
     TextInputLayout mEditTeacherNameLayout;
+
+    @BindView(R.id.il_teacher_email)
+    TextInputLayout mEditTeacherEmailLayout;
 
     @BindView(R.id.rv_classes)
     RecyclerView mClassesRecycler;
@@ -100,6 +106,7 @@ public class EditAddTeacherActivity extends AppCompatActivity implements EditAdd
         if(mTeacherId != null){
             setTitle(getString(R.string.title_edit_teacher));
             mEditTeacherNameLayout.setHintAnimationEnabled(false);
+            mEditTeacherEmailLayout.setHintAnimationEnabled(false);
 
             mPresenter.loadTeacher(mTeacherId);
         }
@@ -140,6 +147,7 @@ public class EditAddTeacherActivity extends AppCompatActivity implements EditAdd
     @Override
     public void showLoadingIndicator(boolean loading) {
         mEditTeacherName.setEnabled(!loading);
+        mEditTeacherEmail.setEnabled(!loading);
         mSaveFab.setEnabled(!loading);
 
         //Will be used in rotate runnable to know when to stop rotating
@@ -160,8 +168,13 @@ public class EditAddTeacherActivity extends AppCompatActivity implements EditAdd
     @Override
     public void fillTeacherInfo(Teacher teacher) {
         mEditTeacherName.setText(teacher.getName());
+        mEditTeacherEmail.setText(teacher.getEmail());
+
         mEditTeacherName.setSelection(teacher.getName().length());
+        mEditTeacherEmail.setSelection(teacher.getEmail().length());
+
         mEditTeacherNameLayout.setHintAnimationEnabled(true);
+        mEditTeacherEmailLayout.setHintAnimationEnabled(true);
     }
 
     @Override
@@ -200,7 +213,8 @@ public class EditAddTeacherActivity extends AppCompatActivity implements EditAdd
 
     @OnClick(R.id.fab_save_teacher)
     public void onSaveTeacherClick() {
-        mPresenter.verifySaveTeacher(mEditTeacherName.getText().toString());
+        mPresenter.verifySaveTeacher(mEditTeacherName.getText().toString(),
+                mEditTeacherEmail.getText().toString());
     }
 
     @OnClick(R.id.cv_classes)

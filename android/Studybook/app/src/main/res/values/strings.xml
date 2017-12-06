@@ -43,10 +43,11 @@
     <string name="teacher_unable_to_load">Unable to load teachers, try again soon</string>
     <string name="teacher_empty_teachers">Tap the \'+\' to add a teacher</string>
 
-    <!--edit-add-class screen-->
+    <!--edit-add-teacher screen-->
     <string name="title_activity_edit_add_teacher">Add teacher</string>
     <string name="title_edit_teacher">Edit teacher</string>
-    <string name="edit_teacher_name">Teacher name</string>
+    <string name="edit_teacher_name">Name</string>
+    <string name="edit_teacher_email">Email</string>
     <string name="edit_teacher_unable_to_load">Unable to load teacher, try again soon</string>
 
 

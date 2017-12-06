@@ -76,7 +76,7 @@ public class EditAddTeacherPresenterTest {
 
     @Test
     public void verifySaveTeacher_WhenTeacherNameNotEntered_ShouldShowRequiredFields() {
-        editAddTeacherPresenter.verifySaveTeacher("");
+        editAddTeacherPresenter.verifySaveTeacher("", "");
 
         verify(editAddTeacherView).showRequiredFields();
         verify(editAddTeacherView, times(0)).returnToTeachersUi();
@@ -86,7 +86,7 @@ public class EditAddTeacherPresenterTest {
     public void verifySaveTeacher_WhenAllRequiredFieldsGiven_ShouldShowLoadingIndicator() {
         when(teachersRepository.save(any(Teacher.class))).thenReturn(complete());
 
-        editAddTeacherPresenter.verifySaveTeacher(REAL_TEACHER_NAME);
+        editAddTeacherPresenter.verifySaveTeacher(REAL_TEACHER_NAME, "");
 
         verify(editAddTeacherView).showLoadingIndicator(true);
     }
@@ -96,7 +96,7 @@ public class EditAddTeacherPresenterTest {
     public void verifySaveTeacher_WhenAllRequiredFieldsGiven_ShouldReturnToTeachersUi() {
         when(teachersRepository.save(any(Teacher.class))).thenReturn(complete());
 
-        editAddTeacherPresenter.verifySaveTeacher(REAL_TEACHER_NAME);
+        editAddTeacherPresenter.verifySaveTeacher(REAL_TEACHER_NAME, "");
 
         verify(editAddTeacherView).returnToTeachersUi();
         verify(editAddTeacherView, times(0)).showRequiredFields();
@@ -106,7 +106,7 @@ public class EditAddTeacherPresenterTest {
     public void verifySaveTeacher_WhenAllRequiredFieldsGiven_ShouldSaveTeacher() {
         when(teachersRepository.save(any(Teacher.class))).thenReturn(complete());
 
-        editAddTeacherPresenter.verifySaveTeacher(REAL_TEACHER_NAME);
+        editAddTeacherPresenter.verifySaveTeacher(REAL_TEACHER_NAME, "");
 
         verify(teachersRepository).save(any(Teacher.class));
     }
@@ -116,7 +116,7 @@ public class EditAddTeacherPresenterTest {
     public void verifySaveTeacher_WhenTeacherSaved_ShouldStopShowingLoadingIndicator() {
         when(teachersRepository.save(any(Teacher.class))).thenReturn(complete());
 
-        editAddTeacherPresenter.verifySaveTeacher(REAL_TEACHER_NAME);
+        editAddTeacherPresenter.verifySaveTeacher(REAL_TEACHER_NAME, "");
 
         verify(editAddTeacherView).showLoadingIndicator(false);
     }
@@ -128,7 +128,7 @@ public class EditAddTeacherPresenterTest {
         when(teachersRepository.save(any(Teacher.class))).thenReturn(complete());
 
         editAddTeacherPresenter.loadTeacher(TEACHER_ID);
-        editAddTeacherPresenter.verifySaveTeacher(REAL_TEACHER_NAME);
+        editAddTeacherPresenter.verifySaveTeacher(REAL_TEACHER_NAME, "");
 
         verify(teachersRepository).save(REAL_TEACHER);
     }
@@ -138,7 +138,7 @@ public class EditAddTeacherPresenterTest {
         when(teachersRepository.save(any(Teacher.class)))
                 .thenReturn(error(new Throwable("db error")));
 
-        editAddTeacherPresenter.verifySaveTeacher(REAL_TEACHER_NAME);
+        editAddTeacherPresenter.verifySaveTeacher(REAL_TEACHER_NAME, "");
 
         verify(editAddTeacherView).showSaveError();
         verify(editAddTeacherView, times(0)).returnToTeachersUi();
@@ -150,7 +150,7 @@ public class EditAddTeacherPresenterTest {
         when(teachersRepository.save(any(Teacher.class)))
                 .thenReturn(error(new Throwable("db error")));
 
-        editAddTeacherPresenter.verifySaveTeacher(REAL_TEACHER_NAME);
+        editAddTeacherPresenter.verifySaveTeacher(REAL_TEACHER_NAME, "");
 
         verify(editAddTeacherView).showLoadingIndicator(false);
     }

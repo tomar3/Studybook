@@ -38,9 +38,9 @@ public class EditAddTeacherPresenter extends EditAddTeacherContract.Presenter {
     }
 
     @Override
-    public void verifySaveTeacher(String teacherName) {
+    public void verifySaveTeacher(String name, String email) {
 
-        if(teacherName.isEmpty()) {
+        if(name.isEmpty()) {
             mEditTeacherView.showRequiredFields();
         }else {
             mEditTeacherView.showLoadingIndicator(true);
@@ -48,10 +48,11 @@ public class EditAddTeacherPresenter extends EditAddTeacherContract.Presenter {
             Teacher saveTeacher;
 
             if(mLoadedTeacher == null) {
-                saveTeacher = new Teacher(teacherName);
+                saveTeacher = new Teacher(name, email);
             }else {
                 saveTeacher = mLoadedTeacher;
-                saveTeacher.setName(teacherName);
+                saveTeacher.setName(name);
+                saveTeacher.setEmail(email);
             }
 
             mCompositeDisposable.add(mTeachersRepository.save(saveTeacher)

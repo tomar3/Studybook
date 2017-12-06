@@ -21,6 +21,8 @@ public class Teacher implements BaseData{
 
     private String name;
 
+    private String email;
+
     @Backlink
     private ToMany<ClassInfo> classes;
 
@@ -29,6 +31,13 @@ public class Teacher implements BaseData{
 
     public Teacher(String name) {
         this.name = name;
+        email = "";
+        id = 0;
+    }
+
+    public Teacher(String name, String email) {
+        this.name = name;
+        this.email = email;
         id = 0;
     }
 
@@ -47,6 +56,14 @@ public class Teacher implements BaseData{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public ToMany<ClassInfo> getClasses() {
