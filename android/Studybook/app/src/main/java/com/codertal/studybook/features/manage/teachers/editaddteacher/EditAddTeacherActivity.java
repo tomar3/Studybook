@@ -11,19 +11,27 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codertal.studybook.R;
+import com.codertal.studybook.base.adapter.BaseRecyclerViewAdapter;
+import com.codertal.studybook.data.classes.ClassInfo;
 import com.codertal.studybook.data.teachers.Teacher;
 import com.codertal.studybook.data.teachers.TeachersRepository;
+import com.codertal.studybook.features.manage.classes.adapter.ClassListAdapter;
 import com.codertal.studybook.util.ViewUtils;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -33,7 +41,8 @@ import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import es.dmoral.toasty.Toasty;
 
-public class EditAddTeacherActivity extends AppCompatActivity implements EditAddTeacherContract.View {
+public class EditAddTeacherActivity extends AppCompatActivity implements EditAddTeacherContract.View ,
+        BaseRecyclerViewAdapter.OnViewHolderClick<ClassInfo> {
 
     @BindView(R.id.et_teacher_name)
     EditText mEditTeacherName;
@@ -44,6 +53,12 @@ public class EditAddTeacherActivity extends AppCompatActivity implements EditAdd
     @BindView(R.id.il_teacher_name)
     TextInputLayout mEditTeacherNameLayout;
 
+    @BindView(R.id.rv_classes)
+    RecyclerView mClassesRecycler;
+
+    @BindView(R.id.tv_assign_class)
+    TextView mAssignTeacherView;
+
     @Inject
     TeachersRepository mTeachersRepository;
 
@@ -52,6 +67,8 @@ public class EditAddTeacherActivity extends AppCompatActivity implements EditAdd
     Long mTeacherId;
 
     private EditAddTeacherContract.Presenter mPresenter;
+    private ClassListAdapter mClassListAdapter;
+    private LinearLayoutManager mLayoutManager;
     private boolean mLoadingSave;
     private Runnable mRotateRunnable;
 
@@ -72,6 +89,7 @@ public class EditAddTeacherActivity extends AppCompatActivity implements EditAdd
         }
 
         setUpRotateRunnable();
+        setUpClassesRecycler();
         mLoadingSave = false;
 
         mPresenter = new EditAddTeacherPresenter(this, mTeachersRepository);
@@ -86,21 +104,11 @@ public class EditAddTeacherActivity extends AppCompatActivity implements EditAdd
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-
-        mPresenter.subscribe();
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
 
         mPresenter.unsubscribe();
     }
-
-
-
 
     @Override
     public void returnToTeachersUi() {
@@ -157,11 +165,25 @@ public class EditAddTeacherActivity extends AppCompatActivity implements EditAdd
         finish();
     }
 
+    @Override
+    public void displayClasses(List<ClassInfo> classes) {
+        mClassListAdapter.updateItems(classes);
+    }
+
+    @Override
+    public void showLoadClassesError() {
+
+    }
+
     @OnClick(R.id.fab_save_teacher)
     public void onSaveTeacherClick() {
         mPresenter.verifySaveTeacher(mEditTeacherName.getText().toString());
     }
 
+    @Override
+    public void onViewHolderClick(View view, int position, ClassInfo item) {
+
+    }
 
     private void setUpRotateRunnable() {
         mRotateRunnable = new Runnable() {
@@ -179,5 +201,17 @@ public class EditAddTeacherActivity extends AppCompatActivity implements EditAdd
                 }
             }
         };
+    }
+
+    private void setUpClassesRecycler() {
+        mLayoutManager = new LinearLayoutManager(this,
+                LinearLayoutManager.HORIZONTAL, false);
+        mClassesRecycler.setLayoutManager(mLayoutManager);
+
+        mClassesRecycler.setHasFixedSize(true);
+
+        mClassListAdapter = new ClassListAdapter(this, mAssignTeacherView);
+
+        mClassesRecycler.setAdapter(mClassListAdapter);
     }
 }

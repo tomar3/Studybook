@@ -25,17 +25,10 @@ public class EditAddTeacherPresenter extends EditAddTeacherContract.Presenter {
 
 
     public EditAddTeacherPresenter(@NonNull EditAddTeacherContract.View editTeacherView,
-                                 @NonNull TeachersRepository teachersRepository) {
+                                   @NonNull TeachersRepository teachersRepository) {
         mEditTeacherView = editTeacherView;
         mTeachersRepository = teachersRepository;
     }
-
-
-    @Override
-    public void subscribe() {
-        //TODO: Add something to load
-    }
-
 
     @Override
     public void verifySaveTeacher(String teacherName) {
@@ -73,6 +66,7 @@ public class EditAddTeacherPresenter extends EditAddTeacherContract.Presenter {
                         mLoadedTeacher = teacher;
 
                         mEditTeacherView.fillTeacherInfo(teacher);
+                        loadClasses();
                     }
 
                     @Override
@@ -82,6 +76,10 @@ public class EditAddTeacherPresenter extends EditAddTeacherContract.Presenter {
                         mEditTeacherView.showLoadTeacherError();
                     }
                 }));
+    }
+
+    private void loadClasses() {
+        mEditTeacherView.displayClasses(mLoadedTeacher.getClasses());
     }
 
     private void returnToTeachers() {

@@ -5,7 +5,8 @@
 
 package com.codertal.studybook.data.classes;
 
-import com.codertal.studybook.data.classes.ClassInfo;
+import android.support.annotation.NonNull;
+
 import com.codertal.studybook.data.teachers.Teacher;
 
 import java.util.List;
@@ -15,16 +16,19 @@ import javax.inject.Inject;
 import io.objectbox.Box;
 import io.objectbox.BoxStore;
 import io.objectbox.query.Query;
+import io.objectbox.relation.ToOne;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public class ClassesRepository {
 
     private final Box<ClassInfo> classInfoBox;
+    private final Box<Teacher> teacherBox;
 
     @Inject
     public ClassesRepository(BoxStore boxStore){
         classInfoBox = boxStore.boxFor(ClassInfo.class);
+        teacherBox = boxStore.boxFor(Teacher.class);
     }
 
     public Completable save(ClassInfo classInfo) {
@@ -44,8 +48,12 @@ public class ClassesRepository {
         return classInfo.getTeacher().getTargetId();
     }
 
-    public void assignTeacherToClass(ClassInfo classInfo, Teacher teacher) {
-        classInfo.getTeacher().setTarget(teacher);
+    public void assignTeacherToClass(ClassInfo classInfo, Teacher newTeacher) {
+        ToOne<Teacher> teacherOfClass = classInfo.getTeacher();
+
+        //Assign new teacher to the class (can be null)
+        teacherOfClass.setTarget(newTeacher);
+        classInfoBox.put(classInfo);
     }
 
     public boolean classHasTeacher(ClassInfo classInfo) {

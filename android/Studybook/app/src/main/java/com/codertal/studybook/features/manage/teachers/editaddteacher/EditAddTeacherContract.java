@@ -5,8 +5,12 @@
 
 package com.codertal.studybook.features.manage.teachers.editaddteacher;
 
+import com.codertal.studybook.base.presenter.BaseRxPresenter;
 import com.codertal.studybook.base.presenter.SubscribablePresenter;
+import com.codertal.studybook.data.classes.ClassInfo;
 import com.codertal.studybook.data.teachers.Teacher;
+
+import java.util.List;
 
 public interface EditAddTeacherContract {
 
@@ -24,10 +28,13 @@ public interface EditAddTeacherContract {
 
         void showLoadTeacherError();
 
+        void displayClasses(List<ClassInfo> classes);
+
+        void showLoadClassesError();
 
     }
 
-    abstract class Presenter extends SubscribablePresenter {
+    abstract class Presenter extends BaseRxPresenter {
 
         abstract void verifySaveTeacher(String teacherName);
 

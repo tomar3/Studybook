@@ -22,6 +22,7 @@ import com.codertal.studybook.features.authentication.login.domain.LoginResponse
 import com.codertal.studybook.util.ClickManager;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Arrays;
 

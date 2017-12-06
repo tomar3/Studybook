@@ -5,6 +5,7 @@
 
 package com.codertal.studybook.features.manage.teachers.editaddteacher;
 
+import com.codertal.studybook.data.classes.ClassInfo;
 import com.codertal.studybook.data.teachers.Teacher;
 import com.codertal.studybook.data.teachers.TeachersRepository;
 
@@ -16,6 +17,10 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import java.util.Arrays;
+import java.util.List;
+
+import io.objectbox.relation.ToMany;
 import io.reactivex.Single;
 import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.plugins.RxJavaPlugins;
@@ -38,22 +43,26 @@ public class EditAddTeacherPresenterTest {
     @Mock
     private EditAddTeacherContract.View editAddTeacherView;
 
-
     @Mock
     private TeachersRepository teachersRepository;
+
+    @Mock
+    private Teacher REAL_TEACHER;
+
+    @Mock
+    private ToMany<ClassInfo> MANY_CLASSES;
 
     private EditAddTeacherPresenter editAddTeacherPresenter;
 
     private String REAL_TEACHER_NAME;
-    private Teacher REAL_TEACHER;
     private long TEACHER_ID;
+
 
     @Before
     public void setUp(){
         editAddTeacherPresenter = new EditAddTeacherPresenter(editAddTeacherView, teachersRepository);
 
         REAL_TEACHER_NAME = "Teacher name";
-        REAL_TEACHER = new Teacher(REAL_TEACHER_NAME);
         TEACHER_ID = 0;
 
         RxJavaPlugins.setIoSchedulerHandler(scheduler -> Schedulers.trampoline());
@@ -116,7 +125,7 @@ public class EditAddTeacherPresenterTest {
 
     @Test
     public void verifySaveTeacher_WhenSavingExistingTeacher_ShouldSaveTheExistingTeacher() {
-        when(teachersRepository.getTeacher(anyLong())).thenReturn(Single.just(REAL_TEACHER));
+        when(teachersRepository.getTeacher(anyLong())).thenReturn(just(REAL_TEACHER));
         when(teachersRepository.save(any(Teacher.class))).thenReturn(complete());
 
         editAddTeacherPresenter.loadTeacher(TEACHER_ID);
@@ -157,6 +166,16 @@ public class EditAddTeacherPresenterTest {
     }
 
     @Test
+    public void loadTeacher_WhenDatabaseSuccess_ShouldDisplayClasses() {
+        when(REAL_TEACHER.getClasses()).thenReturn(MANY_CLASSES);
+        when(teachersRepository.getTeacher(TEACHER_ID)).thenReturn(just(REAL_TEACHER));
+
+        editAddTeacherPresenter.loadTeacher(TEACHER_ID);
+
+        verify(editAddTeacherView).displayClasses(MANY_CLASSES);
+    }
+
+    @Test
     public void loadTeacher_WhenDatabaseError_ShouldShowLoadError() {
         when(teachersRepository.getTeacher(TEACHER_ID)).thenReturn(Single.error(new Throwable("db error")));
 
@@ -165,4 +184,14 @@ public class EditAddTeacherPresenterTest {
         verify(editAddTeacherView).showLoadTeacherError();
     }
 
+//    @Test
+//    public void subscribe_WhenTeacherLoadedAndDatabaseSuccess_ShouldDisplayClasses() {
+//        when(REAL_TEACHER.getClasses()).thenReturn(MANY_CLASSES);
+//        when(teachersRepository.getTeacher(TEACHER_ID)).thenReturn(just(REAL_TEACHER));
+//
+//        editAddTeacherPresenter.loadTeacher(TEACHER_ID);
+//        editAddTeacherPresenter.subscribe();
+//
+//        verify(editAddTeacherView).displayClasses(MANY_CLASSES);
+//    }
 }

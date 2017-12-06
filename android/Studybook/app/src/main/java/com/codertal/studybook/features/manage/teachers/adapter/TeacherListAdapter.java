@@ -19,7 +19,7 @@ import butterknife.BindView;
 
 public class TeacherListAdapter extends BaseRecyclerViewAdapter<Teacher>{
 
-    public TeacherListAdapter(@NonNull OnViewHolderClick<Teacher> onTeacherClickListener, @NonNull ViewGroup emptyView) {
+    public TeacherListAdapter(@NonNull OnViewHolderClick<Teacher> onTeacherClickListener, @NonNull View emptyView) {
         super(onTeacherClickListener, emptyView);
     }
 

@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 
 public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<BaseRecyclerViewAdapter.ViewHolder> {
     private List<T> items;
-    private ViewGroup emptyView;
+    private View emptyView;
     private OnViewHolderClick<T> listener;
 
     public interface OnViewHolderClick<T> {
@@ -28,7 +28,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 
     protected abstract void bindView(T item, BaseRecyclerViewAdapter.ViewHolder viewHolder);
 
-    public BaseRecyclerViewAdapter(OnViewHolderClick<T> listener, ViewGroup emptyView) {
+    public BaseRecyclerViewAdapter(OnViewHolderClick<T> listener, View emptyView) {
         this.listener = listener;
         this.emptyView = emptyView;
         items = new ArrayList<>();
