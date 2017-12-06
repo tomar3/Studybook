@@ -13,6 +13,7 @@
 
     <dimen name="fab_normal_size_with_margin">72dp</dimen>
 
-    <!--edit add class activity-->
-    <dimen name="edit_class_label_size">16sp</dimen>
+    <!--edit add activity-->
+    <dimen name="edit_activity_label_size">16sp</dimen>
+    <dimen name="edit_activity_et_label_size">20sp</dimen>
 </resources>

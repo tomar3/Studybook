@@ -203,7 +203,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassesContrac
 
         mClassesRecycler.setHasFixedSize(true);
 
-        mClassListAdapter = new ClassListAdapter(this, mEmptyView);
+        mClassListAdapter = new ClassListAdapter(this, mEmptyView, true);
 
         mClassesRecycler.setAdapter(mClassListAdapter);
 

@@ -66,7 +66,7 @@ public class EditAddTeacherPresenter extends EditAddTeacherContract.Presenter {
                         mLoadedTeacher = teacher;
 
                         mEditTeacherView.fillTeacherInfo(teacher);
-                        loadClasses();
+                        loadClassesForTeacher();
                     }
 
                     @Override
@@ -78,7 +78,17 @@ public class EditAddTeacherPresenter extends EditAddTeacherContract.Presenter {
                 }));
     }
 
-    private void loadClasses() {
+    @Override
+    void loadEditClass(long classId) {
+        mEditTeacherView.showEditClassUi(classId);
+    }
+
+    @Override
+    void loadAllClasses() {
+        mEditTeacherView.showClassesUi();
+    }
+
+    private void loadClassesForTeacher() {
         mEditTeacherView.displayClasses(mLoadedTeacher.getClasses());
     }
 

@@ -17,9 +17,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import java.util.Arrays;
-import java.util.List;
-
 import io.objectbox.relation.ToMany;
 import io.reactivex.Single;
 import io.reactivex.android.plugins.RxAndroidPlugins;
@@ -55,7 +52,7 @@ public class EditAddTeacherPresenterTest {
     private EditAddTeacherPresenter editAddTeacherPresenter;
 
     private String REAL_TEACHER_NAME;
-    private long TEACHER_ID;
+    private long TEACHER_ID, CLASS_ID;
 
 
     @Before
@@ -64,6 +61,7 @@ public class EditAddTeacherPresenterTest {
 
         REAL_TEACHER_NAME = "Teacher name";
         TEACHER_ID = 0;
+        CLASS_ID = 0;
 
         RxJavaPlugins.setIoSchedulerHandler(scheduler -> Schedulers.trampoline());
         RxAndroidPlugins.setInitMainThreadSchedulerHandler(__ -> Schedulers.trampoline());
@@ -184,14 +182,17 @@ public class EditAddTeacherPresenterTest {
         verify(editAddTeacherView).showLoadTeacherError();
     }
 
-//    @Test
-//    public void subscribe_WhenTeacherLoadedAndDatabaseSuccess_ShouldDisplayClasses() {
-//        when(REAL_TEACHER.getClasses()).thenReturn(MANY_CLASSES);
-//        when(teachersRepository.getTeacher(TEACHER_ID)).thenReturn(just(REAL_TEACHER));
-//
-//        editAddTeacherPresenter.loadTeacher(TEACHER_ID);
-//        editAddTeacherPresenter.subscribe();
-//
-//        verify(editAddTeacherView).displayClasses(MANY_CLASSES);
-//    }
+    @Test
+    public void loadEditClass_ShouldShowEditClassUi() {
+        editAddTeacherPresenter.loadEditClass(CLASS_ID);
+
+        verify(editAddTeacherView).showEditClassUi(CLASS_ID);
+    }
+
+    @Test
+    public void loadAllClasses_ShouldShowClassesUi() {
+        editAddTeacherPresenter.loadAllClasses();
+
+        verify(editAddTeacherView).showClassesUi();
+    }
 }

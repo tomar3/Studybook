@@ -5,6 +5,7 @@
 
 package com.codertal.studybook.features.manage.teachers.editaddteacher;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -21,6 +22,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codertal.studybook.Henson;
 import com.codertal.studybook.R;
 import com.codertal.studybook.base.adapter.BaseRecyclerViewAdapter;
 import com.codertal.studybook.data.classes.ClassInfo;
@@ -171,8 +173,22 @@ public class EditAddTeacherActivity extends AppCompatActivity implements EditAdd
     }
 
     @Override
-    public void showLoadClassesError() {
+    public void showEditClassUi(long classId) {
+        Intent editClassIntent = Henson.with(this)
+                .gotoEditAddClassActivity()
+                .mClassId(classId)
+                .build();
 
+        startActivity(editClassIntent);
+    }
+
+    @Override
+    public void showClassesUi() {
+        Intent classesIntent = Henson.with(this)
+                .gotoClassesActivity()
+                .build();
+
+        startActivity(classesIntent);
     }
 
     @OnClick(R.id.fab_save_teacher)
@@ -180,9 +196,14 @@ public class EditAddTeacherActivity extends AppCompatActivity implements EditAdd
         mPresenter.verifySaveTeacher(mEditTeacherName.getText().toString());
     }
 
+    @OnClick(R.id.cv_classes)
+    public void onEmptyClassesClick() {
+        mPresenter.loadAllClasses();
+    }
+
     @Override
     public void onViewHolderClick(View view, int position, ClassInfo item) {
-
+        mPresenter.loadEditClass(item.getId());
     }
 
     private void setUpRotateRunnable() {
@@ -210,7 +231,7 @@ public class EditAddTeacherActivity extends AppCompatActivity implements EditAdd
 
         mClassesRecycler.setHasFixedSize(true);
 
-        mClassListAdapter = new ClassListAdapter(this, mAssignTeacherView);
+        mClassListAdapter = new ClassListAdapter(this, mAssignTeacherView, false);
 
         mClassesRecycler.setAdapter(mClassListAdapter);
     }

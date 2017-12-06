@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:inputType="text"
-            android:textSize="20sp"
+            android:textSize="@dimen/edit_activity_et_label_size"
             android:hint="@string/edit_teacher_name" />
     </android.support.design.widget.TextInputLayout>
 
@@ -42,6 +42,7 @@
         android:text="Classes"
         android:fontFamily="sans-serif-condensed"
         android:textStyle="bold"
+        android:textSize="@dimen/edit_activity_label_size"
         app:layout_constraintTop_toBottomOf="@id/il_teacher_name"
         app:layout_constraintLeft_toLeftOf="@id/il_teacher_name"
         android:layout_marginTop="16dp"/>
@@ -54,7 +55,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="8dp"
-        android:foreground="?android:selectableItemBackground">
+        android:foreground="?android:selectableItemBackground"
+        app:cardBackgroundColor="@color/primary_light">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_classes"
@@ -69,6 +71,7 @@
             android:visibility="gone"
             android:fontFamily="sans-serif-thin"
             android:textStyle="bold"
+            android:textColor="@color/md_grey_50"
             android:text="Assign a class to this teacher"/>
 
 
