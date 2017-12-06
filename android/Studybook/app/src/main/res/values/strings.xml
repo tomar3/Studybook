@@ -19,7 +19,7 @@
 
 
     <!--classes screen-->
-    <string name="title_activity_classes">Classes</string>
+    <string name="title_activity_classes">@string/classes_label</string>
     <string name="class_unable_to_load">Unable to load classes, try again soon</string>
     <string name="class_empty_classes">Tap the \'+\' to add a class</string>
 
@@ -49,6 +49,7 @@
     <string name="edit_teacher_name">Name</string>
     <string name="edit_teacher_email">Email</string>
     <string name="edit_teacher_unable_to_load">Unable to load teacher, try again soon</string>
+    <string name="edit_teacher_assign_class">Assign a class to this teacher</string>
 
 
     <!--shared-->
@@ -56,6 +57,7 @@
     <string name="okay_label">Okay</string>
     <string name="cancel_label">Cancel</string>
     <string name="edit_unable_to_save">Unable to save, try again soon</string>
+    <string name="classes_label">Classes</string>
 
 
 </resources>

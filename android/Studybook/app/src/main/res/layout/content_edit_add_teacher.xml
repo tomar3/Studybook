@@ -61,7 +61,7 @@
         android:id="@+id/tv_classes_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Classes"
+        android:text="@string/classes_label"
         android:fontFamily="sans-serif-condensed"
         android:textStyle="bold"
         android:textSize="@dimen/edit_activity_label_size"
@@ -94,7 +94,7 @@
             android:fontFamily="sans-serif-thin"
             android:textStyle="bold"
             android:textColor="@color/md_grey_50"
-            android:text="Assign a class to this teacher"/>
+            android:text="@string/edit_teacher_assign_class"/>
 
 
     </android.support.v7.widget.CardView>
